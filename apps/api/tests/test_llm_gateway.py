@@ -86,3 +86,16 @@ async def test_conversation_model_switch_api() -> None:
         updated = patch_res.json()
         assert updated["active_model_provider"] == "mistral"
         assert updated["active_model_name"] == "open-mistral-7b"
+
+
+@pytest.mark.asyncio
+async def test_llm_model_name_prefix_normalization() -> None:
+    """Verify that redundant provider prefixes (e.g. mistral/open-mistral-7b) are safely stripped."""
+    mistral_llm = CrewAILLMService.get_llm("mistral", "mistral/open-mistral-7b")
+    assert mistral_llm.model == "mistral/open-mistral-7b"
+
+    ollama_llm = CrewAILLMService.get_llm("ollama", "ollama/llama3.2")
+    assert "llama3.2" in ollama_llm.model
+
+    triple_mistral = CrewAILLMService.get_llm("mistral", "mistral/mistral/open-mistral-7b")
+    assert triple_mistral.model == "mistral/open-mistral-7b"

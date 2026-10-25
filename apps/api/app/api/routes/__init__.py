@@ -9,6 +9,9 @@ from app.modules.memory.router import router as memories_router
 from app.modules.documents.router import router as documents_router
 from app.modules.tasks.router import router as tasks_router
 from app.modules.notes.router import router as notes_router
+from app.modules.email.router import router as emails_router
+from app.modules.calendar.router import router as calendar_router
+from app.modules.approvals.router import router as approvals_router
 
 api_router = APIRouter(prefix="/api/v1")
 api_router.include_router(health_router)
@@ -19,3 +22,6 @@ api_router.include_router(memories_router)
 api_router.include_router(documents_router)
 api_router.include_router(tasks_router)
 api_router.include_router(notes_router)
+api_router.include_router(emails_router)
+api_router.include_router(calendar_router)
+api_router.include_router(approvals_router)

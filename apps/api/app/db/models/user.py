@@ -45,3 +45,18 @@ class User(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         back_populates="owner",
         cascade="all, delete-orphan",
     )
+    emails: Mapped[List["EmailMessage"]] = relationship(
+        "EmailMessage",
+        back_populates="owner",
+        cascade="all, delete-orphan",
+    )
+    calendar_events: Mapped[List["CalendarEvent"]] = relationship(
+        "CalendarEvent",
+        back_populates="owner",
+        cascade="all, delete-orphan",
+    )
+    pending_actions: Mapped[List["PendingAction"]] = relationship(
+        "PendingAction",
+        back_populates="owner",
+        cascade="all, delete-orphan",
+    )

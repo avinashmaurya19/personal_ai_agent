@@ -5,8 +5,10 @@ from typing import Any, Callable, Dict, List, Optional
 from crewai.tools import BaseTool
 from app.core.exceptions import AppException
 from app.modules.tools.builtins.calculator_tool import SafeCalculatorTool
+from app.modules.tools.builtins.calendar_tool import CalendarTool
 from app.modules.tools.builtins.datetime_tool import CurrentDateTimeTool
 from app.modules.tools.builtins.document_search_tool import DocumentSearchTool
+from app.modules.tools.builtins.email_tool import EmailTool
 from app.modules.tools.builtins.note_manage_tool import NoteManageTool
 from app.modules.tools.builtins.note_search_tool import NoteSearchTool
 from app.modules.tools.builtins.task_draft_tool import TaskDraftTool
@@ -80,6 +82,16 @@ class ToolRegistry:
         self.register(
             NoteManageTool(),
             category="productivity",
+            is_consequential=False,
+        )
+        self.register(
+            EmailTool(),
+            category="communication",
+            is_consequential=False,
+        )
+        self.register(
+            CalendarTool(),
+            category="scheduling",
             is_consequential=False,
         )
 

@@ -60,8 +60,17 @@ class ConversationService:
     ) -> Conversation:
         """Switch active model and provider for an existing conversation."""
         conversation = await self.get_conversation(conversation_id, owner_id)
-        conversation.active_model_provider = provider
-        conversation.active_model_name = model
+        # Clean model name if passed with provider prefix (e.g. "mistral/open-mistral-7b" -> "open-mistral-7b")
+        clean_model = model.strip() if model else ""
+        while "/" in clean_model:
+            prefix, remainder = clean_model.split("/", 1)
+            if prefix.lower() in ("mistral", "ollama", "gemini", "openai"):
+                clean_model = remainder
+            else:
+                break
+
+        conversation.active_model_provider = provider.lower().strip()
+        conversation.active_model_name = clean_model or model
         await self.session.commit()
         await self.session.refresh(conversation)
         return conversation

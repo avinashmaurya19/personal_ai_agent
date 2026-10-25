@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"warning-subtle":"rgba(245, 158, 11, 0.12)","surface-container-low":"#171b29","on-tertiary":"#4d2700","surface-container-highest":"#303443","on-tertiary-fixed-variant":"#6d3a00","border-active":"#323F5D","on-secondary-fixed":"#150066","danger":"#F43F5E","surface-container-lowest":"#090e1b","background":"#0f1320","on-secondary-fixed-variant":"#4134a5","warning":"#F59E0B","on-error-container":"#ffdad6","secondary-fixed-dim":"#c6c0ff","success":"#10B981","on-primary":"#2400a2","secondary":"#c6c0ff","surface-bright":"#353948","error":"#ffb4ab","text-secondary":"#94A3B8","inverse-primary":"#5546d7","secondary-container":"#4336a7","surface-variant":"#303443","surface":"#0f1320","elevated-surface":"#171F34","on-primary-fixed":"#140067","on-tertiary-container":"#432100","border-hairline":"#202A40","tertiary-fixed-dim":"#ffb77b","on-primary-fixed-variant":"#3c28bf","inverse-on-surface":"#2c303e","danger-subtle":"rgba(244, 63, 94, 0.12)","primary-fixed-dim":"#c5c0ff","outline":"#918fa0","outline-variant":"#474554","error-container":"#93000a","on-background":"#dfe1f5","sidebar-bg":"#0B1020","inverse-surface":"#dfe1f5","on-surface-variant":"#c8c4d7","text-primary":"#F1F5F9","surface-container":"#1b1f2d","surface-dim":"#0f1320","card-surface":"#11182A","secondary-fixed":"#e4dfff","tertiary-container":"#d47b1f","on-secondary-container":"#b6afff","success-subtle":"rgba(16, 185, 129, 0.12)","primary-fixed":"#e3dfff","surface-container-high":"#252938","on-surface":"#dfe1f5","text-tertiary":"#64748B","on-tertiary-fixed":"#2e1500","on-secondary":"#29158f","primary-container":"#8a80ff","on-error":"#690005","on-primary-container":"#1f008f","accent-subtle":"rgba(113, 101, 245, 0.14)","surface-tint":"#c5c0ff","tertiary":"#ffb77b","primary":"#c5c0ff","app-bg":"#070B18","tertiary-fixed":"#ffdcc2"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-md":"0.75rem","space-xs":"0.25rem","space-xxs":"0.125rem","margin":"2rem","gutter":"1.5rem","space-lg":"1.5rem","space-xl":"2rem","space-sm":"0.5rem","gutter-sm":"1rem","margin-mobile":"1rem","space-2xl":"3rem","space-base":"1rem"},"fontFamily":{"headline-sm":["Inter"],"caption-medium":["Inter"],"display-hero":["Inter"],"body-medium":["Inter"],"caption-sm":["Inter"],"code-inline":["JetBrains Mono"],"metric-xl":["Inter"],"headline-lg":["Inter"],"body-lg":["Inter"],"body-base":["Inter"],"code-block":["JetBrains Mono"],"headline-md":["Inter"],"display-hero-mobile":["Inter"]},"fontSize":{"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"caption-medium":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"500"}],"display-hero":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"600"}],"body-medium":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"500"}],"caption-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"400"}],"code-inline":["12px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"400"}],"metric-xl":["30px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"400"}],"body-base":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"code-block":["13px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"display-hero-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}]}}}};</script></head><body class="bg-app-bg text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-64 bg-sidebar-bg z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="p-space-lg flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><img alt="Personal AI Assistant Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WPRDIPL8WlP4FDNJU_SaUE_tEMcTLyKuUqweDTmmfwJ6pH-APG_8JxgnlsrzVDm7Z6E8aZ08mUwswJa7tpBQhVVa86yWLgp3jpgSVmlDDOC3uDqs7kc2r4evPdmp6xf5HdDFi-u3oXSFEOQ-_xnXQXiPbK3D7UAeo_-ack69qALXGTo_HoOdHaLa4vsoY0ip20oQYVL-IVZ5j8oPtaS6uptY9xH8YfsHl-S2caEo8P591QHmP2HfwwKA"/><span class="font-headline-sm text-headline-sm text-text-primary tracking-tight">Personal AI</span></div><div class="flex items-center mt-space-xs"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-caption-medium bg-success-subtle text-success"><span class="w-1.5 h-1.5 rounded-full bg-success"></span>Active • Fast Mode</span></div></div><nav class="flex flex-col gap-space-sm px-space-md py-space-xs" data-active-classes="bg-secondary-container text-on-secondary-container font-headline-sm"><div class="px-space-sm pt-space-xs pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">Workspace</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="overview" href="#"><span class="material-symbols-outlined text-[18px]">dashboard</span>Overview</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="ai-assistant" href="#"><span class="material-symbols-outlined text-[18px]">chat</span>AI Assistant</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="tasks" href="#"><span class="material-symbols-outlined text-[18px]">check_circle</span>Tasks</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="calendar" href="#"><span class="material-symbols-outlined text-[18px]">calendar_today</span>Calendar</a></div><div class="px-space-sm pt-space-sm pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">Knowledge</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="memory" href="#"><span class="material-symbols-outlined text-[18px]">psychology</span>Memory</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="documents" href="#"><span class="material-symbols-outlined text-[18px]">description</span>Documents</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="notes" href="#"><span class="material-symbols-outlined text-[18px]">edit_note</span>Notes</a></div><div class="px-space-sm pt-space-sm pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">Automation</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="workflows" href="#"><span class="material-symbols-outlined text-[18px]">schema</span>Workflows</a><a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="approvals" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">verified</span><span>Approvals</span></div><span class="px-1.5 py-0.5 rounded text-[10px] font-caption-medium bg-warning-subtle text-warning">2</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="activity-history" href="#"><span class="material-symbols-outlined text-[18px]">history</span>Activity History</a></div><div class="px-space-sm pt-space-sm pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">Integrations</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="email" href="#"><span class="material-symbols-outlined text-[18px]">mail</span>Email</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="connected-apps" href="#"><span class="material-symbols-outlined text-[18px]">hub</span>Connected Apps</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="mcp-servers" href="#"><span class="material-symbols-outlined text-[18px]">dns</span>MCP Servers</a></div><div class="px-space-sm pt-space-sm pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">System</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="model-providers" href="#"><span class="material-symbols-outlined text-[18px]">neurology</span>Model Providers</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="settings" href="#"><span class="material-symbols-outlined text-[18px]">settings</span>Settings</a></div></nav></div><div class="p-space-md m-space-sm bg-card-surface rounded-xl flex items-center justify-between"><div class="flex items-center gap-space-sm min-w-0"><div class="relative flex-shrink-0"><div class="w-9 h-9 rounded-full bg-elevated-surface flex items-center justify-center overflow-hidden"><span class="material-symbols-outlined text-text-secondary text-[20px]">account_circle</span></div><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-success ring-2 ring-sidebar-bg"></span></div><div class="flex flex-col min-w-0"><span class="font-caption-medium text-caption-medium text-text-primary truncate">Alex Morgan</span><span class="font-caption-sm text-caption-sm text-text-tertiary truncate">Workspace Owner • Pro</span></div></div><button aria-label="User Menu" class="text-text-tertiary hover:text-text-primary transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">unfold_more</span></button></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-14 bg-sidebar-bg/90 backdrop-blur-md z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><img alt="Personal AI Assistant Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WPRDIPL8WlP4FDNJU_SaUE_tEMcTLyKuUqweDTmmfwJ6pH-APG_8JxgnlsrzVDm7Z6E8aZ08mUwswJa7tpBQhVVa86yWLgp3jpgSVmlDDOC3uDqs7kc2r4evPdmp6xf5HdDFi-u3oXSFEOQ-_xnXQXiPbK3D7UAeo_-ack69qALXGTo_HoOdHaLa4vsoY0ip20oQYVL-IVZ5j8oPtaS6uptY9xH8YfsHl-S2caEo8P591QHmP2HfwwKA"/><div class="flex items-center gap-2 font-caption-medium text-caption-medium text-text-tertiary"><span class="hover:text-text-secondary cursor-pointer">Platform</span><span>/</span><span class="text-text-primary">Active View</span></div></div><div class="flex-1 max-w-md mx-space-lg"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-text-tertiary text-[18px]">search</span><input class="w-full h-[38px] pl-9 pr-4 bg-elevated-surface rounded-lg font-body-base text-body-base text-text-primary placeholder:text-text-tertiary focus:outline-none" placeholder="Search memories, docs, actions... ⌘K" type="text"/></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-elevated-surface font-caption-medium text-caption-medium text-text-secondary"><span class="w-2 h-2 rounded-full bg-success animate-pulse"></span><span>Agent Idle</span></div><button aria-label="Notifications" class="relative p-2 rounded-lg hover:bg-elevated-surface text-text-secondary hover:text-text-primary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-danger"></span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center cursor-pointer"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-14 bg-app-bg min-h-screen w-full px-space-lg"><div class="flex flex-col w-full pb-12">
+<!-- Top View Banner / Breadcrumb Sync via Script -->
+<script>
+    (function syncShell() {
+      // Highlight sidebar Documents item and set profile to Avinash
+      const docLink = document.querySelector('aside a[data-path="documents"]');
+      if (docLink) {
+        document.querySelectorAll('aside nav a').forEach(el => {
+          el.className = el.className.replace(/bg-secondary-container text-on-secondary-container font-headline-sm/g, '').trim();
+          if (!el.className.includes('text-text-secondary')) {
+            el.classList.add('text-text-secondary');
+          }
+        });
+        docLink.className = 'flex items-center gap-space-sm px-space-sm py-2 rounded-lg bg-secondary-container text-on-secondary-container font-headline-sm transition-colors';
+      }
+      
+      // Update header breadcrumb & subline
+      const breadcrumb = document.querySelector('header div.font-caption-medium');
+      if (breadcrumb) {
+        breadcrumb.innerHTML = '<span class="hover:text-text-secondary cursor-pointer">Knowledge</span><span class="text-text-tertiary">/</span><span class="text-text-primary font-medium">Document Intelligence</span><span class="hidden md:inline-flex items-center gap-1.5 ml-2 px-2 py-0.5 rounded text-[11px] bg-card-surface text-secondary border border-border-hairline"><span class="w-1.5 h-1.5 rounded-full bg-success"></span>Qdrant Local (38 Sync\'d, 4,120 Chunks)</span>';
+      }
+
+      // Update search bar placeholder
+      const searchInput = document.querySelector('header input');
+      if (searchInput) {
+        searchInput.placeholder = "Search documents, chunks, semantic index... ⌘K";
+      }
+
+      // Update user info in sidebar
+      const userName = document.querySelector('aside .font-caption-medium.text-text-primary');
+      if (userName && userName.textContent.includes('Alex Morgan')) {
+        userName.textContent = 'Avinash';
+      }
+    })();
+  </script>
+<!-- Page Header & Executive Actions -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-6 pb-6 border-b border-border-hairline">
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-center gap-2.5">
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">Document Knowledge Base &amp; RAG</h1>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-caption-medium bg-accent-subtle text-secondary border border-secondary/20">
+<span class="material-symbols-outlined text-[13px]">psychology</span> v2.4 Active
+        </span>
+</div>
+<p class="font-body-base text-body-base text-text-secondary max-w-3xl">
+        Upload, inspect, and govern vector-embedded documents retrieved by your autonomous assistant during RAG workflows.
+      </p>
+</div>
+<!-- Header Action Cluster -->
+<div class="flex items-center gap-2.5 flex-wrap">
+<button class="inline-flex items-center gap-1.5 h-[38px] px-3.5 rounded-lg bg-elevated-surface text-text-secondary hover:text-text-primary border border-border-hairline hover:border-border-active transition-all font-body-medium text-body-medium shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+<span>Re-index All</span>
+</button>
+<button class="inline-flex items-center gap-1.5 h-[38px] px-3.5 rounded-lg bg-elevated-surface text-text-secondary hover:text-text-primary border border-border-hairline hover:border-border-active transition-all font-body-medium text-body-medium shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span>RAG Retrieval Settings</span>
+</button>
+<button class="inline-flex items-center gap-1.5 h-[38px] px-4 rounded-lg bg-primary-container text-on-primary hover:bg-secondary-container hover:text-text-primary transition-all font-body-medium text-body-medium font-medium shadow-sm group" type="button">
+<span class="material-symbols-outlined text-[18px] group-hover:-translate-y-0.5 transition-transform">cloud_upload</span>
+<span>+ Upload Document</span>
+</button>
+</div>
+</div>
+<!-- Metric Overview Stats Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+<!-- Stat 1: Total Indexed Docs -->
+<div class="p-4 rounded-xl bg-card-surface border border-border-hairline flex flex-col justify-between hover:border-border-active transition-all">
+<div class="flex items-center justify-between">
+<span class="font-caption-medium text-caption-medium text-text-secondary tracking-wide uppercase">Total Indexed Docs</span>
+<div class="w-8 h-8 rounded-lg bg-elevated-surface border border-border-hairline flex items-center justify-center text-text-secondary">
+<span class="material-symbols-outlined text-[18px]">description</span>
+</div>
+</div>
+<div class="mt-3">
+<div class="font-metric-xl text-metric-xl text-text-primary tracking-tight">38 Synced</div>
+<div class="flex items-center gap-1.5 mt-1 font-caption-sm text-caption-sm text-text-tertiary">
+<span class="w-1.5 h-1.5 rounded-full bg-warning"></span>
+<span>2 Processing</span>
+<span>•</span>
+<span class="text-danger">1 Failed parse</span>
+</div>
+</div>
+</div>
+<!-- Stat 2: Vector Chunks -->
+<div class="p-4 rounded-xl bg-card-surface border border-border-hairline flex flex-col justify-between hover:border-border-active transition-all">
+<div class="flex items-center justify-between">
+<span class="font-caption-medium text-caption-medium text-text-secondary tracking-wide uppercase">Vector Chunks</span>
+<div class="w-8 h-8 rounded-lg bg-elevated-surface border border-border-hairline flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">dataset</span>
+</div>
+</div>
+<div class="mt-3">
+<div class="font-metric-xl text-metric-xl text-text-primary tracking-tight">4,120 Chunks</div>
+<div class="flex items-center gap-1.5 mt-1 font-caption-sm text-caption-sm text-text-tertiary truncate">
+<span>Avg. 512 tokens</span>
+<span>•</span>
+<span class="text-text-secondary font-mono text-[11px]">text-embedding-3-sm</span>
+</div>
+</div>
+</div>
+<!-- Stat 3: Storage & Cache -->
+<div class="p-4 rounded-xl bg-card-surface border border-border-hairline flex flex-col justify-between hover:border-border-active transition-all">
+<div class="flex items-center justify-between">
+<span class="font-caption-medium text-caption-medium text-text-secondary tracking-wide uppercase">Storage &amp; Cache</span>
+<div class="w-8 h-8 rounded-lg bg-elevated-surface border border-border-hairline flex items-center justify-center text-text-secondary">
+<span class="material-symbols-outlined text-[18px]">hard_drive</span>
+</div>
+</div>
+<div class="mt-3">
+<div class="font-metric-xl text-metric-xl text-text-primary tracking-tight">1.42 GB</div>
+<div class="flex items-center gap-1.5 mt-1 font-caption-sm text-caption-sm text-text-tertiary">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+<span>HNSW Vector Index</span>
+<span>•</span>
+<span>Encrypted Local</span>
+</div>
+</div>
+</div>
+<!-- Stat 4: Assistant RAG Queries -->
+<div class="p-4 rounded-xl bg-card-surface border border-border-hairline flex flex-col justify-between hover:border-border-active transition-all">
+<div class="flex items-center justify-between">
+<span class="font-caption-medium text-caption-medium text-text-secondary tracking-wide uppercase">Assistant RAG Queries</span>
+<div class="w-8 h-8 rounded-lg bg-elevated-surface border border-border-hairline flex items-center justify-center text-warning">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+</div>
+</div>
+<div class="mt-3">
+<div class="flex items-baseline gap-2">
+<div class="font-metric-xl text-metric-xl text-text-primary tracking-tight">52 Today</div>
+<span class="text-success font-caption-medium text-caption-medium text-[11px]">+14% vs avg</span>
+</div>
+<div class="mt-1 font-caption-sm text-caption-sm text-text-tertiary truncate">
+          Top hit: <span class="text-text-secondary font-mono text-[11px]">Q4_Infra_Budget_CapEx.pdf</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Prominent Drag-and-Drop Upload Dropzone -->
+<div class="mt-6 rounded-xl bg-card-surface/70 border-2 border-dashed border-border-hairline hover:border-secondary/50 p-6 transition-all group relative overflow-hidden">
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-accent-subtle rounded-full blur-3xl pointer-events-none opacity-40 group-hover:opacity-80 transition-opacity"></div>
+<div class="flex flex-col items-center text-center max-w-xl mx-auto relative z-10">
+<div class="w-12 h-12 rounded-xl bg-elevated-surface border border-border-hairline flex items-center justify-center mb-3 group-hover:scale-105 group-hover:border-secondary/40 transition-all shadow-md">
+<span class="material-symbols-outlined text-secondary text-[26px]">upload_file</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-text-primary">
+        Drag and drop executive documents, PDFs, or specs here
+      </div>
+<div class="font-body-base text-body-base text-text-secondary mt-1">
+        or <button class="text-secondary hover:underline font-medium" type="button">browse files</button> from your local system or secure cloud drive
+      </div>
+<!-- Supported File Formats Badges -->
+<div class="flex flex-wrap items-center justify-center gap-1.5 mt-4">
+<span class="px-2 py-0.5 rounded text-[11px] font-mono bg-elevated-surface text-text-secondary border border-border-hairline">PDF (.pdf)</span>
+<span class="px-2 py-0.5 rounded text-[11px] font-mono bg-elevated-surface text-text-secondary border border-border-hairline">Markdown (.md)</span>
+<span class="px-2 py-0.5 rounded text-[11px] font-mono bg-elevated-surface text-text-secondary border border-border-hairline">Text (.txt)</span>
+<span class="px-2 py-0.5 rounded text-[11px] font-mono bg-elevated-surface text-text-secondary border border-border-hairline">CSV (.csv)</span>
+<span class="px-2 py-0.5 rounded text-[11px] font-mono bg-elevated-surface text-text-secondary border border-border-hairline">DOCX (.docx)</span>
+<span class="px-2 py-0.5 rounded text-[11px] font-mono bg-elevated-surface text-text-secondary border border-border-hairline">JSON (.json)</span>
+</div>
+<!-- Info Subtext -->
+<p class="font-caption-sm text-caption-sm text-text-tertiary mt-2">
+        Max 50MB per file • Auto-chunked &amp; vectorized locally via FastEmbed / text-embedding-3-small
+      </p>
+<!-- Active RAG Banner Note -->
+<div class="w-full mt-4 py-2 px-3.5 rounded-lg bg-accent-subtle/40 border border-secondary/20 flex items-center justify-center gap-2 text-text-secondary font-caption-medium text-caption-medium">
+<span class="material-symbols-outlined text-secondary text-[16px]">bolt</span>
+<span><strong>RAG Active:</strong> Indexed documents become immediately searchable and retrievable by your Personal AI Assistant in chat and autonomous tools.</span>
+</div>
+</div>
+</div>
+<!-- Document Management Split View: List (Left) + Detail Inspector (Right) -->
+<div class="mt-8 grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+<!-- LEFT COLUMN: Search, Filters, and Documents List / Table (7 cols on 2K / 7-8 cols on xl) -->
+<div class="xl:col-span-7 2xl:col-span-7 flex flex-col gap-4">
+<!-- List Controls: Search & Filter Tabs -->
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+<!-- Filter Tabs -->
+<div class="flex items-center gap-1 p-1 bg-card-surface rounded-lg border border-border-hairline overflow-x-auto">
+<button class="px-3 py-1.5 rounded-md font-caption-medium text-caption-medium bg-elevated-surface text-text-primary shadow-xs flex items-center gap-1.5" type="button">
+<span>All Documents</span>
+<span class="px-1.5 py-0.2 rounded-full text-[10px] bg-sidebar-bg text-text-secondary">41</span>
+</button>
+<button class="px-3 py-1.5 rounded-md font-caption-medium text-caption-medium text-text-secondary hover:text-text-primary hover:bg-elevated-surface/50 transition-colors flex items-center gap-1.5" type="button">
+<span>Indexed &amp; Ready</span>
+<span class="px-1.5 py-0.2 rounded-full text-[10px] bg-sidebar-bg text-success">38</span>
+</button>
+<button class="px-3 py-1.5 rounded-md font-caption-medium text-caption-medium text-text-secondary hover:text-text-primary hover:bg-elevated-surface/50 transition-colors flex items-center gap-1.5" type="button">
+<span>Processing</span>
+<span class="px-1.5 py-0.2 rounded-full text-[10px] bg-sidebar-bg text-warning">2</span>
+</button>
+<button class="px-3 py-1.5 rounded-md font-caption-medium text-caption-medium text-text-secondary hover:text-text-primary hover:bg-elevated-surface/50 transition-colors flex items-center gap-1.5" type="button">
+<span>Failed</span>
+<span class="px-1.5 py-0.2 rounded-full text-[10px] bg-sidebar-bg text-danger">1</span>
+</button>
+</div>
+<!-- Sort Select -->
+<div class="flex items-center gap-2 self-end sm:self-auto">
+<span class="font-caption-sm text-caption-sm text-text-tertiary">Sort:</span>
+<button class="h-[34px] px-2.5 rounded-lg bg-card-surface border border-border-hairline text-text-secondary font-caption-medium text-caption-medium hover:text-text-primary flex items-center gap-1" type="button">
+<span>Recently Indexed</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+</div>
+<!-- In-list Filter Search Field -->
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-text-tertiary text-[18px]">search</span>
+<input class="w-full h-[38px] pl-9 pr-14 bg-card-surface border border-border-hairline rounded-lg font-body-base text-body-base text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-border-active focus:ring-1 focus:ring-border-active" placeholder="Search by filename, semantic content tag, or chunk keyword... (⌘F)" type="text"/>
+<span class="absolute right-3 px-1.5 py-0.5 rounded text-[10px] font-mono text-text-tertiary bg-elevated-surface border border-border-hairline">⌘F</span>
+</div>
+<!-- Document Cards Stack / Table -->
+<div class="flex flex-col gap-3">
+<!-- ROW 1: ACTIVE / SELECTED DOCUMENT -->
+<div class="p-4 rounded-xl bg-card-surface border-2 border-secondary/60 relative shadow-md transition-all cursor-pointer">
+<div class="absolute -left-[2px] top-4 bottom-4 w-1 bg-secondary rounded-r"></div>
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-start gap-3 min-w-0">
+<!-- PDF Red Icon -->
+<div class="w-10 h-10 rounded-lg bg-danger-subtle text-danger border border-danger/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[22px]">picture_as_pdf</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-headline-sm text-headline-sm text-text-primary truncate">Q4_Infra_Budget_CapEx.pdf</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-caption-medium bg-success-subtle text-success border border-success/30">
+<span class="material-symbols-outlined text-[12px]">check_circle</span> Indexed &amp; Ready
+                  </span>
+</div>
+<div class="flex items-center gap-2.5 mt-1 font-caption-sm text-caption-sm text-text-tertiary flex-wrap">
+<span>1.8 MB</span>
+<span>•</span>
+<span class="text-text-secondary">64 chunks</span>
+<span>•</span>
+<span class="font-mono text-[11px]">text-embed-3-sm (1536d)</span>
+</div>
+<div class="flex items-center gap-1.5 mt-2 text-[11px] font-caption-medium text-text-secondary bg-elevated-surface/70 px-2 py-1 rounded w-fit">
+<span class="material-symbols-outlined text-[13px] text-secondary">history</span>
+<span>Last recalled: <strong class="text-text-primary">12m ago</strong> in Assistant Chat #104</span>
+</div>
+</div>
+</div>
+<!-- Actions Cluster -->
+<div class="flex items-center gap-1 flex-shrink-0">
+<button class="p-1.5 rounded-md hover:bg-elevated-surface text-secondary hover:text-text-primary transition-colors" title="Inspect Chunks">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-elevated-surface text-text-tertiary hover:text-text-primary transition-colors" title="Re-embed document">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-danger-subtle text-text-tertiary hover:text-danger transition-colors" title="Delete document">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- ROW 2: PROCESSING STATE WITH LIVE PROGRESS -->
+<div class="p-4 rounded-xl bg-card-surface border border-border-hairline hover:border-border-active transition-all">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-start gap-3 min-w-0 flex-1">
+<div class="w-10 h-10 rounded-lg bg-danger-subtle text-danger border border-danger/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[22px]">picture_as_pdf</span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-headline-sm text-headline-sm text-text-primary truncate">Autonomous_Agent_Architecture_Whitepaper_v2.pdf</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-caption-medium bg-accent-subtle text-secondary border border-secondary/30 animate-pulse">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Vectorizing Chunks (68%)
+                  </span>
+</div>
+<!-- Live Progress Bar -->
+<div class="w-full mt-2.5">
+<div class="flex justify-between items-center text-[11px] font-caption-sm text-text-tertiary mb-1">
+<span class="text-text-secondary">Extracting semantic tokens (chunk 78 of 114)...</span>
+<span class="font-mono text-secondary">68%</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-elevated-surface overflow-hidden">
+<div class="h-full bg-secondary rounded-full transition-all duration-300" style="width: 68%;"></div>
+</div>
+</div>
+<div class="flex items-center gap-2.5 mt-2 font-caption-sm text-caption-sm text-text-tertiary">
+<span>4.6 MB</span>
+<span>•</span>
+<span>78 / 114 chunks indexed</span>
+<span>•</span>
+<span class="font-mono text-[11px]">fastembed-bge-small</span>
+</div>
+</div>
+</div>
+<!-- In-progress Actions -->
+<div class="flex items-center gap-1 flex-shrink-0 self-start">
+<button class="p-1.5 rounded-md hover:bg-elevated-surface text-text-tertiary hover:text-text-primary transition-colors" title="Pause">
+<span class="material-symbols-outlined text-[18px]">pause</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-elevated-surface text-text-tertiary hover:text-danger transition-colors" title="Cancel Indexing">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+</button>
+</div>
+</div>
+</div>
+<!-- ROW 3: HONEST ERROR / FAILED PARSE STATE -->
+<div class="p-4 rounded-xl bg-card-surface border border-danger/30 relative">
+<div class="absolute -left-[1px] top-4 bottom-4 w-1 bg-danger rounded-r"></div>
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-start gap-3 min-w-0">
+<!-- DOCX Blue Icon -->
+<div class="w-10 h-10 rounded-lg bg-[#0284c7]/15 text-[#38bdf8] border border-[#38bdf8]/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[22px]">article</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-headline-sm text-headline-sm text-text-primary truncate">Confidential_Vendor_Contracts_Encrypted.docx</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-caption-medium bg-danger-subtle text-danger border border-danger/30">
+<span class="material-symbols-outlined text-[12px]">error</span> Indexing Failed
+                  </span>
+</div>
+<div class="mt-1.5 p-2 rounded-lg bg-danger-subtle/40 border border-danger/20 text-[12px] font-caption-sm text-danger flex items-start gap-1.5">
+<span class="material-symbols-outlined text-[15px] mt-0.5 flex-shrink-0">warning</span>
+<span>Failed at chunk 0: File is password-protected or encrypted. Please remove encryption or provide credentials before re-indexing.</span>
+</div>
+<div class="flex items-center gap-3 mt-2 font-caption-sm text-caption-sm text-text-tertiary">
+<span>8.2 MB</span>
+<span>•</span>
+<span>0 chunks generated</span>
+<span>•</span>
+<button class="text-secondary hover:underline font-caption-medium text-caption-medium flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[13px]">replay</span> Retry Indexing
+                  </button>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-1 flex-shrink-0">
+<button class="p-1.5 rounded-md hover:bg-danger-subtle text-text-tertiary hover:text-danger transition-colors" title="Delete document">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- ROW 4: MARKDOWN DOCUMENT -->
+<div class="p-4 rounded-xl bg-card-surface border border-border-hairline hover:border-border-active transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-start gap-3 min-w-0">
+<!-- Markdown Purple Icon -->
+<div class="w-10 h-10 rounded-lg bg-accent-subtle text-secondary border border-secondary/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[22px]">code_blocks</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-headline-sm text-headline-sm text-text-primary truncate">Personal_Operating_Principles_2025.md</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-caption-medium bg-success-subtle text-success border border-success/30">
+<span class="material-symbols-outlined text-[12px]">check_circle</span> Indexed &amp; Ready
+                  </span>
+</div>
+<div class="flex items-center gap-2.5 mt-1 font-caption-sm text-caption-sm text-text-tertiary">
+<span>24 KB</span>
+<span>•</span>
+<span class="text-text-secondary">8 chunks</span>
+<span>•</span>
+<span class="font-mono text-[11px]">text-embed-3-sm</span>
+<span>•</span>
+<span>Recalled yesterday 4:15 PM</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1 flex-shrink-0">
+<button class="p-1.5 rounded-md hover:bg-elevated-surface text-text-tertiary hover:text-text-primary transition-colors" title="Inspect Chunks">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-danger-subtle text-text-tertiary hover:text-danger transition-colors" title="Delete document">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- ROW 5: CSV DOCUMENT -->
+<div class="p-4 rounded-xl bg-card-surface border border-border-hairline hover:border-border-active transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-start gap-3 min-w-0">
+<!-- CSV Green Icon -->
+<div class="w-10 h-10 rounded-lg bg-success-subtle text-success border border-success/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[22px]">table_chart</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-headline-sm text-headline-sm text-text-primary truncate">Q3_Model_Inference_Cost_Breakdown.csv</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-caption-medium bg-success-subtle text-success border border-success/30">
+<span class="material-symbols-outlined text-[12px]">check_circle</span> Indexed &amp; Ready
+                  </span>
+</div>
+<div class="flex items-center gap-2.5 mt-1 font-caption-sm text-caption-sm text-text-tertiary">
+<span>410 KB</span>
+<span>•</span>
+<span class="text-text-secondary">22 chunks</span>
+<span>•</span>
+<span class="font-mono text-[11px]">text-embed-3-sm</span>
+<span>•</span>
+<span>Recalled 3 days ago</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1 flex-shrink-0">
+<button class="p-1.5 rounded-md hover:bg-elevated-surface text-text-tertiary hover:text-text-primary transition-colors" title="Inspect Chunks">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-danger-subtle text-text-tertiary hover:text-danger transition-colors" title="Delete document">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination / Summary Footer for Table -->
+<div class="flex items-center justify-between pt-3 text-text-tertiary font-caption-sm text-caption-sm">
+<span>Showing 5 of 41 documents (38 vector-indexed)</span>
+<div class="flex items-center gap-1">
+<button class="px-2.5 py-1 rounded bg-card-surface border border-border-hairline text-text-secondary hover:text-text-primary disabled:opacity-40" disabled="">Previous</button>
+<span class="px-2 text-text-secondary font-mono">1 / 9</span>
+<button class="px-2.5 py-1 rounded bg-card-surface border border-border-hairline text-text-secondary hover:text-text-primary">Next</button>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: SELECTED DOCUMENT DETAIL INSPECTOR PANEL (5 cols) -->
+<div class="xl:col-span-5 2xl:col-span-5 rounded-xl bg-card-surface border border-border-hairline p-5 sticky top-20 flex flex-col gap-5 shadow-lg">
+<!-- Panel Header -->
+<div class="flex items-center justify-between pb-3 border-b border-border-hairline">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">manage_search</span>
+<h2 class="font-headline-sm text-headline-sm text-text-primary">Document Inspector</h2>
+</div>
+<button aria-label="Close Inspector" class="text-text-tertiary hover:text-text-primary p-1 rounded hover:bg-elevated-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Document Core Overview Header -->
+<div class="flex items-start gap-3">
+<div class="w-12 h-14 rounded-lg bg-danger-subtle text-danger border border-danger/30 flex flex-col items-center justify-center flex-shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[24px]">picture_as_pdf</span>
+<span class="font-mono text-[9px] uppercase font-bold tracking-wider mt-0.5">PDF</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-headline-sm text-headline-sm text-text-primary truncate">Q4_Infra_Budget_CapEx.pdf</span>
+</div>
+<span class="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded text-[10px] font-caption-medium bg-success-subtle text-success border border-success/30 w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span> Ready for RAG Retrieval
+          </span>
+<p class="font-caption-sm text-caption-sm text-text-secondary mt-2 line-clamp-2">
+            Executive capital expenditure plan detailing H100 node allocations, local Ollama server clustering, and cloud fallback budget caps.
+          </p>
+</div>
+</div>
+<!-- Vector & Storage Metadata Grid -->
+<div class="grid grid-cols-2 gap-2.5 p-3 rounded-lg bg-elevated-surface border border-border-hairline">
+<div class="flex flex-col">
+<span class="font-caption-sm text-caption-sm text-text-tertiary">File Size</span>
+<span class="font-body-medium text-body-medium text-text-primary">1.8 MB</span>
+</div>
+<div class="flex flex-col">
+<span class="font-caption-sm text-caption-sm text-text-tertiary">Pages &amp; Word Count</span>
+<span class="font-body-medium text-body-medium text-text-primary">18 pages • 6,420 words</span>
+</div>
+<div class="flex flex-col">
+<span class="font-caption-sm text-caption-sm text-text-tertiary">Total Chunks</span>
+<span class="font-body-medium text-body-medium text-text-primary">64 vector chunks</span>
+</div>
+<div class="flex flex-col">
+<span class="font-caption-sm text-caption-sm text-text-tertiary">Chunk Size / Overlap</span>
+<span class="font-body-medium text-body-medium text-text-primary">512 tok • 64 overlap</span>
+</div>
+<div class="flex flex-col col-span-2 pt-1 border-t border-border-hairline">
+<span class="font-caption-sm text-caption-sm text-text-tertiary">Splitting Strategy</span>
+<span class="font-mono text-[11px] text-text-secondary truncate">Hierarchical Recursive Character Splitter</span>
+</div>
+<div class="flex flex-col col-span-2">
+<span class="font-caption-sm text-caption-sm text-text-tertiary">Vector Collection</span>
+<div class="flex items-center gap-1.5 font-mono text-[11px] text-secondary">
+<span class="material-symbols-outlined text-[13px]">database</span>
+<span>qdrant-local / coll_executive_docs</span>
+</div>
+</div>
+<div class="flex flex-col col-span-2">
+<span class="font-caption-sm text-caption-sm text-text-tertiary">Indexed Timestamp</span>
+<span class="font-caption-sm text-caption-sm text-text-secondary">Oct 22, 2024, 09:15 AM EST (by Avinash)</span>
+</div>
+</div>
+<!-- Interactive Chunk Preview / Inspector -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-text-tertiary text-[16px]">segment</span>
+<span class="font-caption-medium text-caption-medium text-text-secondary tracking-wide uppercase">Vector Chunk Inspector</span>
+</div>
+<span class="text-[11px] font-mono text-text-tertiary">Chunk 12 of 64</span>
+</div>
+<!-- Sample High-Relevance Chunk Preview Card -->
+<div class="p-3.5 rounded-lg bg-sidebar-bg border border-border-hairline flex flex-col gap-2">
+<div class="flex items-center justify-between text-[11px]">
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded font-mono bg-elevated-surface text-secondary border border-border-hairline">Chunk #12</span>
+<span class="text-text-tertiary font-mono">tokens: 498</span>
+</div>
+<div class="flex items-center gap-1 text-success font-caption-medium text-caption-medium">
+<span class="material-symbols-outlined text-[14px]">insights</span>
+<span>Cosine Sim: 0.94</span>
+</div>
+</div>
+<div class="p-2.5 rounded bg-card-surface border border-border-hairline font-mono text-[12px] leading-relaxed text-text-primary select-all">
+            “...H100 SXM5 80GB clusters will be prioritized for autonomous multi-step reasoning workflows, whereas Gemini 1.5 Pro will handle context expansions exceeding 32k tokens. Monthly fallback allocation is capped at $4,500/mo under current billing token limits...”
+          </div>
+<div class="flex items-center justify-between pt-1">
+<span class="text-[11px] font-caption-sm text-text-tertiary">Page 4 • Section 2.3 (GPU Quota)</span>
+<button class="text-[11px] font-caption-medium text-secondary hover:text-text-primary flex items-center gap-1 hover:underline" type="button">
+<span class="material-symbols-outlined text-[13px]">chat</span>
+<span>Search in Assistant Chat</span>
+</button>
+</div>
+</div>
+<!-- Chunk Selector Carousel Dots / Tabs -->
+<div class="flex items-center justify-center gap-1.5 mt-1">
+<button class="w-6 h-6 rounded bg-elevated-surface border border-border-hairline text-text-secondary hover:text-text-primary flex items-center justify-center text-[12px]">‹</button>
+<span class="px-2 py-0.5 rounded text-[11px] font-mono bg-secondary-container text-on-secondary-container">#12</span>
+<span class="px-2 py-0.5 rounded text-[11px] font-mono text-text-tertiary hover:bg-elevated-surface cursor-pointer">#13</span>
+<span class="px-2 py-0.5 rounded text-[11px] font-mono text-text-tertiary hover:bg-elevated-surface cursor-pointer">#14</span>
+<span class="px-2 py-0.5 rounded text-[11px] font-mono text-text-tertiary hover:bg-elevated-surface cursor-pointer">#15</span>
+<button class="w-6 h-6 rounded bg-elevated-surface border border-border-hairline text-text-secondary hover:text-text-primary flex items-center justify-center text-[12px]">›</button>
+</div>
+</div>
+<!-- Action Footer for Document -->
+<div class="pt-3 border-t border-border-hairline flex flex-col gap-2">
+<div class="grid grid-cols-2 gap-2">
+<button class="h-[36px] px-3 rounded-lg bg-elevated-surface border border-border-hairline hover:border-border-active text-text-secondary hover:text-text-primary font-caption-medium text-caption-medium flex items-center justify-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">download</span>
+<span>Download Original</span>
+</button>
+<button class="h-[36px] px-3 rounded-lg bg-elevated-surface border border-border-hairline hover:border-border-active text-text-secondary hover:text-text-primary font-caption-medium text-caption-medium flex items-center justify-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+<span>Re-index Document</span>
+</button>
+</div>
+<button class="h-[36px] px-3 rounded-lg bg-danger-subtle/80 hover:bg-danger text-danger hover:text-white border border-danger/30 font-caption-medium text-caption-medium flex items-center justify-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">delete_forever</span>
+<span>Delete from Knowledge Base &amp; Vector Index</span>
+</button>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

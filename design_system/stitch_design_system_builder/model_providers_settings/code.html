@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"warning-subtle":"rgba(245, 158, 11, 0.12)","surface-container-low":"#171b29","on-tertiary":"#4d2700","surface-container-highest":"#303443","on-tertiary-fixed-variant":"#6d3a00","border-active":"#323F5D","on-secondary-fixed":"#150066","danger":"#F43F5E","surface-container-lowest":"#090e1b","background":"#0f1320","on-secondary-fixed-variant":"#4134a5","warning":"#F59E0B","on-error-container":"#ffdad6","secondary-fixed-dim":"#c6c0ff","success":"#10B981","on-primary":"#2400a2","secondary":"#c6c0ff","surface-bright":"#353948","error":"#ffb4ab","text-secondary":"#94A3B8","inverse-primary":"#5546d7","secondary-container":"#4336a7","surface-variant":"#303443","surface":"#0f1320","elevated-surface":"#171F34","on-primary-fixed":"#140067","on-tertiary-container":"#432100","border-hairline":"#202A40","tertiary-fixed-dim":"#ffb77b","on-primary-fixed-variant":"#3c28bf","inverse-on-surface":"#2c303e","danger-subtle":"rgba(244, 63, 94, 0.12)","primary-fixed-dim":"#c5c0ff","outline":"#918fa0","outline-variant":"#474554","error-container":"#93000a","on-background":"#dfe1f5","sidebar-bg":"#0B1020","inverse-surface":"#dfe1f5","on-surface-variant":"#c8c4d7","text-primary":"#F1F5F9","surface-container":"#1b1f2d","surface-dim":"#0f1320","card-surface":"#11182A","secondary-fixed":"#e4dfff","tertiary-container":"#d47b1f","on-secondary-container":"#b6afff","success-subtle":"rgba(16, 185, 129, 0.12)","primary-fixed":"#e3dfff","surface-container-high":"#252938","on-surface":"#dfe1f5","text-tertiary":"#64748B","on-tertiary-fixed":"#2e1500","on-secondary":"#29158f","primary-container":"#8a80ff","on-error":"#690005","on-primary-container":"#1f008f","accent-subtle":"rgba(113, 101, 245, 0.14)","surface-tint":"#c5c0ff","tertiary":"#ffb77b","primary":"#c5c0ff","app-bg":"#070B18","tertiary-fixed":"#ffdcc2"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-md":"0.75rem","space-xs":"0.25rem","space-xxs":"0.125rem","margin":"2rem","gutter":"1.5rem","space-lg":"1.5rem","space-xl":"2rem","space-sm":"0.5rem","gutter-sm":"1rem","margin-mobile":"1rem","space-2xl":"3rem","space-base":"1rem"},"fontFamily":{"headline-sm":["Inter"],"caption-medium":["Inter"],"display-hero":["Inter"],"body-medium":["Inter"],"caption-sm":["Inter"],"code-inline":["JetBrains Mono"],"metric-xl":["Inter"],"headline-lg":["Inter"],"body-lg":["Inter"],"body-base":["Inter"],"code-block":["JetBrains Mono"],"headline-md":["Inter"],"display-hero-mobile":["Inter"]},"fontSize":{"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"caption-medium":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"500"}],"display-hero":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"600"}],"body-medium":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"500"}],"caption-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"400"}],"code-inline":["12px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"400"}],"metric-xl":["30px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"400"}],"body-base":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"code-block":["13px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"display-hero-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}]}}}};</script></head><body class="bg-app-bg text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-64 bg-sidebar-bg z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="p-space-lg flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><img alt="Personal AI Assistant Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WPRDIPL8WlP4FDNJU_SaUE_tEMcTLyKuUqweDTmmfwJ6pH-APG_8JxgnlsrzVDm7Z6E8aZ08mUwswJa7tpBQhVVa86yWLgp3jpgSVmlDDOC3uDqs7kc2r4evPdmp6xf5HdDFi-u3oXSFEOQ-_xnXQXiPbK3D7UAeo_-ack69qALXGTo_HoOdHaLa4vsoY0ip20oQYVL-IVZ5j8oPtaS6uptY9xH8YfsHl-S2caEo8P591QHmP2HfwwKA"/><span class="font-headline-sm text-headline-sm text-text-primary tracking-tight">Personal AI</span></div><div class="flex items-center mt-space-xs"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-caption-medium bg-success-subtle text-success"><span class="w-1.5 h-1.5 rounded-full bg-success"></span>Active • Fast Mode</span></div></div><nav class="flex flex-col gap-space-sm px-space-md py-space-xs" data-active-classes="bg-secondary-container text-on-secondary-container font-headline-sm"><div class="px-space-sm pt-space-xs pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">Workspace</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="overview" href="#"><span class="material-symbols-outlined text-[18px]">dashboard</span>Overview</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="ai-assistant" href="#"><span class="material-symbols-outlined text-[18px]">chat</span>AI Assistant</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="tasks" href="#"><span class="material-symbols-outlined text-[18px]">check_circle</span>Tasks</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="calendar" href="#"><span class="material-symbols-outlined text-[18px]">calendar_today</span>Calendar</a></div><div class="px-space-sm pt-space-sm pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">Knowledge</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="memory" href="#"><span class="material-symbols-outlined text-[18px]">psychology</span>Memory</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="documents" href="#"><span class="material-symbols-outlined text-[18px]">description</span>Documents</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="notes" href="#"><span class="material-symbols-outlined text-[18px]">edit_note</span>Notes</a></div><div class="px-space-sm pt-space-sm pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">Automation</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="workflows" href="#"><span class="material-symbols-outlined text-[18px]">schema</span>Workflows</a><a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="approvals" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">verified</span><span>Approvals</span></div><span class="px-1.5 py-0.5 rounded text-[10px] font-caption-medium bg-warning-subtle text-warning">2</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="activity-history" href="#"><span class="material-symbols-outlined text-[18px]">history</span>Activity History</a></div><div class="px-space-sm pt-space-sm pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">Integrations</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="email" href="#"><span class="material-symbols-outlined text-[18px]">mail</span>Email</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="connected-apps" href="#"><span class="material-symbols-outlined text-[18px]">hub</span>Connected Apps</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="mcp-servers" href="#"><span class="material-symbols-outlined text-[18px]">dns</span>MCP Servers</a></div><div class="px-space-sm pt-space-sm pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">System</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="model-providers" href="#"><span class="material-symbols-outlined text-[18px]">neurology</span>Model Providers</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="settings" href="#"><span class="material-symbols-outlined text-[18px]">settings</span>Settings</a></div></nav></div><div class="p-space-md m-space-sm bg-card-surface rounded-xl flex items-center justify-between"><div class="flex items-center gap-space-sm min-w-0"><div class="relative flex-shrink-0"><div class="w-9 h-9 rounded-full bg-elevated-surface flex items-center justify-center overflow-hidden"><span class="material-symbols-outlined text-text-secondary text-[20px]">account_circle</span></div><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-success ring-2 ring-sidebar-bg"></span></div><div class="flex flex-col min-w-0"><span class="font-caption-medium text-caption-medium text-text-primary truncate">Alex Morgan</span><span class="font-caption-sm text-caption-sm text-text-tertiary truncate">Owner • Pro</span></div></div><button aria-label="User Menu" class="text-text-tertiary hover:text-text-primary transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">unfold_more</span></button></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-14 bg-sidebar-bg/90 backdrop-blur-md z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><img alt="Personal AI Assistant Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WPRDIPL8WlP4FDNJU_SaUE_tEMcTLyKuUqweDTmmfwJ6pH-APG_8JxgnlsrzVDm7Z6E8aZ08mUwswJa7tpBQhVVa86yWLgp3jpgSVmlDDOC3uDqs7kc2r4evPdmp6xf5HdDFi-u3oXSFEOQ-_xnXQXiPbK3D7UAeo_-ack69qALXGTo_HoOdHaLa4vsoY0ip20oQYVL-IVZ5j8oPtaS6uptY9xH8YfsHl-S2caEo8P591QHmP2HfwwKA"/><div class="flex items-center gap-2 font-caption-medium text-caption-medium text-text-tertiary"><span class="hover:text-text-secondary cursor-pointer">Platform</span><span>/</span><span class="text-text-primary">Active View</span></div></div><div class="flex-1 max-w-md mx-space-lg"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-text-tertiary text-[18px]">search</span><input class="w-full h-[38px] pl-9 pr-4 bg-elevated-surface rounded-lg font-body-base text-body-base text-text-primary placeholder:text-text-tertiary focus:outline-none" placeholder="Search memories, docs, actions... ⌘K" type="text"/></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-elevated-surface font-caption-medium text-caption-medium text-text-secondary"><span class="w-2 h-2 rounded-full bg-success animate-pulse"></span><span>Agent Idle</span></div><button aria-label="Notifications" class="relative p-2 rounded-lg hover:bg-elevated-surface text-text-secondary hover:text-text-primary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-danger"></span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center cursor-pointer"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-14 bg-app-bg min-h-screen w-full px-space-lg"><div class="flex flex-col w-full">
+<!-- Sub-Navigation Navigation Bar -->
+<div class="w-full flex items-center justify-between pb-space-lg mb-space-base overflow-x-auto">
+<nav class="flex items-center gap-space-xs p-1 rounded-xl bg-card-surface">
+<a class="px-3.5 py-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-elevated-surface font-caption-medium text-caption-medium transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[16px]">person</span>
+        General &amp; Profile
+      </a>
+<a class="px-3.5 py-1.5 rounded-lg bg-secondary-container text-on-secondary-container font-caption-medium text-caption-medium flex items-center gap-2 shadow-sm" href="#">
+<span class="material-symbols-outlined text-[16px]">neurology</span>
+        Model Providers
+      </a>
+<a class="px-3.5 py-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-elevated-surface font-caption-medium text-caption-medium transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[16px]">palette</span>
+        Appearance
+      </a>
+<a class="px-3.5 py-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-elevated-surface font-caption-medium text-caption-medium transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[16px]">psychology</span>
+        Memory &amp; Knowledge
+      </a>
+<a class="px-3.5 py-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-elevated-surface font-caption-medium text-caption-medium transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[16px]">notifications</span>
+        Notifications
+      </a>
+<a class="px-3.5 py-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-elevated-surface font-caption-medium text-caption-medium transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[16px]">shield</span>
+        Privacy &amp; Security
+      </a>
+<a class="px-3.5 py-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-elevated-surface font-caption-medium text-caption-medium transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+        Agent Permissions
+      </a>
+</nav>
+<div class="hidden xl:flex items-center gap-2 px-3 py-1 rounded-lg bg-elevated-surface text-text-secondary font-caption-sm text-caption-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+<span>Orchestrator: <strong class="text-text-primary font-caption-medium">Avinash-Local-Workstation</strong></span>
+</div>
+</div>
+<!-- Page Title & Header Block -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md pb-space-lg">
+<div class="flex flex-col gap-1 max-w-2xl">
+<div class="flex items-center gap-2 text-text-tertiary font-caption-medium text-caption-medium tracking-wide">
+<span>Settings</span>
+<span class="text-text-tertiary">/</span>
+<span class="text-primary font-headline-sm text-headline-sm">Model Providers</span>
+</div>
+<h1 class="text-headline-lg font-headline-lg text-text-primary tracking-tight">Model Providers &amp; LLM Routing</h1>
+<p class="text-body-base font-body-base text-text-secondary">
+        Configure local and cloud inference gateways, manage encrypted API vaults, and establish deterministic failover policies for autonomous executive workflows.
+      </p>
+</div>
+<!-- Quick Global Action Group -->
+<div class="flex items-center gap-space-sm flex-wrap sm:flex-nowrap">
+<button class="px-3 py-2 rounded-lg bg-elevated-surface hover:bg-surface-bright text-text-secondary hover:text-text-primary font-caption-medium text-caption-medium flex items-center gap-2 transition-all" id="refresh-health-btn" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary" id="refresh-icon">sync</span>
+<span>Check Fleet Health</span>
+<span class="text-text-tertiary text-[11px] font-mono tabular-nums">2m ago</span>
+</button>
+<button class="px-3.5 py-2 rounded-lg bg-primary hover:bg-secondary-container text-on-primary font-caption-medium text-caption-medium flex items-center gap-2 transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">add_box</span>
+<span>Add Custom Provider</span>
+</button>
+</div>
+</div>
+<!-- Global Routing Policy & Execution Strip -->
+<div class="w-full bg-card-surface rounded-xl p-space-md mb-space-lg flex flex-col lg:flex-row lg:items-center justify-between gap-space-md shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center gap-space-md">
+<!-- Default Active Gateway Selector -->
+<div class="flex flex-col gap-1 min-w-[240px]">
+<label class="text-text-tertiary font-caption-medium text-caption-medium uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-primary">alt_route</span>
+          Primary Inference Gateway
+        </label>
+<div class="relative">
+<select class="w-full h-[38px] px-3 pr-8 rounded-lg bg-elevated-surface text-text-primary font-body-medium text-body-medium appearance-none focus:outline-none cursor-pointer">
+<option selected="" value="ollama">Ollama (Local • 22ms)</option>
+<option value="gemini">Google Gemini 1.5 Pro (Cloud • 240ms)</option>
+<option value="mistral">Mistral Large 2 (Cloud • 310ms)</option>
+<option disabled="" value="openai">OpenAI GPT-4o (Disabled / Zero Budget)</option>
+</select>
+<span class="material-symbols-outlined text-text-tertiary text-[18px] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="h-8 w-[1px] bg-surface-container-highest hidden sm:block"></div>
+<!-- Autonomous Fallback Rule -->
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-accent-subtle flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary text-[20px]">electric_bolt</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="text-body-medium font-body-medium text-text-primary">Dynamic Latency Fallback</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-caption-medium bg-success-subtle text-success">Rule Active</span>
+</div>
+<span class="text-caption-sm font-caption-sm text-text-secondary">
+            Reroute to <strong class="text-text-primary">Gemini 1.5 Pro</strong> if local GPU execution queue exceeds <span class="font-mono tabular-nums text-text-primary">250ms</span>.
+          </span>
+</div>
+</div>
+</div>
+<!-- Policy Toggle Switch -->
+<div class="flex items-center gap-3 self-end lg:self-center">
+<span class="text-caption-medium font-caption-medium text-text-secondary">Failover Daemon</span>
+<button aria-checked="true" class="w-11 h-6 rounded-full bg-primary-container p-0.5 transition-colors relative focus:outline-none flex items-center" role="switch" type="button">
+<span class="w-5 h-5 rounded-full bg-on-primary transform translate-x-5 transition-transform flex items-center justify-center">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+</span>
+</button>
+</div>
+</div>
+<!-- Provider Fleet Grid (2x2 Primary Matrix) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-lg mb-space-2xl">
+<!-- 1. OLLAMA (LOCAL DAEMON) -->
+<div class="bg-card-surface rounded-xl p-space-lg flex flex-col justify-between shadow-sm relative overflow-hidden group">
+<!-- Glow Accent Line -->
+<div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-success via-primary to-transparent opacity-80"></div>
+<div>
+<!-- Top Row: Icon, Titles & Status Pill -->
+<div class="flex items-start justify-between gap-space-md mb-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-11 h-11 rounded-xl bg-elevated-surface flex items-center justify-center flex-shrink-0">
+<!-- Ollama terminal-chip mark SVG -->
+<svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24">
+<rect height="16" rx="3" width="16" x="4" y="4"></rect>
+<circle cx="9" cy="9" fill="currentColor" r="1"></circle>
+<circle cx="15" cy="9" fill="currentColor" r="1"></circle>
+<path d="M8 15h8"></path>
+<path d="M10 2v2"></path>
+<path d="M14 2v2"></path>
+<path d="M10 20v2"></path>
+<path d="M14 20v2"></path>
+</svg>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Ollama Daemon</h3>
+<span class="px-2 py-0.5 rounded text-[10px] font-caption-medium bg-secondary-container text-on-secondary-container tracking-wide uppercase">Primary Default</span>
+</div>
+<span class="font-caption-sm text-caption-sm text-text-secondary">Local Hardware Inference • Zero Cloud Cost</span>
+</div>
+</div>
+<!-- Toggle switch (ON) -->
+<button aria-checked="true" class="w-10 h-5 rounded-full bg-primary-container p-0.5 transition-colors relative flex items-center" role="switch" type="button">
+<span class="w-4 h-4 rounded-full bg-on-primary transform translate-x-5 transition-transform"></span>
+</button>
+</div>
+<!-- Connection Status Pill & Latency -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-elevated-surface mb-space-md">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+<span class="font-caption-medium text-caption-medium text-success">Online: http://127.0.0.1:11434</span>
+</div>
+<div class="flex items-center gap-2 font-mono text-[11px] text-text-tertiary">
+<span>SOCKET: <strong class="text-text-primary">IPC/TCP</strong></span>
+<span>•</span>
+<span class="text-success font-semibold">14ms latency</span>
+</div>
+</div>
+<!-- Model Configuration & Fallbacks -->
+<div class="space-y-space-sm mb-space-md">
+<div class="flex flex-col gap-1">
+<label class="text-text-tertiary font-caption-medium text-caption-medium text-[11px] uppercase tracking-wide">Active Model Weights</label>
+<div class="relative">
+<select class="w-full h-[38px] px-3 pr-8 rounded-lg bg-elevated-surface text-text-primary font-mono text-[13px] appearance-none focus:outline-none">
+<option selected="" value="llama3.3">llama3.3:70b-instruct-q4_K_M (42.4 GB)</option>
+<option value="qwen">qwen2.5-coder:32b (19.8 GB)</option>
+<option value="deepseek">deepseek-r1:32b (18.1 GB)</option>
+</select>
+<span class="material-symbols-outlined text-text-tertiary text-[18px] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Hardware Acceleration Snapshot -->
+<div class="p-3 rounded-lg bg-elevated-surface flex flex-col gap-2">
+<div class="flex items-center justify-between text-caption-sm font-caption-sm">
+<span class="text-text-secondary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-text-tertiary">memory</span>
+                NVIDIA GeForce RTX 4090 • CUDA 12.4
+              </span>
+<span class="text-text-primary font-mono tabular-nums font-semibold">18.2 / 24.0 GB VRAM</span>
+</div>
+<!-- Progress bar -->
+<div class="w-full h-1.5 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 75.8%;"></div>
+</div>
+</div>
+</div>
+<!-- Telemetry Stats Strip -->
+<div class="grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-elevated-surface mb-space-lg text-center">
+<div class="flex flex-col">
+<span class="text-text-tertiary font-caption-sm text-[11px]">Today's Volume</span>
+<span class="text-text-primary font-metric-xl text-[16px] tabular-nums font-semibold">42,810 toks</span>
+</div>
+<div class="flex flex-col">
+<span class="text-text-tertiary font-caption-sm text-[11px]">Local Cost</span>
+<span class="text-success font-metric-xl text-[16px] tabular-nums font-semibold">$0.00</span>
+</div>
+<div class="flex flex-col">
+<span class="text-text-tertiary font-caption-sm text-[11px]">Avg Latency</span>
+<span class="text-text-primary font-metric-xl text-[16px] tabular-nums font-semibold">22ms</span>
+</div>
+</div>
+</div>
+<!-- Footer Buttons -->
+<div class="flex items-center justify-between pt-space-xs gap-space-sm">
+<button class="px-3 py-1.5 rounded-lg bg-elevated-surface hover:bg-surface-bright text-text-secondary hover:text-text-primary font-caption-medium text-caption-medium flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-success">check_circle</span>
+          Test Socket
+        </button>
+<button class="px-3.5 py-1.5 rounded-lg bg-elevated-surface hover:bg-surface-bright text-text-primary font-caption-medium text-caption-medium flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+          Daemon Settings
+        </button>
+</div>
+</div>
+<!-- 2. GOOGLE GEMINI (CLOUD GATEWAY) -->
+<div class="bg-card-surface rounded-xl p-space-lg flex flex-col justify-between shadow-sm relative overflow-hidden group">
+<!-- Accent Line -->
+<div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary via-secondary-container to-transparent opacity-80"></div>
+<div>
+<!-- Top Row -->
+<div class="flex items-start justify-between gap-space-md mb-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-11 h-11 rounded-xl bg-elevated-surface flex items-center justify-center flex-shrink-0">
+<!-- Google Gemini Sparkle SVG -->
+<svg class="w-6 h-6 text-primary" fill="none" viewbox="0 0 24 24">
+<path d="M12 2C12 7.52 7.52 12 2 12C7.52 12 12 16.48 12 22C12 16.48 16.48 12 22 12C16.48 12 12 7.52 12 2Z" fill="currentColor"></path>
+</svg>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Google Gemini</h3>
+<span class="px-2 py-0.5 rounded text-[10px] font-caption-medium bg-success-subtle text-success uppercase tracking-wide">2M Context</span>
+</div>
+<span class="font-caption-sm text-caption-sm text-text-secondary">Cloud Gateway • Automated Fast Failover</span>
+</div>
+</div>
+<!-- Toggle switch (ON) -->
+<button aria-checked="true" class="w-10 h-5 rounded-full bg-primary-container p-0.5 transition-colors relative flex items-center" role="switch" type="button">
+<span class="w-4 h-4 rounded-full bg-on-primary transform translate-x-5 transition-transform"></span>
+</button>
+</div>
+<!-- Connection Status Pill -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-elevated-surface mb-space-md">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+<span class="font-caption-medium text-caption-medium text-success">API Verified • Rate Limit: Normal (Tier 2)</span>
+</div>
+<div class="flex items-center gap-2 font-mono text-[11px] text-text-tertiary">
+<span>REGION: <strong class="text-text-primary">us-central1</strong></span>
+<span>•</span>
+<span class="text-text-primary">240ms</span>
+</div>
+</div>
+<!-- Model Configuration & Key Masking -->
+<div class="space-y-space-sm mb-space-md">
+<div class="flex flex-col gap-1">
+<label class="text-text-tertiary font-caption-medium text-caption-medium text-[11px] uppercase tracking-wide">Routed Model Target</label>
+<div class="relative">
+<select class="w-full h-[38px] px-3 pr-8 rounded-lg bg-elevated-surface text-text-primary font-mono text-[13px] appearance-none focus:outline-none">
+<option selected="" value="gemini-1.5-pro">gemini-1.5-pro-latest (2M window)</option>
+<option value="gemini-1.5-flash">gemini-1.5-flash (Low latency)</option>
+<option value="gemini-2.0-flash-exp">gemini-2.0-flash-exp (Experimental)</option>
+</select>
+<span class="material-symbols-outlined text-text-tertiary text-[18px] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- API Key Field -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<label class="text-text-tertiary font-caption-medium text-caption-medium text-[11px] uppercase tracking-wide">Key Vault Token</label>
+<span class="text-[10px] text-text-tertiary font-mono">AES-256-GCM Hardware Encrypted</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex-1 h-[38px] px-3 rounded-lg bg-elevated-surface flex items-center justify-between font-mono text-[13px] text-text-secondary select-none">
+<span>AIzaSyD••••••••••••••••9Xv8Q</span>
+<span class="material-symbols-outlined text-text-tertiary text-[16px]">lock</span>
+</div>
+<button class="h-[38px] px-3 rounded-lg bg-elevated-surface hover:bg-surface-bright text-text-secondary hover:text-text-primary font-caption-medium text-caption-medium transition-colors" title="Copy Key Token" type="button">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Telemetry Stats Strip -->
+<div class="grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-elevated-surface mb-space-lg text-center">
+<div class="flex flex-col">
+<span class="text-text-tertiary font-caption-sm text-[11px]">Billing Tokens</span>
+<span class="text-text-primary font-metric-xl text-[16px] tabular-nums font-semibold">184,200</span>
+</div>
+<div class="flex flex-col">
+<span class="text-text-tertiary font-caption-sm text-[11px]">Accrued Cost</span>
+<span class="text-text-primary font-metric-xl text-[16px] tabular-nums font-semibold">$0.48</span>
+</div>
+<div class="flex flex-col">
+<span class="text-text-tertiary font-caption-sm text-[11px]">Failover Triggered</span>
+<span class="text-text-primary font-metric-xl text-[16px] tabular-nums font-semibold">14 runs</span>
+</div>
+</div>
+</div>
+<!-- Footer Buttons -->
+<div class="flex items-center justify-between pt-space-xs gap-space-sm">
+<button class="px-3 py-1.5 rounded-lg bg-elevated-surface hover:bg-surface-bright text-text-secondary hover:text-text-primary font-caption-medium text-caption-medium flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-success">sensors</span>
+          Test Health
+        </button>
+<button class="px-3.5 py-1.5 rounded-lg bg-secondary-container hover:bg-secondary text-on-secondary-container hover:text-on-secondary font-caption-medium text-caption-medium flex items-center gap-1.5 transition-colors shadow-sm" id="open-gemini-modal" type="button">
+<span class="material-symbols-outlined text-[16px]">settings</span>
+          Edit Config
+        </button>
+</div>
+</div>
+<!-- 3. MISTRAL AI (CLOUD REASONING) -->
+<div class="bg-card-surface rounded-xl p-space-lg flex flex-col justify-between shadow-sm relative overflow-hidden group">
+<div>
+<!-- Top Row -->
+<div class="flex items-start justify-between gap-space-md mb-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-11 h-11 rounded-xl bg-elevated-surface flex items-center justify-center flex-shrink-0">
+<!-- Mistral Stripes Pixel Mark SVG -->
+<svg class="w-6 h-6 text-warning" fill="currentColor" viewbox="0 0 24 24">
+<rect height="4" width="4" x="3" y="4"></rect>
+<rect height="4" width="4" x="17" y="4"></rect>
+<rect height="4" width="4" x="3" y="10"></rect>
+<rect height="4" width="4" x="10" y="10"></rect>
+<rect height="4" width="4" x="17" y="10"></rect>
+<rect height="4" width="18" x="3" y="16"></rect>
+</svg>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Mistral AI</h3>
+<span class="px-2 py-0.5 rounded text-[10px] font-caption-medium bg-warning-subtle text-warning uppercase tracking-wide">Fast Code</span>
+</div>
+<span class="font-caption-sm text-caption-sm text-text-secondary">European Sovereign Cloud • Reasoning Engine</span>
+</div>
+</div>
+<!-- Toggle switch (ON) -->
+<button aria-checked="true" class="w-10 h-5 rounded-full bg-primary-container p-0.5 transition-colors relative flex items-center" role="switch" type="button">
+<span class="w-4 h-4 rounded-full bg-on-primary transform translate-x-5 transition-transform"></span>
+</button>
+</div>
+<!-- Connection Status Pill -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-elevated-surface mb-space-md">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+<span class="font-caption-medium text-caption-medium text-success">Operational: api.mistral.ai</span>
+</div>
+<div class="flex items-center gap-2 font-mono text-[11px] text-text-tertiary">
+<span>TIER: <strong class="text-text-primary">Developer</strong></span>
+<span>•</span>
+<span class="text-text-primary">310ms</span>
+</div>
+</div>
+<!-- Model Configuration & Key Masking -->
+<div class="space-y-space-sm mb-space-md">
+<div class="flex flex-col gap-1">
+<label class="text-text-tertiary font-caption-medium text-caption-medium text-[11px] uppercase tracking-wide">Target Model</label>
+<div class="relative">
+<select class="w-full h-[38px] px-3 pr-8 rounded-lg bg-elevated-surface text-text-primary font-mono text-[13px] appearance-none focus:outline-none">
+<option selected="" value="mistral-large">Mistral Large 2 (mistral-large-2407)</option>
+<option value="codestral">Codestral 22B (Specialized Code)</option>
+<option value="mistral-nemo">Mistral Nemo 12B</option>
+</select>
+<span class="material-symbols-outlined text-text-tertiary text-[18px] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- API Key Field -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<label class="text-text-tertiary font-caption-medium text-caption-medium text-[11px] uppercase tracking-wide">Bearer Auth Secret</label>
+<span class="text-[10px] text-text-tertiary font-mono">Vault Reference ID #892</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex-1 h-[38px] px-3 rounded-lg bg-elevated-surface flex items-center justify-between font-mono text-[13px] text-text-secondary select-none">
+<span>mis_live_••••••••••••••47K2a</span>
+<span class="material-symbols-outlined text-text-tertiary text-[16px]">encrypted</span>
+</div>
+<button class="h-[38px] px-3 rounded-lg bg-elevated-surface hover:bg-surface-bright text-text-secondary hover:text-text-primary font-caption-medium text-caption-medium transition-colors" title="Copy Key Token" type="button">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Telemetry Stats Strip -->
+<div class="grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-elevated-surface mb-space-lg text-center">
+<div class="flex flex-col">
+<span class="text-text-tertiary font-caption-sm text-[11px]">Session Tokens</span>
+<span class="text-text-primary font-metric-xl text-[16px] tabular-nums font-semibold">14,350</span>
+</div>
+<div class="flex flex-col">
+<span class="text-text-tertiary font-caption-sm text-[11px]">Cycle Cost</span>
+<span class="text-text-primary font-metric-xl text-[16px] tabular-nums font-semibold">$0.04</span>
+</div>
+<div class="flex flex-col">
+<span class="text-text-tertiary font-caption-sm text-[11px]">Benchmark Latency</span>
+<span class="text-text-primary font-metric-xl text-[16px] tabular-nums font-semibold">310ms</span>
+</div>
+</div>
+</div>
+<!-- Footer Buttons -->
+<div class="flex items-center justify-between pt-space-xs gap-space-sm">
+<button class="px-3 py-1.5 rounded-lg bg-elevated-surface hover:bg-surface-bright text-text-secondary hover:text-text-primary font-caption-medium text-caption-medium flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-success">network_check</span>
+          Ping Gateway
+        </button>
+<button class="px-3.5 py-1.5 rounded-lg bg-elevated-surface hover:bg-surface-bright text-text-primary font-caption-medium text-caption-medium flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+          Configure
+        </button>
+</div>
+</div>
+<!-- 4. OPENAI (DISABLED - ZERO-BUDGET POLICY ENFORCED) -->
+<div class="bg-card-surface rounded-xl p-space-lg flex flex-col justify-between shadow-sm relative opacity-75 hover:opacity-100 transition-opacity">
+<div>
+<!-- Top Row -->
+<div class="flex items-start justify-between gap-space-md mb-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-11 h-11 rounded-xl bg-elevated-surface flex items-center justify-center flex-shrink-0 text-text-tertiary">
+<!-- OpenAI Swirl glyph SVG -->
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="9"></circle>
+<path d="M12 7v5l3 3"></path>
+<path d="M8 12a4 4 0 0 1 8 0"></path>
+</svg>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-headline-sm text-text-secondary">OpenAI</h3>
+<span class="px-2 py-0.5 rounded text-[10px] font-caption-medium bg-danger-subtle text-danger uppercase tracking-wide">Locked Out</span>
+</div>
+<span class="font-caption-sm text-caption-sm text-text-tertiary">Zero-Budget Policy Enforced • Inactive</span>
+</div>
+</div>
+<!-- Toggle switch (OFF) -->
+<button aria-checked="false" class="w-10 h-5 rounded-full bg-surface-container-highest p-0.5 transition-colors relative flex items-center" role="switch" type="button">
+<span class="w-4 h-4 rounded-full bg-text-tertiary transform translate-x-0 transition-transform"></span>
+</button>
+</div>
+<!-- Connection Status Pill -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-elevated-surface mb-space-md">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-text-tertiary"></span>
+<span class="font-caption-medium text-caption-medium text-text-tertiary">Not Configured • Egress Suspended</span>
+</div>
+<span class="font-mono text-[11px] text-text-tertiary">OFFLINE</span>
+</div>
+<!-- Rule Callout Box -->
+<div class="p-space-sm rounded-lg bg-surface-container-low mb-space-md flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-warning text-[18px] flex-shrink-0 mt-0.5">policy</span>
+<div class="flex flex-col text-caption-sm font-caption-sm text-text-secondary leading-snug">
+<span>OpenAI routing is currently restricted in accordance with your personal <strong class="text-text-primary">Zero-Cloud-Cost Local Privacy Rule</strong>. Enable toggle above to configure GPT-4o or reasoning models.</span>
+</div>
+</div>
+<!-- Masked Disabled Key -->
+<div class="flex flex-col gap-1 mb-space-lg">
+<label class="text-text-tertiary font-caption-medium text-caption-medium text-[11px] uppercase tracking-wide">Secret Key</label>
+<div class="h-[38px] px-3 rounded-lg bg-elevated-surface flex items-center justify-between font-mono text-[13px] text-text-tertiary select-none cursor-not-allowed">
+<span>sk-proj-••••••••••••••••••••••••••••••••</span>
+<span class="material-symbols-outlined text-text-tertiary text-[16px]">lock</span>
+</div>
+</div>
+</div>
+<!-- Footer Buttons (Disabled) -->
+<div class="flex items-center justify-between pt-space-xs gap-space-sm">
+<button class="px-3 py-1.5 rounded-lg bg-elevated-surface text-text-tertiary font-caption-medium text-caption-medium flex items-center gap-1.5 cursor-not-allowed opacity-60" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">block</span>
+          Test Connection
+        </button>
+<button class="px-3.5 py-1.5 rounded-lg bg-elevated-surface hover:bg-surface-bright text-text-secondary hover:text-text-primary font-caption-medium text-caption-medium flex items-center gap-1.5 transition-colors" type="button">
+<span>Authorize Provider</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Realtime Model Fallback & Execution Pipeline Visualizer -->
+<div class="bg-card-surface rounded-xl p-space-lg mb-space-2xl shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-md mb-space-md">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-sm text-headline-sm text-text-primary">Active Routing Hierarchy</h2>
+<span class="px-2 py-0.5 rounded text-[10px] font-caption-medium bg-accent-subtle text-primary">Priority Cascade</span>
+</div>
+<p class="font-caption-sm text-caption-sm text-text-secondary">Execution path evaluated sequentially per prompt or automation chain.</p>
+</div>
+<div class="flex items-center gap-2 font-mono text-[12px] text-text-tertiary mt-2 sm:mt-0">
+<span class="w-2 h-2 rounded-full bg-success animate-pulse"></span>
+<span>Gateway Resolver v2.4 Active</span>
+</div>
+</div>
+<!-- Stepper Flow -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md relative">
+<!-- Step 1 -->
+<div class="p-space-md rounded-xl bg-elevated-surface flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-mono font-caption-medium bg-secondary-container text-on-secondary-container">PRIMARY: LEVEL 1</span>
+<span class="font-caption-sm text-caption-sm text-success font-medium">Fast Local</span>
+</div>
+<h4 class="font-body-medium text-body-medium text-text-primary mb-1">Ollama: llama3.3:70b</h4>
+<p class="font-caption-sm text-caption-sm text-text-secondary">Executes all personal memory lookups, email drafts, and terminal actions with zero telemetry.</p>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-[11px] font-mono text-text-tertiary">
+<span>TIMEOUT: 250ms</span>
+<span class="text-text-primary">100% Data Sovereignty</span>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="p-space-md rounded-xl bg-elevated-surface flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-mono font-caption-medium bg-surface-container-highest text-text-secondary">FALLBACK: LEVEL 2</span>
+<span class="font-caption-sm text-caption-sm text-warning font-medium">High Context</span>
+</div>
+<h4 class="font-body-medium text-body-medium text-text-primary mb-1">Gemini 1.5 Pro</h4>
+<p class="font-caption-sm text-caption-sm text-text-secondary">Invoked automatically when input payload exceeds 32K tokens or when local queue latency is saturated.</p>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-[11px] font-mono text-text-tertiary">
+<span>MAX PAYLOAD: 2M TOKS</span>
+<span class="text-text-primary">Pay-as-you-go</span>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="p-space-md rounded-xl bg-elevated-surface flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-mono font-caption-medium bg-surface-container-highest text-text-secondary">FALLBACK: LEVEL 3</span>
+<span class="font-caption-sm text-caption-sm text-text-tertiary font-medium">Reasoning Secondary</span>
+</div>
+<h4 class="font-body-medium text-body-medium text-text-primary mb-1">Mistral Large 2</h4>
+<p class="font-caption-sm text-caption-sm text-text-secondary">Dispatched if Gemini returns 429 quota exhaustion or during specialized multi-agent coding tasks.</p>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-[11px] font-mono text-text-tertiary">
+<span>TRIGGER: API Outage</span>
+<span class="text-text-primary">Direct Egress</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Configuration Modal Overlay (Google Gemini Configuration) -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-app-bg/85 backdrop-blur-none transition-all duration-200" id="gemini-modal">
+<!-- Modal Card Container -->
+<div class="relative w-full max-w-2xl bg-elevated-surface rounded-xl shadow-2xl p-space-xl flex flex-col gap-space-lg overflow-hidden animate-in fade-in zoom-in-95">
+<!-- Modal Header -->
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-card-surface flex items-center justify-center flex-shrink-0 text-primary">
+<svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 2C12 7.52 7.52 12 2 12C7.52 12 12 16.48 12 22C12 16.48 16.48 12 22 12C16.48 12 12 7.52 12 2Z"></path>
+</svg>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h3 class="font-headline-md text-headline-md text-text-primary">Google Gemini Parameters</h3>
+<span class="px-2 py-0.5 rounded text-[10px] font-caption-medium bg-success-subtle text-success">Verified</span>
+</div>
+<p class="font-caption-sm text-caption-sm text-text-secondary">Manage upstream authentication, context limits, and generation temperature.</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-lg bg-card-surface hover:bg-surface-bright flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors" id="close-gemini-modal" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Modal Body Form -->
+<div class="flex flex-col gap-space-md">
+<!-- API Key Input with Eye Toggle -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="text-caption-medium font-caption-medium text-text-primary">Google AI API Secret Key</label>
+<span class="text-caption-sm font-caption-sm text-text-tertiary">Stored securely in OS Keychain</span>
+</div>
+<div class="relative flex items-center">
+<input class="w-full h-[38px] pl-3 pr-10 rounded-lg bg-card-surface text-text-primary font-mono text-[13px] focus:outline-none" id="gemini-key-input" type="password" value="AIzaSyDk82019482910482019284910294819Xv8Q"/>
+<button class="absolute right-2 text-text-tertiary hover:text-text-primary transition-colors" id="toggle-key-visibility" type="button">
+<span class="material-symbols-outlined text-[18px]" id="eye-icon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Custom Base URL Endpoint -->
+<div class="flex flex-col gap-1.5">
+<label class="text-caption-medium font-caption-medium text-text-primary">Base API Endpoint</label>
+<input class="w-full h-[38px] px-3 rounded-lg bg-card-surface text-text-primary font-mono text-[13px] focus:outline-none" type="text" value="https://generativelanguage.googleapis.com/v1beta"/>
+</div>
+<!-- Default Model Target & Output Max Tokens Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-1.5">
+<label class="text-caption-medium font-caption-medium text-text-primary">Default Failover Model</label>
+<div class="relative">
+<select class="w-full h-[38px] px-3 pr-8 rounded-lg bg-card-surface text-text-primary font-body-base text-body-base appearance-none focus:outline-none">
+<option selected="" value="gemini-1.5-pro-latest">gemini-1.5-pro-latest</option>
+<option value="gemini-1.5-flash">gemini-1.5-flash</option>
+<option value="gemini-2.0-flash-exp">gemini-2.0-flash-exp</option>
+</select>
+<span class="material-symbols-outlined text-text-tertiary text-[18px] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-caption-medium font-caption-medium text-text-primary">Max Output Tokens</label>
+<input class="w-full h-[38px] px-3 rounded-lg bg-card-surface text-text-primary font-mono text-[13px] focus:outline-none" type="number" value="8192"/>
+</div>
+</div>
+<!-- Temperature Slider -->
+<div class="p-space-md rounded-xl bg-card-surface flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<label class="text-caption-medium font-caption-medium text-text-primary">Temperature</label>
+<span class="text-[11px] font-caption-sm text-text-tertiary">(Deterministic / Coding Workflows)</span>
+</div>
+<span class="font-mono text-caption-medium text-primary font-semibold" id="temp-val">0.20</span>
+</div>
+<input class="w-full accent-primary h-1 bg-surface-container-highest rounded-lg cursor-pointer" id="temp-slider" max="1" min="0" step="0.05" type="range" value="0.2"/>
+<div class="flex justify-between text-[11px] font-caption-sm text-text-tertiary">
+<span>0.0 Precise</span>
+<span>0.7 Balanced</span>
+<span>1.0 Creative</span>
+</div>
+</div>
+<!-- Safety Filter Level -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-card-surface">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary text-[18px]">verified_user</span>
+<div class="flex flex-col">
+<span class="text-caption-medium font-caption-medium text-text-primary">Safety Thresholds</span>
+<span class="text-[11px] font-caption-sm text-text-secondary">BLOCK_NONE for developer tool execution</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-[11px] font-caption-medium bg-elevated-surface text-text-secondary">Permissive / Autonomous</span>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md pt-space-xs">
+<!-- Live ping check inline status -->
+<div class="flex items-center gap-2 text-caption-sm font-caption-sm text-success">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="font-mono">HTTP 200 OK • Quota Healthy (Tier 2)</span>
+</div>
+<div class="flex items-center gap-space-sm justify-end">
+<button class="px-4 py-2 rounded-lg bg-card-surface hover:bg-surface-bright text-text-secondary hover:text-text-primary font-caption-medium text-caption-medium transition-colors" id="cancel-gemini-modal" type="button">
+            Cancel
+          </button>
+<button class="px-4 py-2 rounded-lg bg-primary hover:bg-secondary-container text-on-primary font-caption-medium text-caption-medium transition-all shadow-sm flex items-center gap-2" id="save-gemini-modal" type="button">
+<span class="material-symbols-outlined text-[16px]">save</span>
+            Save Configuration
+          </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function () {
+    const modal = document.getElementById('gemini-modal');
+    const openBtn = document.getElementById('open-gemini-modal');
+    const closeBtn = document.getElementById('close-gemini-modal');
+    const cancelBtn = document.getElementById('cancel-gemini-modal');
+    const saveBtn = document.getElementById('save-gemini-modal');
+    const toggleKeyBtn = document.getElementById('toggle-key-visibility');
+    const keyInput = document.getElementById('gemini-key-input');
+    const eyeIcon = document.getElementById('eye-icon');
+    const tempSlider = document.getElementById('temp-slider');
+    const tempVal = document.getElementById('temp-val');
+    const refreshBtn = document.getElementById('refresh-health-btn');
+    const refreshIcon = document.getElementById('refresh-icon');
+
+    // Modal Control
+    function showModal() {
+      if (modal) modal.classList.remove('hidden');
+    }
+    function hideModal() {
+      if (modal) modal.classList.add('hidden');
+    }
+
+    if (openBtn) openBtn.addEventListener('click', showModal);
+    if (closeBtn) closeBtn.addEventListener('click', hideModal);
+    if (cancelBtn) cancelBtn.addEventListener('click', hideModal);
+    if (saveBtn) {
+      saveBtn.addEventListener('click', function () {
+        saveBtn.innerText = 'Saved!';
+        setTimeout(function () {
+          saveBtn.innerText = 'Save Configuration';
+          hideModal();
+        }, 600);
+      });
+    }
+
+    // Key mask visibility toggle
+    if (toggleKeyBtn && keyInput && eyeIcon) {
+      toggleKeyBtn.addEventListener('click', function () {
+        if (keyInput.type === 'password') {
+          keyInput.type = 'text';
+          eyeIcon.innerText = 'visibility_off';
+        } else {
+          keyInput.type = 'password';
+          eyeIcon.innerText = 'visibility';
+        }
+      });
+    }
+
+    // Temperature slider update
+    if (tempSlider && tempVal) {
+      tempSlider.addEventListener('input', function (e) {
+        tempVal.innerText = parseFloat(e.target.value).toFixed(2);
+      });
+    }
+
+    // Refresh simulation
+    if (refreshBtn && refreshIcon) {
+      refreshBtn.addEventListener('click', function () {
+        refreshIcon.classList.add('animate-spin');
+        setTimeout(function () {
+          refreshIcon.classList.remove('animate-spin');
+        }, 800);
+      });
+    }
+  })();
+</script></main></div></body></html>

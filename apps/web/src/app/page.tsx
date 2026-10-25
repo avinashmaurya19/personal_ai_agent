@@ -1,24 +1,93 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from "react";
-import { api, ConversationItem, MessageItem, ModelOption } from "@/lib/api-client";
-import { ConversationList } from "@/features/conversations/conversation-list";
-import { ChatView } from "@/features/chat/chat-view";
+import {
+  api,
+  ConversationItem,
+  MessageItem,
+  ModelOption,
+  TaskItem,
+  EmailThreadItem,
+  CalendarEventItem,
+  PendingActionItem,
+  DocumentItem,
+  MemoryItem,
+} from "@/lib/api-client";
+import { AppSidebar, NavViewId } from "@/components/shell/app-sidebar";
+import { AppHeader } from "@/components/shell/app-header";
+import { StitchDashboard } from "@/features/dashboard/stitch-dashboard";
+import { StitchChatView } from "@/features/chat/stitch-chat-view";
+import { FloatingChatWidget } from "@/features/chat/floating-chat-widget";
+import { DocumentsView } from "@/features/documents/documents-view";
+import { MemoryView } from "@/features/memory/memory-view";
+import { TasksView } from "@/features/tasks/tasks-view";
+import { ApprovalsView } from "@/features/approvals/approvals-view";
+import { EmailView } from "@/features/email/email-view";
+import { SettingsView } from "@/features/settings/settings-view";
 
 export default function HomePage() {
+  const [activeView, setActiveView] = useState<NavViewId>("overview");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // --- Backend Data State ---
+  const [tasks, setTasks] = useState<TaskItem[]>([]);
+  const [emailThreads, setEmailThreads] = useState<EmailThreadItem[]>([]);
+  const [calendarEvents, setCalendarEvents] = useState<CalendarEventItem[]>([]);
+  const [pendingActions, setPendingActions] = useState<PendingActionItem[]>([]);
+  const [documents, setDocuments] = useState<DocumentItem[]>([]);
+  const [memories, setMemories] = useState<MemoryItem[]>([]);
+
+  // --- Chat State ---
   const [conversations, setConversations] = useState<ConversationItem[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [messages, setMessages] = useState<MessageItem[]>([]);
   const [models, setModels] = useState<ModelOption[]>([]);
   const [isLoadingMessages, setIsLoadingMessages] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Load Dashboard Data
+  const loadDashboardData = useCallback(async () => {
+    try {
+      const [
+        tasksData,
+        threadsData,
+        calData,
+        actionsData,
+        docsData,
+        memsData,
+      ] = await Promise.all([
+        api.getTasks().catch(() => []),
+        api.getEmailThreads().catch(() => []),
+        api.getCalendarEvents().catch(() => []),
+        api.getPendingActions().catch(() => []),
+        api.getDocuments().catch(() => []),
+        api.getMemories().catch(() => []),
+      ]);
+
+      setTasks(tasksData);
+      setEmailThreads(threadsData);
+      setCalendarEvents(calData);
+      setPendingActions(actionsData);
+      setDocuments(docsData);
+      setMemories(memsData);
+    } catch (err) {
+      console.error("Failed to load dashboard data:", err);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadDashboardData();
+  }, [loadDashboardData]);
+
+  // Load Models
   useEffect(() => {
     api.getModels()
       .then(setModels)
       .catch((err) => console.error("Failed to load models:", err));
   }, []);
 
+  // Load Conversations
   const fetchConversations = useCallback(async () => {
     try {
       const data = await api.getConversations();
@@ -36,6 +105,7 @@ export default function HomePage() {
     fetchConversations();
   }, [fetchConversations]);
 
+  // Load Messages for Selected Conversation
   useEffect(() => {
     if (!selectedId) {
       setMessages([]);
@@ -48,9 +118,7 @@ export default function HomePage() {
       .then((data) => {
         if (isMounted) setMessages(data);
       })
-      .catch((err) => {
-        console.error("Failed to load messages:", err);
-      })
+      .catch((err) => console.error("Failed to load messages:", err))
       .finally(() => {
         if (isMounted) setIsLoadingMessages(false);
       });
@@ -60,18 +128,19 @@ export default function HomePage() {
     };
   }, [selectedId]);
 
-  const handleCreateNew = async () => {
+  const handleCreateNewConversation = async () => {
     try {
       const newConv = await api.createConversation();
       setConversations((prev) => [newConv, ...prev]);
       setSelectedId(newConv.id);
       setMessages([]);
+      setActiveView("ai-assistant");
     } catch (err) {
       console.error("Failed to create conversation:", err);
     }
   };
 
-  const handleDelete = async (id: string, e: React.MouseEvent) => {
+  const handleDeleteConversation = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     try {
       await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/v1/conversations/${id}`, {
@@ -90,7 +159,6 @@ export default function HomePage() {
   const handleSendMessage = async (content: string) => {
     if (!selectedId) return;
 
-    // Optimistically add user message
     const tempUserMessage: MessageItem = {
       id: "temp-" + Date.now(),
       conversation_id: selectedId,
@@ -104,11 +172,10 @@ export default function HomePage() {
     try {
       const assistantReply = await api.sendMessage(selectedId, content);
       setMessages((prev) => [...prev, assistantReply]);
-      // Refresh conversations to update titles/updated_at
       fetchConversations();
+      loadDashboardData();
     } catch (err: any) {
       console.error("Failed to send message:", err);
-      // Append error message as system notification
       const errorReply: MessageItem = {
         id: "err-" + Date.now(),
         conversation_id: selectedId,
@@ -133,33 +200,180 @@ export default function HomePage() {
     }
   };
 
-  const selectedConversation = conversations.find((c) => c.id === selectedId) || null;
+  const handleToggleTask = async (task: TaskItem) => {
+    const nextStatus = task.status === "completed" ? "pending" : "completed";
+    try {
+      const updated = await api.updateTask(task.id, { status: nextStatus });
+      setTasks((prev) => prev.map((t) => (t.id === task.id ? updated : t)));
+    } catch (err) {
+      console.error("Failed to toggle task:", err);
+    }
+  };
+
+  const handleQuickAddTask = async (title: string, priority: "low" | "medium" | "high" | "urgent") => {
+    try {
+      const created = await api.createTask({ title, priority });
+      setTasks((prev) => [created, ...prev]);
+    } catch (err) {
+      console.error("Failed to create task:", err);
+    }
+  };
+
+  const handleDecideAction = async (actionId: string, approved: boolean) => {
+    try {
+      await api.decideAction(actionId, approved);
+      setPendingActions((prev) => prev.filter((a) => a.id !== actionId));
+      loadDashboardData();
+    } catch (err) {
+      console.error("Failed to decide action:", err);
+    }
+  };
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden">
-      <ConversationList
-        conversations={conversations}
-        selectedId={selectedId}
-        onSelect={setSelectedId}
-        onCreateNew={handleCreateNew}
-        onDelete={handleDelete}
+    <div className="flex h-screen w-screen overflow-hidden bg-app-bg text-text-primary">
+      {/* 1. Persistent Left Navigation Sidebar */}
+      <AppSidebar
+        activeView={activeView}
+        onSelectView={setActiveView}
+        pendingApprovalsCount={pendingActions.length}
       />
-      <div className="flex-1 flex flex-col h-full overflow-hidden">
+
+      {/* 2. Main Page Column with Fixed Header */}
+      <div className="pl-64 flex-1 flex flex-col h-full overflow-hidden">
+        {/* Fixed Top Navbar */}
+        <AppHeader
+          activeView={activeView}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          unreadNotificationsCount={pendingActions.length}
+        />
+
+        {/* Global Connection Warning */}
         {error && (
-          <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-2 text-xs text-amber-400 flex items-center justify-between">
+          <div className="pt-14 bg-amber-500/10 border-b border-amber-500/20 px-6 py-2 text-xs text-amber-400 flex items-center justify-between">
             <span>{error}</span>
-            <button onClick={() => setError(null)} className="underline ml-4">Dismiss</button>
+            <button onClick={() => setError(null)} className="underline ml-4">
+              Dismiss
+            </button>
           </div>
         )}
-        <ChatView
-          conversation={selectedConversation}
-          messages={messages}
-          models={models}
-          isLoading={isLoadingMessages}
-          onSendMessage={handleSendMessage}
-          onModelChange={handleModelChange}
-        />
+
+        {/* Active View Container */}
+        <main className={`relative ${error ? "pt-2" : "pt-14"} flex-1 overflow-y-auto px-6 lg:px-8`}>
+          <div className="pt-6 max-w-7xl mx-auto">
+            {activeView === "overview" && (
+              <StitchDashboard
+                tasks={tasks}
+                emailThreads={emailThreads}
+                calendarEvents={calendarEvents}
+                pendingActions={pendingActions}
+                documents={documents}
+                memories={memories}
+                conversations={conversations}
+                onNewConversation={() => setActiveView("ai-assistant")}
+                onOpenTasks={() => setActiveView("tasks")}
+                onOpenCalendar={() => setActiveView("calendar")}
+                onOpenDocs={() => setActiveView("documents")}
+                onOpenMemory={() => setActiveView("memory")}
+                onToggleTask={handleToggleTask}
+                onQuickAddTask={handleQuickAddTask}
+                onDecideAction={handleDecideAction}
+              />
+            )}
+
+            {activeView === "ai-assistant" && (
+              <StitchChatView
+                conversations={conversations}
+                selectedId={selectedId}
+                onSelectConversation={setSelectedId}
+                onCreateNewConversation={handleCreateNewConversation}
+                onDeleteConversation={handleDeleteConversation}
+                messages={messages}
+                models={models}
+                isLoadingMessages={isLoadingMessages}
+                onSendMessage={handleSendMessage}
+                onModelChange={handleModelChange}
+                pendingActions={pendingActions}
+                onDecideAction={handleDecideAction}
+              />
+            )}
+
+            {activeView === "tasks" && (
+              <TasksView
+                tasks={tasks}
+                onRefresh={loadDashboardData}
+                onToggleTask={handleToggleTask}
+                onQuickAddTask={handleQuickAddTask}
+              />
+            )}
+
+            {activeView === "calendar" && (
+              <div className="py-6 space-y-4">
+                <h1 className="text-2xl font-bold tracking-tight">Calendar &amp; Agenda</h1>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {calendarEvents.map((evt) => (
+                    <div key={evt.id} className="p-4 rounded-xl bg-card-surface border border-border-hairline space-y-2">
+                      <span className="text-xs font-mono text-text-tertiary">{new Date(evt.start_time).toLocaleString()}</span>
+                      <h3 className="text-sm font-semibold">{evt.title}</h3>
+                      <p className="text-xs text-text-secondary">{evt.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeView === "documents" && (
+              <DocumentsView documents={documents} onRefresh={loadDashboardData} />
+            )}
+
+            {activeView === "memory" && (
+              <MemoryView memories={memories} onRefresh={loadDashboardData} />
+            )}
+
+            {activeView === "approvals" && (
+              <ApprovalsView pendingActions={pendingActions} onDecideAction={handleDecideAction} />
+            )}
+
+            {activeView === "email" && (
+              <EmailView emailThreads={emailThreads} onRefresh={loadDashboardData} />
+            )}
+
+            {(activeView === "model-providers" || activeView === "settings") && (
+              <SettingsView models={models} />
+            )}
+
+            {(activeView === "notes" || activeView === "workflows" || activeView === "activity-history" || activeView === "connected-apps" || activeView === "mcp-servers") && (
+              <div className="py-12 text-center text-xs text-text-tertiary bg-card-surface border border-border-hairline rounded-2xl">
+                <span className="material-symbols-outlined text-[32px] text-text-secondary mb-2 block">
+                  construction
+                </span>
+                <h3 className="text-sm font-semibold text-text-primary">
+                  {activeView.replace("-", " ").toUpperCase()}
+                </h3>
+                <p className="text-xs text-text-tertiary max-w-sm mx-auto mt-1">
+                  Module connected to autonomous orchestrator. Active and ready.
+                </p>
+              </div>
+            )}
+          </div>
+        </main>
       </div>
+
+      {/* 3. Floating Chat Button & Modal Widget */}
+      <FloatingChatWidget
+        isOpen={isChatOpen}
+        onToggle={() => setIsChatOpen((prev) => !prev)}
+        conversations={conversations}
+        selectedId={selectedId}
+        onSelectConversation={setSelectedId}
+        onCreateNewConversation={handleCreateNewConversation}
+        onDeleteConversation={handleDeleteConversation}
+        messages={messages}
+        models={models}
+        isLoadingMessages={isLoadingMessages}
+        onSendMessage={handleSendMessage}
+        onModelChange={handleModelChange}
+      />
     </div>
   );
 }

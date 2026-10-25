@@ -9,6 +9,9 @@ from app.db.models.memory import Memory
 from app.db.models.document import Document, DocumentChunk
 from app.db.models.task import Task
 from app.db.models.note import Note
+from app.db.models.email import EmailMessage
+from app.db.models.calendar import CalendarEvent
+from app.db.models.pending_action import PendingAction
 
 __all__ = [
     "Base",
@@ -21,4 +24,7 @@ __all__ = [
     "DocumentChunk",
     "Task",
     "Note",
+    "EmailMessage",
+    "CalendarEvent",
+    "PendingAction",
 ]

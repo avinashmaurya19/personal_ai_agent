@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"warning-subtle":"rgba(245, 158, 11, 0.12)","surface-container-low":"#171b29","on-tertiary":"#4d2700","surface-container-highest":"#303443","on-tertiary-fixed-variant":"#6d3a00","border-active":"#323F5D","on-secondary-fixed":"#150066","danger":"#F43F5E","surface-container-lowest":"#090e1b","background":"#0f1320","on-secondary-fixed-variant":"#4134a5","warning":"#F59E0B","on-error-container":"#ffdad6","secondary-fixed-dim":"#c6c0ff","success":"#10B981","on-primary":"#2400a2","secondary":"#c6c0ff","surface-bright":"#353948","error":"#ffb4ab","text-secondary":"#94A3B8","inverse-primary":"#5546d7","secondary-container":"#4336a7","surface-variant":"#303443","surface":"#0f1320","elevated-surface":"#171F34","on-primary-fixed":"#140067","on-tertiary-container":"#432100","border-hairline":"#202A40","tertiary-fixed-dim":"#ffb77b","on-primary-fixed-variant":"#3c28bf","inverse-on-surface":"#2c303e","danger-subtle":"rgba(244, 63, 94, 0.12)","primary-fixed-dim":"#c5c0ff","outline":"#918fa0","outline-variant":"#474554","error-container":"#93000a","on-background":"#dfe1f5","sidebar-bg":"#0B1020","inverse-surface":"#dfe1f5","on-surface-variant":"#c8c4d7","text-primary":"#F1F5F9","surface-container":"#1b1f2d","surface-dim":"#0f1320","card-surface":"#11182A","secondary-fixed":"#e4dfff","tertiary-container":"#d47b1f","on-secondary-container":"#b6afff","success-subtle":"rgba(16, 185, 129, 0.12)","primary-fixed":"#e3dfff","surface-container-high":"#252938","on-surface":"#dfe1f5","text-tertiary":"#64748B","on-tertiary-fixed":"#2e1500","on-secondary":"#29158f","primary-container":"#8a80ff","on-error":"#690005","on-primary-container":"#1f008f","accent-subtle":"rgba(113, 101, 245, 0.14)","surface-tint":"#c5c0ff","tertiary":"#ffb77b","primary":"#c5c0ff","app-bg":"#070B18","tertiary-fixed":"#ffdcc2"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-md":"0.75rem","space-xs":"0.25rem","space-xxs":"0.125rem","margin":"2rem","gutter":"1.5rem","space-lg":"1.5rem","space-xl":"2rem","space-sm":"0.5rem","gutter-sm":"1rem","margin-mobile":"1rem","space-2xl":"3rem","space-base":"1rem"},"fontFamily":{"headline-sm":["Inter"],"caption-medium":["Inter"],"display-hero":["Inter"],"body-medium":["Inter"],"caption-sm":["Inter"],"code-inline":["JetBrains Mono"],"metric-xl":["Inter"],"headline-lg":["Inter"],"body-lg":["Inter"],"body-base":["Inter"],"code-block":["JetBrains Mono"],"headline-md":["Inter"],"display-hero-mobile":["Inter"]},"fontSize":{"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"caption-medium":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"500"}],"display-hero":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"600"}],"body-medium":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"500"}],"caption-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"400"}],"code-inline":["12px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"400"}],"metric-xl":["30px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"400"}],"body-base":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"code-block":["13px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"display-hero-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}]}}}};</script></head><body class="bg-app-bg text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-64 bg-sidebar-bg z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="p-space-lg flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><img alt="Personal AI Assistant Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WPRDIPL8WlP4FDNJU_SaUE_tEMcTLyKuUqweDTmmfwJ6pH-APG_8JxgnlsrzVDm7Z6E8aZ08mUwswJa7tpBQhVVa86yWLgp3jpgSVmlDDOC3uDqs7kc2r4evPdmp6xf5HdDFi-u3oXSFEOQ-_xnXQXiPbK3D7UAeo_-ack69qALXGTo_HoOdHaLa4vsoY0ip20oQYVL-IVZ5j8oPtaS6uptY9xH8YfsHl-S2caEo8P591QHmP2HfwwKA"/><span class="font-headline-sm text-headline-sm text-text-primary tracking-tight">Personal AI</span></div><div class="flex items-center mt-space-xs"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-caption-medium bg-success-subtle text-success"><span class="w-1.5 h-1.5 rounded-full bg-success"></span>Active • Fast Mode</span></div></div><nav class="flex flex-col gap-space-sm px-space-md py-space-xs" data-active-classes="bg-secondary-container text-on-secondary-container font-headline-sm"><div class="px-space-sm pt-space-xs pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">Workspace</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="overview" href="#"><span class="material-symbols-outlined text-[18px]">dashboard</span>Overview</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="ai-assistant" href="#"><span class="material-symbols-outlined text-[18px]">chat</span>AI Assistant</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="tasks" href="#"><span class="material-symbols-outlined text-[18px]">check_circle</span>Tasks</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="calendar" href="#"><span class="material-symbols-outlined text-[18px]">calendar_today</span>Calendar</a></div><div class="px-space-sm pt-space-sm pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">Knowledge</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="memory" href="#"><span class="material-symbols-outlined text-[18px]">psychology</span>Memory</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="documents" href="#"><span class="material-symbols-outlined text-[18px]">description</span>Documents</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="notes" href="#"><span class="material-symbols-outlined text-[18px]">edit_note</span>Notes</a></div><div class="px-space-sm pt-space-sm pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">Automation</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="workflows" href="#"><span class="material-symbols-outlined text-[18px]">schema</span>Workflows</a><a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="approvals" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">verified</span><span>Approvals</span></div><span class="px-1.5 py-0.5 rounded text-[10px] font-caption-medium bg-warning-subtle text-warning">2</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="activity-history" href="#"><span class="material-symbols-outlined text-[18px]">history</span>Activity History</a></div><div class="px-space-sm pt-space-sm pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">Integrations</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="email" href="#"><span class="material-symbols-outlined text-[18px]">mail</span>Email</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="connected-apps" href="#"><span class="material-symbols-outlined text-[18px]">hub</span>Connected Apps</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="mcp-servers" href="#"><span class="material-symbols-outlined text-[18px]">dns</span>MCP Servers</a></div><div class="px-space-sm pt-space-sm pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">System</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="model-providers" href="#"><span class="material-symbols-outlined text-[18px]">neurology</span>Model Providers</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="settings" href="#"><span class="material-symbols-outlined text-[18px]">settings</span>Settings</a></div></nav></div><div class="p-space-md m-space-sm bg-card-surface rounded-xl flex items-center justify-between"><div class="flex items-center gap-space-sm min-w-0"><div class="relative flex-shrink-0"><div class="w-9 h-9 rounded-full bg-elevated-surface flex items-center justify-center overflow-hidden"><span class="material-symbols-outlined text-text-secondary text-[20px]">account_circle</span></div><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-success ring-2 ring-sidebar-bg"></span></div><div class="flex flex-col min-w-0"><span class="font-caption-medium text-caption-medium text-text-primary truncate">Alex Morgan</span><span class="font-caption-sm text-caption-sm text-text-tertiary truncate">Workspace Owner • Pro</span></div></div><button aria-label="User Menu" class="text-text-tertiary hover:text-text-primary transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">unfold_more</span></button></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-14 bg-sidebar-bg/90 backdrop-blur-md z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><img alt="Personal AI Assistant Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WPRDIPL8WlP4FDNJU_SaUE_tEMcTLyKuUqweDTmmfwJ6pH-APG_8JxgnlsrzVDm7Z6E8aZ08mUwswJa7tpBQhVVa86yWLgp3jpgSVmlDDOC3uDqs7kc2r4evPdmp6xf5HdDFi-u3oXSFEOQ-_xnXQXiPbK3D7UAeo_-ack69qALXGTo_HoOdHaLa4vsoY0ip20oQYVL-IVZ5j8oPtaS6uptY9xH8YfsHl-S2caEo8P591QHmP2HfwwKA"/><div class="flex items-center gap-2 font-caption-medium text-caption-medium text-text-tertiary"><span class="hover:text-text-secondary cursor-pointer">Platform</span><span>/</span><span class="text-text-primary">Active View</span></div></div><div class="flex-1 max-w-md mx-space-lg"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-text-tertiary text-[18px]">search</span><input class="w-full h-[38px] pl-9 pr-4 bg-elevated-surface rounded-lg font-body-base text-body-base text-text-primary placeholder:text-text-tertiary focus:outline-none" placeholder="Search memories, docs, actions... ⌘K" type="text"/></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-elevated-surface font-caption-medium text-caption-medium text-text-secondary"><span class="w-2 h-2 rounded-full bg-success animate-pulse"></span><span>Agent Idle</span></div><button aria-label="Notifications" class="relative p-2 rounded-lg hover:bg-elevated-surface text-text-secondary hover:text-text-primary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-danger"></span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center cursor-pointer"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-14 bg-app-bg min-h-screen w-full px-space-lg"><div class="flex flex-col w-full">
+<!-- Interactive View Shell: Chat Module -->
+<div class="flex h-[calc(100vh-3.5rem)] w-full overflow-hidden bg-app-bg text-on-surface">
+<!-- LEFT PANE: Conversation History Bar (Internal Page Sidebar) -->
+<aside class="w-[280px] flex-shrink-0 flex flex-col justify-between bg-sidebar-bg/95 border-r border-border-hairline select-none">
+<div class="flex flex-col h-full overflow-hidden">
+<!-- Header & Action Triggers -->
+<div class="p-space-md flex flex-col gap-space-sm border-b border-border-hairline">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-caption-medium tracking-wider uppercase text-text-tertiary">Sessions</span>
+<div class="flex items-center gap-1">
+<span class="px-1.5 py-0.5 rounded text-[10px] font-code-inline bg-elevated-surface text-text-secondary border border-border-hairline">18 threads</span>
+</div>
+</div>
+<button class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg bg-primary-container text-on-primary font-body-medium text-body-base shadow-sm hover:brightness-110 active:scale-[0.99] transition-all group" id="btn-new-chat">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span class="font-medium tracking-tight">New Conversation</span>
+</div>
+<kbd class="px-1.5 py-0.5 text-[11px] font-code-inline rounded bg-on-primary/20 text-on-primary">⌘N</kbd>
+</button>
+<!-- Search History -->
+<div class="relative flex items-center mt-1">
+<span class="material-symbols-outlined absolute left-2.5 text-text-tertiary text-[16px]">search</span>
+<input class="w-full h-8 pl-8 pr-3 bg-elevated-surface rounded-md text-[13px] text-text-primary placeholder:text-text-tertiary border border-border-hairline focus:outline-none focus:border-border-active transition-colors font-body-base" placeholder="Filter threads..." type="text"/>
+</div>
+</div>
+<!-- History Items Scrollable -->
+<div class="flex-1 overflow-y-auto px-2 py-3 space-y-4">
+<!-- GROUP: TODAY -->
+<div>
+<div class="px-2 pb-1.5 text-[10px] font-caption-medium tracking-wider text-text-tertiary uppercase flex items-center gap-2">
+<span>Today</span>
+<span class="h-px flex-1 bg-border-hairline/60"></span>
+</div>
+<div class="space-y-1">
+<!-- Active Thread -->
+<a class="group relative flex items-start gap-2.5 px-2.5 py-2 rounded-lg bg-elevated-surface/90 border border-border-active shadow-sm transition-all" href="#">
+<span class="absolute left-0 top-2 bottom-2 w-1 rounded-r bg-primary"></span>
+<span class="material-symbols-outlined text-primary text-[18px] mt-0.5 flex-shrink-0">chat_bubble</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<p class="font-body-medium text-[13px] text-text-primary truncate">Q4 Strategic Infrastructure &amp; MCP Sandbox Planning</p>
+</div>
+<p class="text-[11px] text-text-tertiary truncate mt-0.5 font-caption-sm">Reallocating 2x H100 nodes for sandboxed runner...</p>
+</div>
+</a>
+<!-- Secondary Thread -->
+<a class="group flex items-start gap-2.5 px-2.5 py-2 rounded-lg hover:bg-elevated-surface/50 text-text-secondary hover:text-text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-text-tertiary group-hover:text-text-secondary text-[18px] mt-0.5 flex-shrink-0">forum</span>
+<div class="flex-1 min-w-0">
+<p class="font-body-base text-[13px] truncate">Vector Cache Latency Optimization</p>
+<p class="text-[11px] text-text-tertiary truncate mt-0.5 font-caption-sm">Qdrant shard latency dropped by 42ms</p>
+</div>
+</a>
+</div>
+</div>
+<!-- GROUP: YESTERDAY -->
+<div>
+<div class="px-2 pb-1.5 text-[10px] font-caption-medium tracking-wider text-text-tertiary uppercase flex items-center gap-2">
+<span>Yesterday</span>
+<span class="h-px flex-1 bg-border-hairline/60"></span>
+</div>
+<div class="space-y-1">
+<a class="group flex items-start gap-2.5 px-2.5 py-2 rounded-lg hover:bg-elevated-surface/50 text-text-secondary hover:text-text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-text-tertiary group-hover:text-text-secondary text-[18px] mt-0.5 flex-shrink-0">shield</span>
+<div class="flex-1 min-w-0">
+<p class="font-body-base text-[13px] truncate">Enterprise Security Briefing &amp; RAG</p>
+<p class="text-[11px] text-text-tertiary truncate mt-0.5 font-caption-sm">Role-based access matrix confirmed</p>
+</div>
+</a>
+<a class="group flex items-start gap-2.5 px-2.5 py-2 rounded-lg hover:bg-elevated-surface/50 text-text-secondary hover:text-text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-text-tertiary group-hover:text-text-secondary text-[18px] mt-0.5 flex-shrink-0">terminal</span>
+<div class="flex-1 min-w-0">
+<p class="font-body-base text-[13px] truncate">FastAPI Tool Runner Integration</p>
+<p class="text-[11px] text-text-tertiary truncate mt-0.5 font-caption-sm">Endpoints exposed for async task queues</p>
+</div>
+</a>
+</div>
+</div>
+<!-- GROUP: PREVIOUS 7 DAYS -->
+<div>
+<div class="px-2 pb-1.5 text-[10px] font-caption-medium tracking-wider text-text-tertiary uppercase flex items-center gap-2">
+<span>Previous 7 Days</span>
+<span class="h-px flex-1 bg-border-hairline/60"></span>
+</div>
+<div class="space-y-1">
+<a class="group flex items-start gap-2.5 px-2.5 py-2 rounded-lg hover:bg-elevated-surface/50 text-text-secondary hover:text-text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-text-tertiary group-hover:text-text-secondary text-[18px] mt-0.5 flex-shrink-0">tune</span>
+<div class="flex-1 min-w-0">
+<p class="font-body-base text-[13px] truncate">Model Routing Benchmarks</p>
+<p class="text-[11px] text-text-tertiary truncate mt-0.5 font-caption-sm">Cost per 1k completion analysis</p>
+</div>
+</a>
+<a class="group flex items-start gap-2.5 px-2.5 py-2 rounded-lg hover:bg-elevated-surface/50 text-text-secondary hover:text-text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-text-tertiary group-hover:text-text-secondary text-[18px] mt-0.5 flex-shrink-0">mark_email_read</span>
+<div class="flex-1 min-w-0">
+<p class="font-body-base text-[13px] truncate">Autonomous Inbox Triaging Spec</p>
+<p class="text-[11px] text-text-tertiary truncate mt-0.5 font-caption-sm">Human-in-the-loop fallback triggers</p>
+</div>
+</a>
+</div>
+</div>
+</div>
+<!-- Footnote Status in Sidebar -->
+<div class="p-3 bg-surface-container-lowest/80 border-t border-border-hairline flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-[11px] font-caption-medium">
+<span class="text-text-secondary flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+              MCP Active
+            </span>
+<span class="font-code-inline text-text-tertiary">4 Servers</span>
+</div>
+<div class="w-full bg-elevated-surface h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[82%]"></div>
+</div>
+<span class="text-[10px] text-text-tertiary font-caption-sm flex items-center justify-between">
+<span>Gateway latency: 18ms</span>
+<span class="text-primary hover:underline cursor-pointer">Inspect</span>
+</span>
+</div>
+</div>
+</aside>
+<!-- RIGHT/MAIN CHAT WORKSPACE -->
+<div class="flex-1 flex flex-col h-full bg-app-bg min-w-0 overflow-hidden relative">
+<!-- SUB-HEADER: Chat Context & Toolbar -->
+<header class="h-14 px-6 bg-sidebar-bg/70 border-b border-border-hairline flex items-center justify-between flex-shrink-0 backdrop-blur-sm z-20">
+<!-- Title & Provider Meta -->
+<div class="flex items-center gap-3 min-w-0">
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<h1 class="font-headline-sm text-headline-sm text-text-primary truncate">Q4 Strategic Infrastructure &amp; MCP Sandbox Planning</h1>
+<span class="px-2 py-0.5 rounded-full text-[11px] font-caption-medium bg-accent-subtle text-primary border border-border-active">Active Session</span>
+</div>
+</div>
+<div class="h-4 w-px bg-border-hairline mx-1"></div>
+<!-- Provider Dropdown Trigger -->
+<button class="flex items-center gap-2 px-2.5 py-1 rounded-md bg-elevated-surface border border-border-hairline text-text-secondary hover:text-text-primary text-[12px] font-caption-medium hover:border-border-active transition-colors">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+<span>Claude 3.5 Sonnet <span class="text-text-tertiary">(Local Hybrid Gateway)</span></span>
+<span class="material-symbols-outlined text-[14px]">expand_more</span>
+</button>
+</div>
+<!-- Chat Header Utility Actions -->
+<div class="flex items-center gap-1.5">
+<!-- Memory Context Pill -->
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-elevated-surface text-[12px] font-caption-medium text-text-secondary border border-border-hairline">
+<span class="material-symbols-outlined text-primary text-[16px]">psychology</span>
+<span>Memory: <strong class="text-text-primary font-medium">3 Recalled</strong></span>
+<span class="text-border-active">•</span>
+<span class="material-symbols-outlined text-tertiary text-[15px]">description</span>
+<span>Docs: <strong class="text-text-primary font-medium">2 Indexed</strong></span>
+</div>
+<div class="h-4 w-px bg-border-hairline mx-1"></div>
+<button class="p-1.5 rounded-md hover:bg-elevated-surface text-text-secondary hover:text-text-primary transition-colors" title="Fork Conversation">
+<span class="material-symbols-outlined text-[18px]">alt_route</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-elevated-surface text-text-secondary hover:text-text-primary transition-colors" title="Export Transcript">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-elevated-surface text-text-secondary hover:text-text-primary transition-colors" title="Share Link">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-elevated-surface text-text-secondary hover:text-text-primary transition-colors" title="Thread Settings">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</header>
+<!-- CONVERSATION TRANSCRIPT CONTAINER -->
+<div class="flex-1 overflow-y-auto px-6 py-6 scroll-smooth" id="transcript-scroll">
+<div class="max-w-[880px] mx-auto flex flex-col gap-8 pb-32">
+<!-- Timestamp Anchor -->
+<div class="flex items-center justify-center my-2">
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-card-surface/70 border border-border-hairline text-text-tertiary text-[11px] font-caption-medium">
+<span class="material-symbols-outlined text-[13px]">lock</span>
+<span>Encrypted Session Started Today at 10:20 AM</span>
+</div>
+</div>
+<!-- 1. USER MESSAGE (Avinash) -->
+<div class="flex items-start gap-3.5 self-end max-w-[85%] group">
+<div class="flex flex-col items-end gap-1.5 min-w-0">
+<div class="flex items-center gap-2 text-[11px] font-caption-medium text-text-tertiary">
+<span class="text-text-secondary font-medium">Avinash</span>
+<span>•</span>
+<span>10:24 AM</span>
+</div>
+<!-- User Chat Bubble -->
+<div class="bg-elevated-surface text-text-primary border border-border-active p-4 rounded-xl rounded-tr-sm shadow-md font-body-base leading-relaxed">
+<p>Review our Q4 GPU cluster allocation against the revised MCP sandboxing requirements. If we need to reassign local inference nodes, prepare an execution plan and query our indexed infrastructure documents.</p>
+<!-- Attached Document Badge -->
+<div class="mt-3 pt-3 border-t border-border-hairline flex items-center justify-between gap-3 bg-surface/50 p-2 rounded-lg border border-border-hairline">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-danger text-[20px] flex-shrink-0">picture_as_pdf</span>
+<div class="min-w-0">
+<p class="font-body-medium text-[12px] text-text-primary truncate">Q4_Infra_Budget_CapEx.pdf</p>
+<p class="text-[10px] text-text-tertiary font-code-inline">1.8 MB • Indexed in Vector Store</p>
+</div>
+</div>
+<button class="px-2 py-1 text-[11px] font-caption-medium bg-elevated-surface hover:bg-card-surface text-text-secondary hover:text-text-primary rounded border border-border-hairline transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">visibility</span>
+<span>Preview</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Avatar -->
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-caption-medium flex-shrink-0 ring-1 ring-border-hairline mt-1">
+              AM
+            </div>
+</div>
+<!-- 2. AGENT EXECUTION PIPELINE (Visual Stepper Card) -->
+<div class="bg-card-surface border border-border-hairline rounded-xl overflow-hidden shadow-lg">
+<!-- Pipeline Header -->
+<div class="px-4 py-3 bg-elevated-surface/60 border-b border-border-hairline flex items-center justify-between cursor-pointer" onclick="document.getElementById('pipeline-steps').classList.toggle('hidden');">
+<div class="flex items-center gap-2.5">
+<span class="flex h-2 w-2 relative">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-warning opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-warning"></span>
+</span>
+<span class="font-headline-sm text-body-medium text-text-primary">Autonomous Agent Execution Pipeline</span>
+<span class="px-2 py-0.5 rounded text-[11px] font-caption-medium bg-success-subtle text-success border border-success/20">Verified • 1.4s</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[12px] font-caption-sm text-text-tertiary">Step 4 of 5 (Awaiting Signal)</span>
+<span class="material-symbols-outlined text-text-tertiary text-[18px]">unfold_less</span>
+</div>
+</div>
+<!-- Steps Body -->
+<div class="p-4 space-y-3.5 bg-card-surface/40" id="pipeline-steps">
+<!-- Step 1: Done -->
+<div class="flex items-start gap-3">
+<div class="w-5 h-5 rounded-full bg-success-subtle text-success flex items-center justify-center mt-0.5 flex-shrink-0 border border-success/30">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</div>
+<div class="flex-1 text-[13px]">
+<p class="font-medium text-text-primary">Understanding request &amp; resolving entity bounds</p>
+<p class="text-text-tertiary text-[12px] font-caption-sm">Identified 2 targets: GPU cluster budget &amp; MCP security isolation</p>
+</div>
+<span class="text-[11px] font-code-inline text-text-tertiary">84ms</span>
+</div>
+<!-- Step 2: Done -->
+<div class="flex items-start gap-3">
+<div class="w-5 h-5 rounded-full bg-success-subtle text-success flex items-center justify-center mt-0.5 flex-shrink-0 border border-success/30">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</div>
+<div class="flex-1 text-[13px]">
+<p class="font-medium text-text-primary">Querying personal memory &amp; vector document index</p>
+<p class="text-text-tertiary text-[12px] font-caption-sm">Retrieved 4 chunks from <code class="px-1 py-0.5 bg-elevated-surface rounded text-primary font-code-inline text-[11px]">infra_capex_v2.db</code> and memory node <code class="px-1 py-0.5 bg-elevated-surface rounded text-primary font-code-inline text-[11px]">#892</code></p>
+</div>
+<span class="text-[11px] font-code-inline text-text-tertiary">412ms</span>
+</div>
+<!-- Step 3: Done -->
+<div class="flex items-start gap-3">
+<div class="w-5 h-5 rounded-full bg-success-subtle text-success flex items-center justify-center mt-0.5 flex-shrink-0 border border-success/30">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</div>
+<div class="flex-1 text-[13px]">
+<p class="font-medium text-text-primary">Executing approved read tools: <code class="px-1 py-0.5 bg-elevated-surface rounded text-text-secondary font-code-inline text-[11px]">cluster_inspect()</code> &amp; <code class="px-1 py-0.5 bg-elevated-surface rounded text-text-secondary font-code-inline text-[11px]">mcp_permission_audit()</code></p>
+<p class="text-text-tertiary text-[12px] font-caption-sm">Node pools evaluated: 8 active H100 SXM5 instances found in <code class="text-text-secondary font-code-inline">us-east-metal</code>.</p>
+</div>
+<span class="text-[11px] font-code-inline text-text-tertiary">710ms</span>
+</div>
+<!-- Step 4: Approval Callout (High Consequence Boundary) -->
+<div class="flex items-start gap-3 pt-1">
+<div class="w-5 h-5 rounded-full bg-warning-subtle text-warning flex items-center justify-center mt-0.5 flex-shrink-0 border border-warning/40 animate-pulse">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+</div>
+<div class="flex-1">
+<!-- Consequence Callout Card -->
+<div class="bg-surface border-l-4 border-l-warning border-y border-r border-border-hairline rounded-r-lg p-3.5 space-y-3">
+<div class="flex items-center justify-between">
+<span class="text-[11px] font-caption-medium uppercase tracking-wider text-warning flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px]">security</span>
+                        High Consequence Boundary Detected: Node Reconfiguration
+                      </span>
+<span class="text-[11px] font-code-inline text-text-tertiary">Requires Avinash Authorization</span>
+</div>
+<p class="text-[13px] text-text-secondary font-body-base leading-normal">
+                      The execution plan requests shifting node compute state. Executing this will detach inference traffic on selected hardware and bind them into the hardened Docker sandbox.
+                    </p>
+<div class="bg-card-surface p-2.5 rounded border border-border-hairline font-code-block text-[12px] text-on-surface flex items-center justify-between">
+<span class="text-primary">reallocate_h100_node<span class="text-text-tertiary">(</span>target=<span class="text-tertiary">"mcp-sandbox-01"</span>, count=<span class="text-success">2</span><span class="text-text-tertiary">)</span></span>
+<span class="text-[10px] text-text-tertiary uppercase">Dry-run passed</span>
+</div>
+<!-- Action cluster -->
+<div class="flex items-center gap-2 pt-1">
+<button class="px-3.5 py-1.5 rounded-md bg-primary-container text-on-primary text-[12px] font-caption-medium hover:brightness-110 active:scale-95 transition-all flex items-center gap-1.5 shadow-sm" id="btn-approve">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>Approve Execution</span>
+</button>
+<button class="px-3.5 py-1.5 rounded-md bg-elevated-surface text-text-secondary hover:text-text-primary text-[12px] font-caption-medium border border-border-hairline hover:border-border-active transition-all" id="btn-decline">
+                        Decline &amp; Edit Param
+                      </button>
+<span class="text-[11px] text-text-tertiary font-caption-sm ml-2">Timeout in 14m 20s</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 5: Pending Next -->
+<div class="flex items-start gap-3 opacity-50">
+<div class="w-5 h-5 rounded-full bg-elevated-surface text-text-tertiary flex items-center justify-center mt-0.5 flex-shrink-0 border border-border-hairline">
+<span class="material-symbols-outlined text-[13px]">radio_button_unchecked</span>
+</div>
+<div class="flex-1 text-[13px]">
+<p class="font-medium text-text-secondary">Verifying cluster state &amp; reporting completion</p>
+<p class="text-text-tertiary text-[12px] font-caption-sm">Scheduled after step 4 approval verification</p>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. ASSISTANT RICH RESPONSE -->
+<div class="flex items-start gap-3.5 group">
+<!-- Assistant Avatar -->
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-primary-container to-secondary flex items-center justify-center text-on-primary font-caption-medium flex-shrink-0 shadow-md ring-1 ring-border-hairline mt-1">
+<span class="material-symbols-outlined text-[18px]">psychology</span>
+</div>
+<!-- Assistant Content Payload -->
+<div class="flex-1 min-w-0 space-y-4">
+<div class="flex items-center gap-2 text-[11px] font-caption-medium text-text-tertiary">
+<span class="text-text-primary font-semibold">Personal AI</span>
+<span>•</span>
+<span class="font-code-inline text-primary">Claude 3.5 Sonnet</span>
+<span>•</span>
+<span>10:24 AM (Streamed)</span>
+</div>
+<!-- Response Card Body -->
+<div class="bg-card-surface border border-border-hairline p-5 rounded-xl rounded-tl-sm space-y-4 shadow-sm text-text-primary">
+<!-- Executive Summary -->
+<div class="space-y-2">
+<h3 class="font-headline-md text-headline-sm text-text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">analytics</span>
+                    Executive Summary: Cluster Rebalancing Plan
+                  </h3>
+<p class="text-body-base font-body-base leading-relaxed text-on-surface">
+                    I examined the <strong class="text-text-primary">Q4 Infra Budget CapEx</strong> document against the Model Context Protocol (MCP) isolation policies. Currently, all 8 available <strong>NVIDIA H100 80GB SXM5</strong> nodes are dedicated to production real-time batch serving. Under sandbox security guidelines, tools with filesystem write and network egress permissions must run within an isolated tenant.
+                  </p>
+<p class="text-body-base font-body-base leading-relaxed text-on-surface">
+                    Reallocating <strong class="text-primary font-medium">2 nodes</strong> will sustain our target SLA (p99 &lt; 280ms) for main LLM routing while provisioning 160GB dedicated VRAM for isolated MCP tool sandboxing.
+                  </p>
+</div>
+<!-- Structured Comparison Table -->
+<div class="overflow-x-auto rounded-lg border border-border-hairline bg-surface/80">
+<table class="w-full text-left border-collapse text-[13px]">
+<thead>
+<tr class="bg-elevated-surface/80 border-b border-border-hairline text-text-tertiary font-caption-medium text-[11px] uppercase tracking-wider">
+<th class="py-2.5 px-3">Cluster Partition</th>
+<th class="py-2.5 px-3">Current Allocation</th>
+<th class="py-2.5 px-3">Proposed Rebalance</th>
+<th class="py-2.5 px-3">Monthly Cost Delta</th>
+<th class="py-2.5 px-3">Security Level</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-hairline font-body-base text-text-secondary">
+<tr class="hover:bg-elevated-surface/30">
+<td class="py-2.5 px-3 font-medium text-text-primary flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                          Prod Inference Fleet
+                        </td>
+<td class="py-2.5 px-3 font-code-inline text-text-primary">8x H100 (640GB)</td>
+<td class="py-2.5 px-3 font-code-inline text-primary">6x H100 (480GB)</td>
+<td class="py-2.5 px-3 font-code-inline text-text-tertiary">$0.00 (Neutral)</td>
+<td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded text-[10px] font-caption-medium bg-elevated-surface text-text-secondary">Standard VPC</span></td>
+</tr>
+<tr class="hover:bg-elevated-surface/30">
+<td class="py-2.5 px-3 font-medium text-text-primary flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-warning"></span>
+                          MCP Hardened Sandbox
+                        </td>
+<td class="py-2.5 px-3 font-code-inline text-text-tertiary">0 nodes (Shared CPU)</td>
+<td class="py-2.5 px-3 font-code-inline text-success font-medium">2x H100 (160GB)</td>
+<td class="py-2.5 px-3 font-code-inline text-text-tertiary">$0.00 (CapEx amortized)</td>
+<td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded text-[10px] font-caption-medium bg-warning-subtle text-warning">gVisor Isolated</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Syntax Highlighted Code Snippet -->
+<div class="rounded-lg overflow-hidden border border-border-hairline bg-surface-container-lowest">
+<!-- Code Header -->
+<div class="px-3.5 py-2 bg-sidebar-bg flex items-center justify-between border-b border-border-hairline">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-text-tertiary">code</span>
+<span class="font-code-block text-[12px] text-text-secondary">mcp_cluster_config.py</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] font-caption-medium bg-elevated-surface text-text-tertiary">Python</span>
+</div>
+<button class="flex items-center gap-1 text-[11px] font-caption-medium text-text-secondary hover:text-text-primary transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+<span>Copy code</span>
+</button>
+</div>
+<!-- Code Content -->
+<pre class="p-4 font-code-block text-[12px] leading-relaxed overflow-x-auto text-on-surface"><code><span class="text-secondary-fixed-dim">from</span> agent_runtime.cluster <span class="text-secondary-fixed-dim">import</span> GPUClusterManager, SandboxPolicy
+
+manager = GPUClusterManager(region=<span class="text-tertiary">"us-east-metal"</span>)
+
+<span class="text-text-tertiary"># Stage 2 nodes under strict container cgroup quotas</span>
+sandbox_spec = SandboxPolicy(
+    isolation_tier=<span class="text-tertiary">"gvisor-h100"</span>,
+    allow_raw_sockets=<span class="text-danger">False</span>,
+    ephemeral_storage_gb=<span class="text-success">500</span>
+)
+
+execution_job = manager.partition_nodes(
+    target_nodes=[<span class="text-tertiary">"node-07"</span>, <span class="text-tertiary">"node-08"</span>],
+    new_pool_name=<span class="text-tertiary">"mcp-sandbox-01"</span>,
+    policy=sandbox_spec
+)</code></pre>
+</div>
+<!-- Source Citations / Grounding Chips -->
+<div class="pt-2 border-t border-border-hairline flex flex-wrap items-center gap-2">
+<span class="text-[11px] font-caption-medium text-text-tertiary uppercase tracking-wider mr-1">Citations:</span>
+<a class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-elevated-surface hover:bg-surface-container-high border border-border-hairline text-text-secondary hover:text-text-primary text-[11px] font-caption-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-primary text-[14px]">psychology</span>
+<span>[1] Memory: GPU Allocation Mandate (Sept 28)</span>
+</a>
+<a class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-elevated-surface hover:bg-surface-container-high border border-border-hairline text-text-secondary hover:text-text-primary text-[11px] font-caption-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-danger text-[14px]">description</span>
+<span>[2] Doc: Q4_Infra_Budget_CapEx.pdf (p. 14)</span>
+</a>
+</div>
+</div>
+<!-- Action Bar for Response -->
+<div class="flex items-center justify-between pt-1 px-1">
+<div class="flex items-center gap-1">
+<button class="p-1.5 rounded hover:bg-elevated-surface text-text-secondary hover:text-text-primary transition-colors" title="Copy Response">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded hover:bg-elevated-surface text-text-secondary hover:text-text-primary transition-colors" title="Regenerate Output">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+</button>
+<button class="p-1.5 rounded hover:bg-elevated-surface text-text-secondary hover:text-text-primary transition-colors" title="Helpful">
+<span class="material-symbols-outlined text-[16px]">thumb_up</span>
+</button>
+<button class="p-1.5 rounded hover:bg-elevated-surface text-text-secondary hover:text-text-primary transition-colors" title="Not Helpful">
+<span class="material-symbols-outlined text-[16px]">thumb_down</span>
+</button>
+<div class="h-3 w-px bg-border-hairline mx-1"></div>
+<button class="p-1.5 rounded hover:bg-elevated-surface text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1 text-[11px] font-caption-medium" title="Fork Conversation">
+<span class="material-symbols-outlined text-[15px]">fork_right</span>
+<span>Branch from here</span>
+</button>
+</div>
+<span class="text-[11px] font-code-inline text-text-tertiary">Tokens: 618 prompt / 442 comp • $0.014</span>
+</div>
+</div>
+</div>
+<!-- 4. SECONDARY STATES INSPECTION DRAWER (Empty, Streaming, or Alert states) -->
+<div class="border border-border-hairline/80 rounded-xl bg-card-surface/50 p-4 space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">tune</span>
+<span class="font-headline-sm text-caption-medium uppercase tracking-wider text-text-secondary">Simulate Engine Auxiliary States</span>
+</div>
+<span class="text-[11px] text-text-tertiary font-caption-sm">Interactive State Playground</span>
+</div>
+<!-- Tabs/Toggles for states -->
+<div class="flex items-center gap-2">
+<button class="px-2.5 py-1 rounded bg-elevated-surface hover:bg-border-active text-[11px] font-caption-medium text-text-primary border border-border-hairline transition-all" onclick="toggleAuxState('empty')">
+                Toggle Welcome / Starter View
+              </button>
+<button class="px-2.5 py-1 rounded bg-elevated-surface hover:bg-border-active text-[11px] font-caption-medium text-text-primary border border-border-hairline transition-all" onclick="toggleAuxState('streaming')">
+                Toggle Streaming Indicator
+              </button>
+<button class="px-2.5 py-1 rounded bg-elevated-surface hover:bg-border-active text-[11px] font-caption-medium text-text-primary border border-border-hairline transition-all" onclick="toggleAuxState('error')">
+                Toggle MCP Error Banner
+              </button>
+</div>
+<!-- Aux State 1: Failed Tool Call Banner (Hidden by default, toggleable) -->
+<div class="hidden p-3 rounded-lg bg-danger-subtle border border-danger/30 flex items-center justify-between" id="state-error">
+<div class="flex items-center gap-2.5 text-[12px]">
+<span class="material-symbols-outlined text-danger text-[18px]">error</span>
+<span class="text-text-primary font-body-medium">MCP Server <code class="px-1 py-0.5 bg-card-surface text-danger rounded font-code-inline">'local-docker'</code> timed out (Error 504 Gateway Timeout)</span>
+</div>
+<button class="px-2.5 py-1 rounded bg-danger text-white text-[11px] font-caption-medium hover:brightness-110 active:scale-95 transition-all">
+                Retry Tool Call
+              </button>
+</div>
+<!-- Aux State 2: Streaming Cursor (Hidden by default) -->
+<div class="hidden p-3 rounded-lg bg-surface border border-border-hairline flex items-center gap-2 text-[13px] text-text-secondary font-body-base" id="state-streaming">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span>Personal AI is synthesizing cluster logs</span>
+<span class="inline-block w-1.5 h-4 bg-primary animate-pulse ml-0.5"></span>
+</div>
+<!-- Aux State 3: Suggested Prompts Panel (Hidden by default) -->
+<div class="hidden p-3 rounded-lg bg-surface border border-border-hairline space-y-2" id="state-empty">
+<span class="text-[11px] font-caption-medium text-text-tertiary uppercase tracking-wider">Suggested Executive Inquiries:</span>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+<button class="p-2.5 rounded bg-elevated-surface hover:bg-card-surface border border-border-hairline text-left text-[12px] text-text-secondary hover:text-text-primary transition-all">
+                  "Draft executive summary from today's CapEx engineering sync."
+                </button>
+<button class="p-2.5 rounded bg-elevated-surface hover:bg-card-surface border border-border-hairline text-left text-[12px] text-text-secondary hover:text-text-primary transition-all">
+                  "Audit all active MCP tool write permissions for external sandboxes."
+                </button>
+<button class="p-2.5 rounded bg-elevated-surface hover:bg-card-surface border border-border-hairline text-left text-[12px] text-text-secondary hover:text-text-primary transition-all">
+                  "Search vector memory for pending infrastructure approvals."
+                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- BOTTOM MESSAGE COMPOSER: Elevated Floating Dock -->
+<div class="absolute bottom-4 left-6 right-6 max-w-[880px] mx-auto z-30">
+<!-- Suggestions row directly above input -->
+<div class="flex items-center gap-2 mb-2 px-1 overflow-x-auto select-none">
+<button class="px-2 py-0.5 rounded-full bg-card-surface/90 hover:bg-elevated-surface text-[11px] font-code-inline text-text-tertiary hover:text-primary border border-border-hairline transition-colors flex items-center gap-1">
+<span class="text-primary font-bold">/</span>exec
+          </button>
+<button class="px-2 py-0.5 rounded-full bg-card-surface/90 hover:bg-elevated-surface text-[11px] font-code-inline text-text-tertiary hover:text-primary border border-border-hairline transition-colors flex items-center gap-1">
+<span class="text-primary font-bold">/</span>summarize-doc
+          </button>
+<button class="px-2.5 py-0.5 rounded-full bg-card-surface/90 hover:bg-elevated-surface text-[11px] font-caption-medium text-text-secondary hover:text-text-primary border border-border-hairline transition-colors">
+            Draft approval
+          </button>
+<button class="px-2.5 py-0.5 rounded-full bg-card-surface/90 hover:bg-elevated-surface text-[11px] font-caption-medium text-text-secondary hover:text-text-primary border border-border-hairline transition-colors">
+            Query memory
+          </button>
+</div>
+<!-- Main Composer Box -->
+<div class="rounded-2xl bg-card-surface/95 border border-border-hairline shadow-2xl backdrop-blur-md focus-within:border-border-active transition-all p-3 space-y-2.5">
+<!-- Textarea Input Area -->
+<div class="relative">
+<textarea class="w-full bg-transparent resize-none text-[14px] text-text-primary placeholder:text-text-tertiary focus:outline-none font-body-base leading-relaxed px-1" placeholder="Message Personal AI Assistant or type '/' for agent commands... (Shift + Enter for new line)" rows="2"></textarea>
+</div>
+<!-- Bottom Row Controls & Actions -->
+<div class="flex items-center justify-between pt-1 border-t border-border-hairline/60">
+<!-- Left Controls: Model Pill, Web Search, Attachments -->
+<div class="flex items-center gap-2">
+<!-- Model Selector Pill Button -->
+<div class="relative group">
+<button class="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-elevated-surface hover:bg-surface-container-high border border-border-hairline text-text-secondary hover:text-text-primary text-[12px] font-caption-medium transition-colors">
+<span class="material-symbols-outlined text-primary text-[14px]">neurology</span>
+<span>Claude 3.5 Sonnet</span>
+<span class="material-symbols-outlined text-[14px]">arrow_drop_down</span>
+</button>
+</div>
+<!-- Web Search Toggle Button -->
+<button class="flex items-center gap-1.5 px-2 py-1 rounded-md bg-accent-subtle text-primary border border-border-active text-[12px] font-caption-medium">
+<span class="material-symbols-outlined text-[14px]">public</span>
+<span>Web: On</span>
+</button>
+<!-- File Attachment Button -->
+<button class="p-1.5 rounded-md hover:bg-elevated-surface text-text-secondary hover:text-text-primary transition-colors" title="Attach file or document">
+<span class="material-symbols-outlined text-[18px]">attach_file</span>
+</button>
+<!-- Prompt Snippets -->
+<button class="p-1.5 rounded-md hover:bg-elevated-surface text-text-secondary hover:text-text-primary transition-colors" title="Inject Prompt Template">
+<span class="material-symbols-outlined text-[18px]">data_object</span>
+</button>
+</div>
+<!-- Right Controls: Audio Mic, Context Gauge, Send Button -->
+<div class="flex items-center gap-3">
+<!-- Token Usage Gauge -->
+<span class="hidden sm:inline-flex text-[11px] font-code-inline text-text-tertiary">
+                2,140 / 128k ctx
+              </span>
+<!-- Voice Input Button -->
+<button class="p-1.5 rounded-md hover:bg-elevated-surface text-text-secondary hover:text-text-primary transition-colors" title="Hold to dictate prompt">
+<span class="material-symbols-outlined text-[18px]">mic</span>
+</button>
+<!-- Send Button -->
+<button class="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-container text-on-primary hover:brightness-110 active:scale-95 shadow-md transition-all">
+<span class="material-symbols-outlined text-[18px]">arrow_upward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Privacy & Encryption Subtext -->
+<p class="text-center text-[10px] text-text-tertiary font-caption-sm mt-1.5 select-none">
+          End-to-end encrypted personal workspace • Autonomous operations with external side-effects require Avinash approval.
+        </p>
+</div>
+</div>
+</div>
+</div>
+<script>
+  function toggleAuxState(state) {
+    const el = document.getElementById('state-' + state);
+    if (el) {
+      el.classList.toggle('hidden');
+    }
+  }
+
+  // Micro-interaction handlers
+  document.addEventListener('DOMContentLoaded', () => {
+    const approveBtn = document.getElementById('btn-approve');
+    if (approveBtn) {
+      approveBtn.addEventListener('click', function() {
+        this.innerHTML = '<span class="material-symbols-outlined text-[16px]">check_circle</span> Approved';
+        this.classList.remove('bg-primary-container', 'text-on-primary');
+        this.classList.add('bg-success', 'text-white');
+      });
+    }
+
+    const declineBtn = document.getElementById('btn-decline');
+    if (declineBtn) {
+      declineBtn.addEventListener('click', function() {
+        this.textContent = 'Aborted';
+        this.classList.add('text-danger', 'border-danger/40');
+      });
+    }
+  });
+</script></main></div></body></html>

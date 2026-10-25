@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"warning-subtle":"rgba(245, 158, 11, 0.12)","surface-container-low":"#171b29","on-tertiary":"#4d2700","surface-container-highest":"#303443","on-tertiary-fixed-variant":"#6d3a00","border-active":"#323F5D","on-secondary-fixed":"#150066","danger":"#F43F5E","surface-container-lowest":"#090e1b","background":"#0f1320","on-secondary-fixed-variant":"#4134a5","warning":"#F59E0B","on-error-container":"#ffdad6","secondary-fixed-dim":"#c6c0ff","success":"#10B981","on-primary":"#2400a2","secondary":"#c6c0ff","surface-bright":"#353948","error":"#ffb4ab","text-secondary":"#94A3B8","inverse-primary":"#5546d7","secondary-container":"#4336a7","surface-variant":"#303443","surface":"#0f1320","elevated-surface":"#171F34","on-primary-fixed":"#140067","on-tertiary-container":"#432100","border-hairline":"#202A40","tertiary-fixed-dim":"#ffb77b","on-primary-fixed-variant":"#3c28bf","inverse-on-surface":"#2c303e","danger-subtle":"rgba(244, 63, 94, 0.12)","primary-fixed-dim":"#c5c0ff","outline":"#918fa0","outline-variant":"#474554","error-container":"#93000a","on-background":"#dfe1f5","sidebar-bg":"#0B1020","inverse-surface":"#dfe1f5","on-surface-variant":"#c8c4d7","text-primary":"#F1F5F9","surface-container":"#1b1f2d","surface-dim":"#0f1320","card-surface":"#11182A","secondary-fixed":"#e4dfff","tertiary-container":"#d47b1f","on-secondary-container":"#b6afff","success-subtle":"rgba(16, 185, 129, 0.12)","primary-fixed":"#e3dfff","surface-container-high":"#252938","on-surface":"#dfe1f5","text-tertiary":"#64748B","on-tertiary-fixed":"#2e1500","on-secondary":"#29158f","primary-container":"#8a80ff","on-error":"#690005","on-primary-container":"#1f008f","accent-subtle":"rgba(113, 101, 245, 0.14)","surface-tint":"#c5c0ff","tertiary":"#ffb77b","primary":"#c5c0ff","app-bg":"#070B18","tertiary-fixed":"#ffdcc2"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-md":"0.75rem","space-xs":"0.25rem","space-xxs":"0.125rem","margin":"2rem","gutter":"1.5rem","space-lg":"1.5rem","space-xl":"2rem","space-sm":"0.5rem","gutter-sm":"1rem","margin-mobile":"1rem","space-2xl":"3rem","space-base":"1rem"},"fontFamily":{"headline-sm":["Inter"],"caption-medium":["Inter"],"display-hero":["Inter"],"body-medium":["Inter"],"caption-sm":["Inter"],"code-inline":["JetBrains Mono"],"metric-xl":["Inter"],"headline-lg":["Inter"],"body-lg":["Inter"],"body-base":["Inter"],"code-block":["JetBrains Mono"],"headline-md":["Inter"],"display-hero-mobile":["Inter"]},"fontSize":{"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"caption-medium":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"500"}],"display-hero":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"600"}],"body-medium":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"500"}],"caption-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"400"}],"code-inline":["12px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"400"}],"metric-xl":["30px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"400"}],"body-base":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"code-block":["13px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"display-hero-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}]}}}};</script></head><body class="bg-app-bg text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-64 bg-sidebar-bg z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="p-space-lg flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><img alt="Personal AI Assistant Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WPRDIPL8WlP4FDNJU_SaUE_tEMcTLyKuUqweDTmmfwJ6pH-APG_8JxgnlsrzVDm7Z6E8aZ08mUwswJa7tpBQhVVa86yWLgp3jpgSVmlDDOC3uDqs7kc2r4evPdmp6xf5HdDFi-u3oXSFEOQ-_xnXQXiPbK3D7UAeo_-ack69qALXGTo_HoOdHaLa4vsoY0ip20oQYVL-IVZ5j8oPtaS6uptY9xH8YfsHl-S2caEo8P591QHmP2HfwwKA"/><span class="font-headline-sm text-headline-sm text-text-primary tracking-tight">Personal AI</span></div><div class="flex items-center mt-space-xs"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-caption-medium bg-success-subtle text-success"><span class="w-1.5 h-1.5 rounded-full bg-success"></span>Active • Fast Mode</span></div></div><nav class="flex flex-col gap-space-sm px-space-md py-space-xs" data-active-classes="bg-secondary-container text-on-secondary-container font-headline-sm"><div class="px-space-sm pt-space-xs pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">Workspace</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="overview" href="#"><span class="material-symbols-outlined text-[18px]">dashboard</span>Overview</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="ai-assistant" href="#"><span class="material-symbols-outlined text-[18px]">chat</span>AI Assistant</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="tasks" href="#"><span class="material-symbols-outlined text-[18px]">check_circle</span>Tasks</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="calendar" href="#"><span class="material-symbols-outlined text-[18px]">calendar_today</span>Calendar</a></div><div class="px-space-sm pt-space-sm pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">Knowledge</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="memory" href="#"><span class="material-symbols-outlined text-[18px]">psychology</span>Memory</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="documents" href="#"><span class="material-symbols-outlined text-[18px]">description</span>Documents</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="notes" href="#"><span class="material-symbols-outlined text-[18px]">edit_note</span>Notes</a></div><div class="px-space-sm pt-space-sm pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">Automation</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="workflows" href="#"><span class="material-symbols-outlined text-[18px]">schema</span>Workflows</a><a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="approvals" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">verified</span><span>Approvals</span></div><span class="px-1.5 py-0.5 rounded text-[10px] font-caption-medium bg-warning-subtle text-warning">2</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="activity-history" href="#"><span class="material-symbols-outlined text-[18px]">history</span>Activity History</a></div><div class="px-space-sm pt-space-sm pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">Integrations</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="email" href="#"><span class="material-symbols-outlined text-[18px]">mail</span>Email</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="connected-apps" href="#"><span class="material-symbols-outlined text-[18px]">hub</span>Connected Apps</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="mcp-servers" href="#"><span class="material-symbols-outlined text-[18px]">dns</span>MCP Servers</a></div><div class="px-space-sm pt-space-sm pb-space-xxs text-[11px] font-caption-medium tracking-wider uppercase text-text-tertiary">System</div><div class="flex flex-col gap-space-xxs"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="model-providers" href="#"><span class="material-symbols-outlined text-[18px]">neurology</span>Model Providers</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-elevated-surface hover:text-text-primary transition-colors font-body-base text-body-base" data-path="settings" href="#"><span class="material-symbols-outlined text-[18px]">settings</span>Settings</a></div></nav></div><div class="p-space-md m-space-sm bg-card-surface rounded-xl flex items-center justify-between"><div class="flex items-center gap-space-sm min-w-0"><div class="relative flex-shrink-0"><div class="w-9 h-9 rounded-full bg-elevated-surface flex items-center justify-center overflow-hidden"><span class="material-symbols-outlined text-text-secondary text-[20px]">account_circle</span></div><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-success ring-2 ring-sidebar-bg"></span></div><div class="flex flex-col min-w-0"><span class="font-caption-medium text-caption-medium text-text-primary truncate">Alex Morgan</span><span class="font-caption-sm text-caption-sm text-text-tertiary truncate">Workspace Owner • Pro</span></div></div><button aria-label="User Menu" class="text-text-tertiary hover:text-text-primary transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">unfold_more</span></button></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-14 bg-sidebar-bg/90 backdrop-blur-md z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><img alt="Personal AI Assistant Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WPRDIPL8WlP4FDNJU_SaUE_tEMcTLyKuUqweDTmmfwJ6pH-APG_8JxgnlsrzVDm7Z6E8aZ08mUwswJa7tpBQhVVa86yWLgp3jpgSVmlDDOC3uDqs7kc2r4evPdmp6xf5HdDFi-u3oXSFEOQ-_xnXQXiPbK3D7UAeo_-ack69qALXGTo_HoOdHaLa4vsoY0ip20oQYVL-IVZ5j8oPtaS6uptY9xH8YfsHl-S2caEo8P591QHmP2HfwwKA"/><div class="flex items-center gap-2 font-caption-medium text-caption-medium text-text-tertiary"><span class="hover:text-text-secondary cursor-pointer">Platform</span><span>/</span><span class="text-text-primary">Active View</span></div></div><div class="flex-1 max-w-md mx-space-lg"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-text-tertiary text-[18px]">search</span><input class="w-full h-[38px] pl-9 pr-4 bg-elevated-surface rounded-lg font-body-base text-body-base text-text-primary placeholder:text-text-tertiary focus:outline-none" placeholder="Search memories, docs, actions... ⌘K" type="text"/></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-elevated-surface font-caption-medium text-caption-medium text-text-secondary"><span class="w-2 h-2 rounded-full bg-success animate-pulse"></span><span>Agent Idle</span></div><button aria-label="Notifications" class="relative p-2 rounded-lg hover:bg-elevated-surface text-text-secondary hover:text-text-primary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-danger"></span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center cursor-pointer"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-14 bg-app-bg min-h-screen w-full px-space-lg"><div class="flex flex-col w-full">
+<!-- Ensure Active Route in App Shell Sidebar highlights "Memory" -->
+<script>
+    (function highlightNav() {
+      try {
+        const memLink = document.querySelector('a[data-path="memory"]');
+        if (memLink) {
+          memLink.classList.remove('text-text-secondary');
+          memLink.classList.add('bg-secondary-container', 'text-on-secondary-container', 'font-headline-sm');
+          const icon = memLink.querySelector('.material-symbols-outlined');
+          if (icon) icon.classList.add('text-on-secondary-container');
+        }
+      } catch (e) {}
+    })();
+  </script>
+<!-- Top Page Header Section -->
+<div class="flex flex-col gap-space-sm pt-space-lg pb-space-md">
+<div class="flex items-center gap-space-xs text-text-tertiary font-caption-medium text-caption-medium">
+<span class="hover:text-text-secondary transition-colors cursor-pointer">Knowledge</span>
+<span>/</span>
+<span class="text-text-primary">Memory Management</span>
+<span class="mx-space-xs inline-block w-1 h-1 rounded-full bg-text-tertiary"></span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-success-subtle text-success text-[11px] font-caption-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+        Vector Index Synchronized
+      </span>
+</div>
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">Personal Memory &amp; Cognitive Graph</h1>
+<p class="font-body-base text-body-base text-text-secondary mt-space-xxs max-w-3xl">
+          Inspect, curate, and govern persistent facts, preferences, and entity constraints recalled by your autonomous agent.
+        </p>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="h-[38px] px-3.5 rounded-lg bg-elevated-surface text-text-secondary hover:text-text-primary transition-colors font-body-medium text-body-medium flex items-center gap-2" id="btn-retention-policy" type="button">
+<span class="material-symbols-outlined text-[18px]">policy</span>
+<span>Retention Policy</span>
+</button>
+<button class="h-[38px] px-3.5 rounded-lg bg-elevated-surface text-text-primary hover:bg-surface-container-high transition-colors font-body-medium text-body-medium flex items-center gap-2" id="btn-sync-graph" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">sync</span>
+<span>Sync Vector Graph</span>
+</button>
+<button class="h-[38px] px-4 rounded-lg bg-primary-container hover:bg-secondary-container text-text-primary transition-all font-body-medium text-body-medium flex items-center gap-2 shadow-sm" id="btn-manual-add" type="button">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Manual Add Memory</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Memory Overview Stats (4 Cards) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md mt-space-sm">
+<!-- Stat 1 -->
+<div class="p-space-base rounded-xl bg-card-surface flex flex-col justify-between shadow-sm relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-caption-medium text-caption-medium text-text-tertiary uppercase tracking-wider">Total Stored Memories</span>
+<span class="font-metric-xl text-metric-xl text-text-primary mt-space-xs tabular-nums">142</span>
+</div>
+<div class="w-9 h-9 rounded-lg bg-elevated-surface flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-sm mt-space-sm">
+<div class="flex items-center gap-2 text-text-secondary font-caption-medium text-caption-medium">
+<span class="inline-block w-2 h-2 rounded-full bg-success"></span>
+<span>128 Confirmed</span>
+<span class="text-text-tertiary">•</span>
+<span class="inline-block w-2 h-2 rounded-full bg-warning"></span>
+<span>14 Proposed</span>
+</div>
+<span class="font-caption-sm text-caption-sm text-text-tertiary">90.1% active</span>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="p-space-base rounded-xl bg-card-surface flex flex-col justify-between shadow-sm relative overflow-hidden group">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-caption-medium text-caption-medium text-text-tertiary uppercase tracking-wider">Knowledge Taxonomy</span>
+<span class="font-metric-xl text-metric-xl text-text-primary mt-space-xs tabular-nums">5 Domains</span>
+</div>
+<div class="w-9 h-9 rounded-lg bg-elevated-surface flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">account_tree</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-sm mt-space-sm text-text-secondary font-caption-medium text-caption-medium truncate">
+<span class="truncate">Work • Architecture • Constraints • Strategic • People</span>
+</div>
+</div>
+<!-- Stat 3 -->
+<div class="p-space-base rounded-xl bg-card-surface flex flex-col justify-between shadow-sm relative overflow-hidden group">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-caption-medium text-caption-medium text-text-tertiary uppercase tracking-wider">Average Confidence</span>
+<span class="font-metric-xl text-metric-xl text-text-primary mt-space-xs tabular-nums flex items-baseline gap-1.5">
+            98.4%
+            <span class="font-caption-medium text-caption-medium text-success font-medium">Verified</span>
+</span>
+</div>
+<div class="w-9 h-9 rounded-lg bg-elevated-surface flex items-center justify-center text-success">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-sm mt-space-sm text-text-tertiary font-caption-sm text-caption-sm truncate">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-text-secondary">fingerprint</span>
+          Cryptographically signed local vector embeddings
+        </span>
+</div>
+</div>
+<!-- Stat 4 -->
+<div class="p-space-base rounded-xl bg-card-surface flex flex-col justify-between shadow-sm relative overflow-hidden group">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-caption-medium text-caption-medium text-text-tertiary uppercase tracking-wider">Autonomous Recalls</span>
+<span class="font-metric-xl text-metric-xl text-text-primary mt-space-xs tabular-nums">34 Today</span>
+</div>
+<div class="w-9 h-9 rounded-lg bg-elevated-surface flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-sm mt-space-sm font-caption-sm text-caption-sm">
+<span class="text-text-secondary">Fastest path latency:</span>
+<span class="text-primary font-caption-medium text-caption-medium tabular-nums">12ms local vector Qdrant</span>
+</div>
+</div>
+</div>
+<!-- Deep Search & Filter Toolbar -->
+<div class="p-space-md mt-space-md rounded-xl bg-card-surface flex flex-col gap-space-sm shadow-sm">
+<div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-space-sm">
+<!-- Search Box with Shortcut -->
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary text-[18px]">search</span>
+<input class="w-full h-[38px] pl-9 pr-16 rounded-lg bg-elevated-surface text-text-primary font-body-base text-body-base placeholder:text-text-tertiary focus:outline-none" id="memory-search-input" placeholder="Search semantic memories, entity tags, or source conversations..." type="text"/>
+<div class="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1 pointer-events-none">
+<kbd class="px-1.5 py-0.5 rounded text-[10px] font-code-inline text-text-tertiary bg-surface-container-highest">⌘K</kbd>
+<span class="text-text-tertiary text-[11px]">or</span>
+<kbd class="px-1.5 py-0.5 rounded text-[10px] font-code-inline text-text-tertiary bg-surface-container-highest">/</kbd>
+</div>
+</div>
+<!-- Controls: Sort & AI Deduction Toggle -->
+<div class="flex items-center gap-space-md flex-wrap justify-between md:justify-end">
+<!-- Sort Dropdown Trigger -->
+<div class="relative">
+<select class="h-[38px] pl-3 pr-8 rounded-lg bg-elevated-surface text-text-primary font-body-medium text-body-medium appearance-none focus:outline-none cursor-pointer" id="sort-select">
+<option value="recalled">Sort by: Most Recently Recalled</option>
+<option value="confidence">Sort by: Highest Confidence</option>
+<option value="frequency">Sort by: Recall Frequency</option>
+<option value="created">Sort by: Recently Added</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-text-tertiary text-[18px]">expand_more</span>
+</div>
+<!-- Toggle: Show Tentative AI Deductions -->
+<label class="flex items-center gap-2 cursor-pointer select-none">
+<input checked="" class="sr-only peer" id="toggle-tentative" type="checkbox"/>
+<div class="w-9 h-5 bg-elevated-surface rounded-full peer peer-checked:bg-primary-container transition-colors relative after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-text-primary after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4"></div>
+<span class="font-caption-medium text-caption-medium text-text-secondary whitespace-nowrap">Show Tentative Deductions</span>
+</label>
+</div>
+</div>
+<!-- Category Filter Pills & Status Filter Row -->
+<div class="flex items-center justify-between gap-space-sm pt-space-xs overflow-x-auto flex-nowrap md:flex-wrap">
+<!-- Categories -->
+<div class="flex items-center gap-1.5 flex-nowrap" id="category-pills">
+<button class="h-7 px-3 rounded-full text-[12px] font-caption-medium transition-colors bg-secondary-container text-on-secondary-container" data-filter="all" type="button">All (142)</button>
+<button class="h-7 px-3 rounded-full text-[12px] font-caption-medium transition-colors bg-elevated-surface text-text-secondary hover:text-text-primary hover:bg-surface-container-high" data-filter="work" type="button">Work &amp; Workflow (48)</button>
+<button class="h-7 px-3 rounded-full text-[12px] font-caption-medium transition-colors bg-elevated-surface text-text-secondary hover:text-text-primary hover:bg-surface-container-high" data-filter="arch" type="button">Architecture &amp; Tech (34)</button>
+<button class="h-7 px-3 rounded-full text-[12px] font-caption-medium transition-colors bg-elevated-surface text-text-secondary hover:text-text-primary hover:bg-surface-container-high" data-filter="constraints" type="button">Personal Constraints (22)</button>
+<button class="h-7 px-3 rounded-full text-[12px] font-caption-medium transition-colors bg-elevated-surface text-text-secondary hover:text-text-primary hover:bg-surface-container-high" data-filter="strategic" type="button">Strategic Objectives (26)</button>
+<button class="h-7 px-3 rounded-full text-[12px] font-caption-medium transition-colors bg-elevated-surface text-text-secondary hover:text-text-primary hover:bg-surface-container-high" data-filter="entities" type="button">Entities &amp; People (12)</button>
+</div>
+<!-- Verification Status Badges -->
+<div class="flex items-center gap-2 flex-shrink-0">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-caption-medium bg-success-subtle text-success">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+          Confirmed (128)
+        </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-caption-medium bg-warning-subtle text-warning">
+<span class="w-1.5 h-1.5 rounded-full bg-warning animate-pulse"></span>
+          Needs Verification (14)
+        </span>
+</div>
+</div>
+</div>
+<!-- Main Body: Split Layout (Left Cards Grid/List, Right Inspector Panel) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg mt-space-md mb-space-2xl">
+<!-- Left/Center: Memory Cards Feed (8 Cols on Desktop) -->
+<div class="lg:col-span-7 xl:col-span-8 flex flex-col gap-space-md">
+<!-- Memory Card 1: Selected & Highlighted -->
+<article class="memory-card p-space-base rounded-xl bg-card-surface transition-all cursor-pointer relative shadow-md bg-gradient-to-r from-accent-subtle/30 to-transparent" data-node-id="MEM-0892">
+<div class="flex flex-col gap-space-sm">
+<!-- Card Header / Meta Badges -->
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded text-[11px] font-caption-medium bg-secondary-container/60 text-secondary-fixed">Architecture &amp; Tech</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-caption-medium bg-success-subtle text-success">
+<span class="material-symbols-outlined text-[13px]">check_circle</span>
+                Verified Fact • 99.2% Confidence
+              </span>
+<span class="font-code-inline text-[11px] text-text-tertiary">#MEM-0892</span>
+</div>
+<!-- Action cluster -->
+<div class="flex items-center gap-1 opacity-90 group-hover:opacity-100">
+<button class="p-1 rounded hover:bg-elevated-surface text-text-tertiary hover:text-text-primary transition-colors" title="Pin Memory" type="button">
+<span class="material-symbols-outlined text-[16px]">push_pin</span>
+</button>
+<button class="p-1 rounded hover:bg-elevated-surface text-text-tertiary hover:text-text-primary transition-colors" onclick="openEditModal('MEM-0892')" title="Edit Memory" type="button">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-danger-subtle text-text-tertiary hover:text-danger transition-colors" onclick="openDeleteModal('MEM-0892')" title="Delete Memory" type="button">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Memory Statement Text -->
+<div class="mt-space-xxs">
+<p class="font-body-lg text-body-lg text-text-primary font-medium leading-relaxed">
+              “Prefers local Ollama (<span class="font-code-inline text-[13px] text-primary">Llama 3.3 70b</span>) for private code analysis, with automated fallback to <span class="font-code-inline text-[13px] text-primary">Gemini 1.5 Pro</span> only for context payloads &gt;32k.”
+            </p>
+</div>
+<!-- Provenance and Telemetry Footer -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs pt-space-xs text-caption-sm font-caption-sm text-text-tertiary">
+<div class="flex items-center gap-1.5 truncate">
+<span class="material-symbols-outlined text-[14px] text-text-secondary">chat</span>
+<span class="truncate">Source: Conversation #104 “Model Providers Benchmarks” • Oct 21, 2024</span>
+</div>
+<div class="flex items-center gap-2 flex-shrink-0 text-text-secondary">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">history</span>
+                Recalled 18 times
+              </span>
+<span>•</span>
+<span class="text-success">24m ago by Agent Runner</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Memory Card 2: Hard Constraint -->
+<article class="memory-card p-space-base rounded-xl bg-card-surface hover:bg-surface-container transition-all cursor-pointer shadow-sm relative group" data-node-id="MEM-0841">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded text-[11px] font-caption-medium bg-elevated-surface text-text-secondary">Personal Constraints</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-caption-medium bg-danger-subtle text-danger">
+<span class="material-symbols-outlined text-[13px]">lock</span>
+                Hard Constraint • 100% Enforcement
+              </span>
+<span class="font-code-inline text-[11px] text-text-tertiary">#MEM-0841</span>
+</div>
+<div class="flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">
+<button class="p-1 rounded hover:bg-elevated-surface text-text-tertiary hover:text-text-primary transition-colors" title="Pin Memory" type="button">
+<span class="material-symbols-outlined text-[16px]">push_pin</span>
+</button>
+<button class="p-1 rounded hover:bg-elevated-surface text-text-tertiary hover:text-text-primary transition-colors" onclick="openEditModal('MEM-0841')" title="Edit Memory" type="button">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-danger-subtle text-text-tertiary hover:text-danger transition-colors" onclick="openDeleteModal('MEM-0841')" title="Delete Memory" type="button">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+</div>
+<div class="mt-space-xxs">
+<p class="font-body-base text-body-base text-text-primary leading-relaxed">
+              “Strict calendar lock: No external meetings on Thursday mornings (<span class="font-code-inline text-[13px] text-text-primary">08:00 - 11:30 AM EST</span>). Reserved exclusively for deep code review and asynchronous focus block.”
+            </p>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs pt-space-xs text-caption-sm font-caption-sm text-text-tertiary">
+<div class="flex items-center gap-1.5 truncate">
+<span class="material-symbols-outlined text-[14px] text-text-secondary">person</span>
+<span class="truncate">Source: Manual entry by Avinash • Oct 14, 2024</span>
+</div>
+<div class="flex items-center gap-2 flex-shrink-0 text-text-secondary">
+<span>Recalled 12 times</span>
+<span>•</span>
+<span>Today 8:15 AM (Calendar conflict check)</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Memory Card 3: Executive Formatting Preference -->
+<article class="memory-card p-space-base rounded-xl bg-card-surface hover:bg-surface-container transition-all cursor-pointer shadow-sm relative group" data-node-id="MEM-0789">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded text-[11px] font-caption-medium bg-elevated-surface text-text-secondary">Work &amp; Workflow</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-caption-medium bg-success-subtle text-success">
+<span class="material-symbols-outlined text-[13px]">check</span>
+                Verified Preference
+              </span>
+<span class="font-code-inline text-[11px] text-text-tertiary">#MEM-0789</span>
+</div>
+<div class="flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">
+<button class="p-1 rounded hover:bg-elevated-surface text-text-tertiary hover:text-text-primary transition-colors" title="Pin Memory" type="button">
+<span class="material-symbols-outlined text-[16px]">push_pin</span>
+</button>
+<button class="p-1 rounded hover:bg-elevated-surface text-text-tertiary hover:text-text-primary transition-colors" onclick="openEditModal('MEM-0789')" title="Edit Memory" type="button">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-danger-subtle text-text-tertiary hover:text-danger transition-colors" onclick="openDeleteModal('MEM-0789')" title="Delete Memory" type="button">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+</div>
+<div class="mt-space-xxs">
+<p class="font-body-base text-body-base text-text-primary leading-relaxed">
+              “Always format executive summaries with 3 bullet takeaways, CAC/burn metrics highlighted in bold, and explicit Next Action recommendations prioritized by impact.”
+            </p>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs pt-space-xs text-caption-sm font-caption-sm text-text-tertiary">
+<div class="flex items-center gap-1.5 truncate">
+<span class="material-symbols-outlined text-[14px] text-text-secondary">forum</span>
+<span class="truncate">Source: Extracted from Q3 Performance Briefing thread • Oct 19, 2024</span>
+</div>
+<div class="flex items-center gap-2 flex-shrink-0 text-text-secondary">
+<span>Recalled 28 times</span>
+<span>•</span>
+<span>Today 10:42 AM</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Memory Card 4: Tentative AI Deduction State -->
+<article class="memory-card p-space-base rounded-xl bg-card-surface transition-all shadow-sm relative group" data-node-id="MEM-0914">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded text-[11px] font-caption-medium bg-warning-subtle text-warning">Strategic Objectives</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-caption-medium bg-warning-subtle text-warning">
+<span class="material-symbols-outlined text-[13px] animate-spin">autorenew</span>
+                Tentative Deduction • 78% Confidence • Awaiting Confirmation
+              </span>
+<span class="font-code-inline text-[11px] text-text-tertiary">#MEM-0914</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded hover:bg-elevated-surface text-text-tertiary hover:text-text-primary transition-colors" title="Dismiss deduction" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+</div>
+<div class="mt-space-xxs">
+<p class="font-body-base text-body-base text-text-primary leading-relaxed">
+              “Considering Q1 hardware upgrade to dual RTX 4090 inference nodes to eliminate Gemini fallback costs and run 128k context locally.”
+            </p>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pt-space-xs text-caption-sm font-caption-sm text-text-tertiary">
+<div class="flex items-center gap-1.5 truncate">
+<span class="material-symbols-outlined text-[14px] text-warning">neurology</span>
+<span class="truncate">Inferred from: Slack DM synthesis with Marcus Vance (Oct 22, 17:10 EST)</span>
+</div>
+<!-- Inline Binary Actions -->
+<div class="flex items-center gap-2 flex-shrink-0">
+<button class="h-7 px-3 rounded-md bg-success-subtle text-success hover:bg-success hover:text-app-bg transition-colors font-caption-medium text-caption-medium flex items-center gap-1" onclick="confirmDeduction(this)" type="button">
+<span class="material-symbols-outlined text-[14px]">check</span>
+<span>Confirm Fact</span>
+</button>
+<button class="h-7 px-2.5 rounded-md hover:bg-elevated-surface text-text-tertiary hover:text-text-secondary transition-colors font-caption-medium text-caption-medium" onclick="dismissDeduction(this)" type="button">
+                Dismiss
+              </button>
+</div>
+</div>
+</div>
+</article>
+<!-- Transparency & Governance Informational Banner -->
+<div class="p-space-base rounded-xl bg-surface-container-low flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">verified</span>
+<div class="flex flex-col gap-0.5">
+<span class="font-caption-medium text-caption-medium text-text-primary">Transparent &amp; Sovereign Control</span>
+<p class="font-caption-sm text-caption-sm text-text-secondary">
+            All autonomous agent actions rely exclusively on confirmed memories. No third-party model training occurs with persistent embeddings. You can audit, export, or permanently revoke any cognitive graph node at any time.
+          </p>
+</div>
+</div>
+</div>
+<!-- Right: Contextual Memory Inspector Panel (4-5 Cols on Desktop) -->
+<aside class="lg:col-span-5 xl:col-span-4 flex flex-col gap-space-md">
+<div class="p-space-lg rounded-xl bg-card-surface flex flex-col gap-space-md shadow-md sticky top-20">
+<!-- Panel Header -->
+<div class="flex items-center justify-between pb-space-sm">
+<div class="flex flex-col">
+<span class="font-caption-sm text-caption-sm text-text-tertiary uppercase tracking-wider">Node Inspector</span>
+<div class="flex items-center gap-2 mt-0.5">
+<h2 class="font-headline-sm text-headline-sm text-text-primary font-code-inline">#MEM-0892</h2>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-caption-medium bg-success-subtle text-success">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                Active • Verified
+              </span>
+</div>
+</div>
+<button class="p-1 rounded-lg hover:bg-elevated-surface text-text-tertiary hover:text-text-primary transition-colors" title="Close Inspector" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Editable Statement Preview Area -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-caption-medium text-caption-medium text-text-secondary">Fact Statement</label>
+<div class="p-space-sm rounded-lg bg-elevated-surface text-text-primary font-body-base text-body-base leading-relaxed">
+            Prefers local Ollama (Llama 3.3 70b) for private code analysis, with automated fallback to Gemini 1.5 Pro only for context payloads &gt;32k.
+          </div>
+</div>
+<!-- Cognitive Graph & Vector Provenance Telemetry -->
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<span class="font-caption-medium text-caption-medium text-text-tertiary uppercase tracking-wider">Vector Metadata</span>
+<!-- Confidence Score Gauge -->
+<div class="flex flex-col gap-1 p-space-sm rounded-lg bg-elevated-surface">
+<div class="flex items-center justify-between text-caption-sm font-caption-sm">
+<span class="text-text-secondary">Extraction Confidence</span>
+<span class="text-success font-medium font-code-inline">99.2%</span>
+</div>
+<div class="w-full h-1.5 bg-card-surface rounded-full overflow-hidden mt-1">
+<div class="h-full bg-success rounded-full" style="width: 99.2%;"></div>
+</div>
+</div>
+<!-- Metadata Properties Table -->
+<div class="flex flex-col divide-y divide-border-hairline rounded-lg bg-elevated-surface p-space-sm font-caption-sm text-caption-sm">
+<div class="flex items-center justify-between py-1.5">
+<span class="text-text-tertiary">Category Domain</span>
+<span class="text-text-primary font-caption-medium">Architecture &amp; Tech</span>
+</div>
+<div class="flex items-center justify-between py-1.5">
+<span class="text-text-tertiary">Vector Storage</span>
+<span class="font-code-inline text-[11px] text-text-secondary truncate max-w-[190px]">qdrant-local / mem_892.pq</span>
+</div>
+<div class="flex items-center justify-between py-1.5">
+<span class="text-text-tertiary">Embedding Model</span>
+<span class="font-code-inline text-[11px] text-primary truncate max-w-[190px]">text-embed-3-sm (1536d)</span>
+</div>
+<div class="flex items-center justify-between py-1.5">
+<span class="text-text-tertiary">Created Timestamp</span>
+<span class="text-text-secondary">Oct 21, 2024, 14:22 UTC</span>
+</div>
+<div class="flex items-center justify-between py-1.5">
+<span class="text-text-tertiary">Extractor Agent</span>
+<span class="text-text-secondary">Memory Synthesizer v2.4</span>
+</div>
+<div class="flex items-center justify-between py-1.5">
+<span class="text-text-tertiary">Source Provenance</span>
+<a class="text-primary hover:underline flex items-center gap-1 font-caption-medium" href="#">
+<span>Thread #104</span>
+<span class="material-symbols-outlined text-[13px]">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Recent Autonomous Retrieval Log -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-caption-medium text-caption-medium text-text-tertiary uppercase tracking-wider">Retrieval Log</span>
+<span class="font-caption-sm text-caption-sm text-text-secondary">18 Total</span>
+</div>
+<div class="flex flex-col gap-2 font-caption-sm text-caption-sm">
+<!-- Entry 1 -->
+<div class="p-2 rounded-lg bg-elevated-surface flex items-start gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-success mt-1.5 flex-shrink-0"></span>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="text-text-primary font-caption-medium truncate">Agent Runner (Code Review Workflow)</span>
+<span class="text-text-tertiary text-[11px]">Today 10:24 AM • Matched via cosine dist 0.94</span>
+</div>
+</div>
+<!-- Entry 2 -->
+<div class="p-2 rounded-lg bg-elevated-surface flex items-start gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-text-tertiary mt-1.5 flex-shrink-0"></span>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="text-text-primary font-caption-medium truncate">Interactive Chat (Model Selector)</span>
+<span class="text-text-tertiary text-[11px]">Yesterday 16:45 PM • Prompt inject</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Binary Actions Cluster -->
+<div class="pt-space-sm flex items-center gap-space-sm">
+<button class="flex-1 h-[38px] rounded-lg bg-elevated-surface hover:bg-surface-container-high text-text-primary font-body-medium text-body-medium transition-colors flex items-center justify-center gap-1.5" onclick="openEditModal('MEM-0892')" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+<span>Edit Node</span>
+</button>
+<button class="h-[38px] px-3.5 rounded-lg bg-danger-subtle hover:bg-danger text-danger hover:text-app-bg font-body-medium text-body-medium transition-colors flex items-center justify-center gap-1.5" onclick="openDeleteModal('MEM-0892')" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+<span>Delete</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+<!-- Interactive Modal Overlay: Delete Confirmation (Default Hidden) -->
+<div class="fixed inset-0 z-50 bg-[#070B18]/80 flex items-center justify-center p-space-md hidden transition-opacity duration-200" id="delete-modal-backdrop">
+<div class="w-full max-w-lg rounded-xl bg-elevated-surface p-space-lg shadow-2xl flex flex-col gap-space-md relative" id="delete-modal-card">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-danger-subtle flex items-center justify-center text-danger flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">warning</span>
+</div>
+<div class="flex flex-col gap-1 min-w-0">
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Delete Memory Node?</h3>
+<p class="font-body-base text-body-base text-text-secondary leading-relaxed">
+            This action will permanently purge node <span class="font-code-inline text-text-primary font-medium" id="modal-delete-node-id">#MEM-0892</span> and its corresponding vector embedding from the local Qdrant database.
+          </p>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-card-surface font-caption-sm text-caption-sm text-text-tertiary">
+        The autonomous assistant will no longer recall this constraint during automated workflows or code orchestration.
+      </div>
+<!-- Purge option checkbox -->
+<label class="flex items-center gap-2.5 cursor-pointer text-text-secondary font-caption-medium text-caption-medium select-none">
+<input class="rounded bg-card-surface text-primary focus:ring-0 focus:outline-none w-4 h-4" id="purge-provenance" type="checkbox"/>
+<span>Also purge referenced conversational provenance logs</span>
+</label>
+<!-- Modal Action Buttons -->
+<div class="flex items-center justify-end gap-space-sm pt-space-xs">
+<button class="h-[38px] px-4 rounded-lg bg-card-surface hover:bg-surface-container text-text-secondary hover:text-text-primary font-body-medium text-body-medium transition-colors" onclick="closeDeleteModal()" type="button">
+          Cancel
+        </button>
+<button class="h-[38px] px-4 rounded-lg bg-danger hover:opacity-90 text-app-bg font-body-medium text-body-medium transition-all flex items-center gap-1.5 shadow-sm" onclick="confirmDeleteNode()" type="button">
+<span class="material-symbols-outlined text-[18px]">delete_forever</span>
+<span>Delete Node Permanently</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Interactive Modal Overlay: Manual Add / Edit Memory Modal (Default Hidden) -->
+<div class="fixed inset-0 z-50 bg-[#070B18]/80 flex items-center justify-center p-space-md hidden transition-opacity duration-200" id="edit-modal-backdrop">
+<div class="w-full max-w-xl rounded-xl bg-elevated-surface p-space-lg shadow-2xl flex flex-col gap-space-md relative">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">psychology</span>
+<h3 class="font-headline-sm text-headline-sm text-text-primary" id="edit-modal-title">Curate Memory Node</h3>
+</div>
+<button class="p-1 rounded-lg hover:bg-surface-container-high text-text-tertiary hover:text-text-primary transition-colors" onclick="closeEditModal()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Domain Selector -->
+<div class="flex flex-col gap-1">
+<label class="font-caption-medium text-caption-medium text-text-secondary">Knowledge Domain</label>
+<select class="h-[38px] px-3 rounded-lg bg-card-surface text-text-primary font-body-base text-body-base focus:outline-none focus:ring-1 focus:ring-primary" id="edit-category-select">
+<option value="arch">Architecture &amp; Tech</option>
+<option value="constraints">Personal Constraints</option>
+<option value="work">Work &amp; Workflow</option>
+<option value="strategic">Strategic Objectives</option>
+<option value="entities">Entities &amp; People</option>
+</select>
+</div>
+<!-- Fact Statement Textarea -->
+<div class="flex flex-col gap-1">
+<label class="font-caption-medium text-caption-medium text-text-secondary">Persistent Fact / Constraint Statement</label>
+<textarea class="p-3 rounded-lg bg-card-surface text-text-primary font-body-base text-body-base placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-primary resize-none leading-relaxed" id="edit-statement-input" placeholder="State the rule, preference, or fact clearly..." rows="4"></textarea>
+</div>
+<!-- Enforcement Level -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1">
+<label class="font-caption-medium text-caption-medium text-text-secondary">Enforcement Level</label>
+<select class="h-[38px] px-3 rounded-lg bg-card-surface text-text-primary font-body-base text-body-base focus:outline-none">
+<option>Strict / Hard Constraint (100%)</option>
+<option selected="">Standard Preference (High Weight)</option>
+<option>Contextual Hint (Medium)</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-caption-medium text-caption-medium text-text-secondary">Vector Destination</label>
+<input class="h-[38px] px-3 rounded-lg bg-card-surface text-text-tertiary font-code-inline text-[12px] focus:outline-none cursor-not-allowed" readonly="" type="text" value="qdrant-local-v1 (1536 dims)"/>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center justify-end gap-space-sm pt-space-sm">
+<button class="h-[38px] px-4 rounded-lg bg-card-surface hover:bg-surface-container text-text-secondary hover:text-text-primary font-body-medium text-body-medium transition-colors" onclick="closeEditModal()" type="button">
+          Cancel
+        </button>
+<button class="h-[38px] px-4 rounded-lg bg-primary-container hover:bg-secondary-container text-text-primary font-body-medium text-body-medium transition-all flex items-center gap-1.5 shadow-sm" onclick="saveMemoryNode()" type="button">
+<span class="material-symbols-outlined text-[18px]">save</span>
+<span>Save Vector Node</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Micro-interactions Javascript -->
+<script>
+    let activeNodeToDelete = 'MEM-0892';
+
+    function openDeleteModal(nodeId) {
+      activeNodeToDelete = nodeId;
+      const targetLabel = document.getElementById('modal-delete-node-id');
+      if (targetLabel) targetLabel.textContent = '#' + nodeId;
+      const modal = document.getElementById('delete-modal-backdrop');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+      const modal = document.getElementById('delete-modal-backdrop');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function confirmDeleteNode() {
+      const targetCard = document.querySelector(`article[data-node-id="${activeNodeToDelete}"]`);
+      if (targetCard) {
+        targetCard.style.opacity = '0';
+        targetCard.style.transform = 'scale(0.96)';
+        setTimeout(() => targetCard.remove(), 200);
+      }
+      closeDeleteModal();
+    }
+
+    function openEditModal(nodeId) {
+      const title = document.getElementById('edit-modal-title');
+      const textarea = document.getElementById('edit-statement-input');
+      if (nodeId) {
+        if (title) title.textContent = `Edit Memory Node #${nodeId}`;
+        if (textarea && nodeId === 'MEM-0892') {
+          textarea.value = "Prefers local Ollama (Llama 3.3 70b) for private code analysis, with automated fallback to Gemini 1.5 Pro only for context payloads >32k.";
+        } else if (textarea && nodeId === 'MEM-0841') {
+          textarea.value = "Strict calendar lock: No external meetings on Thursday mornings (08:00 - 11:30 AM EST). Reserved exclusively for deep code review.";
+        }
+      } else {
+        if (title) title.textContent = "Manual Add Memory Node";
+        if (textarea) textarea.value = "";
+      }
+      const modal = document.getElementById('edit-modal-backdrop');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+      const modal = document.getElementById('edit-modal-backdrop');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function saveMemoryNode() {
+      closeEditModal();
+    }
+
+    function confirmDeduction(btn) {
+      const card = btn.closest('article');
+      if (card) {
+        btn.innerHTML = `<span class="material-symbols-outlined text-[14px]">done_all</span><span>Confirmed</span>`;
+        btn.classList.remove('bg-warning-subtle', 'text-warning');
+        btn.classList.add('bg-success-subtle', 'text-success');
+        const badge = card.querySelector('.text-warning');
+        if (badge) {
+          badge.textContent = "Verified Fact • 100% Provenance";
+          badge.classList.remove('bg-warning-subtle', 'text-warning');
+          badge.classList.add('bg-success-subtle', 'text-success');
+        }
+      }
+    }
+
+    function dismissDeduction(btn) {
+      const card = btn.closest('article');
+      if (card) {
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.96)';
+        setTimeout(() => card.remove(), 200);
+      }
+    }
+
+    // Category filter pills click handler
+    document.querySelectorAll('#category-pills button').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('#category-pills button').forEach(b => {
+          b.className = 'h-7 px-3 rounded-full text-[12px] font-caption-medium transition-colors bg-elevated-surface text-text-secondary hover:text-text-primary hover:bg-surface-container-high';
+        });
+        button.className = 'h-7 px-3 rounded-full text-[12px] font-caption-medium transition-colors bg-secondary-container text-on-secondary-container';
+      });
+    });
+
+    // Wire Manual Add Button
+    const manualAddBtn = document.getElementById('btn-manual-add');
+    if (manualAddBtn) {
+      manualAddBtn.addEventListener('click', () => openEditModal(null));
+    }
+
+    // Keyboard Shortcuts: ⌘K or / to focus search
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        const searchInput = document.getElementById('memory-search-input');
+        if (searchInput) searchInput.focus();
+      } else if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        const searchInput = document.getElementById('memory-search-input');
+        if (searchInput) searchInput.focus();
+      }
+    });
+  </script>
+</div></main></div></body></html>

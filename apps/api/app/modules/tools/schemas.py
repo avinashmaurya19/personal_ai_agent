@@ -10,7 +10,7 @@ class ToolMetadata(BaseModel):
 
     name: str = Field(..., max_length=64)
     description: str = Field(..., max_length=512)
-    category: Literal["system", "math", "productivity", "search"] = "system"
+    category: Literal["system", "math", "productivity", "search", "communication", "scheduling"] = "system"
     is_consequential: bool = False
     args_schema_name: Optional[str] = None
     input_schema: Optional[dict[str, Any]] = None

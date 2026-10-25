@@ -1,6 +1,6 @@
 # Active Task Tracker & Sprint Backlog
 
-> **Current Sprint:** Sprint 7 — Email & Calendar Workflows  
+> **Current Sprint:** Sprint 8 — Research & Reporting  
 > **Phase Target:** Phase 2 — Knowledge & Daily Productivity (Sprints 5–8)  
 > **Last Updated:** 2026-10-25  
 > **Workflow Rule:** Mark completed tasks `[x]` immediately after finishing. Add new sub-tasks or bugs discovered during development to the `### 🔍 Discovered During Work` section.
@@ -176,7 +176,32 @@
 - [x] All automated tests passing cleanly (25/25 tests passing)
 
 ---
-| **Sprint 7: Email & Calendar Workflows** | Google/Microsoft OAuth, thread summarization, draft emails/invites, approval policy for mutations | 20h | [ ] |
+
+### Sprint 7: Email & Calendar Workflows (Completed)
+*Goal: Local and cloud email/calendar integrations, thread search and summarization, draft generation, and human approval gates for external mutations.*
+
+| ID | Task Description | Estimate | Status | Assigned Date | Completion Date |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **S7-01** | Define `EmailMessage`, `CalendarEvent`, and `PendingAction` models with owner scoping | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S7-02** | Generate and apply Alembic migration for emails, calendar events, and pending actions | 1h | [x] | 2026-10-25 | 2026-10-25 |
+| **S7-03** | Build `EmailService` and `CalendarService` with local seeded mailbox & Google OAuth adapter | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S7-04** | Implement REST CRUD endpoints (`/api/v1/emails`, `/api/v1/calendar`, `/api/v1/approvals`) | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S7-05** | Build agent tools (`EmailTool`, `CalendarTool`) enforcing read/draft vs approval policy | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S7-06** | Build Next.js Inbox, Calendar & Approvals Drawer with interactive action authorization | 4h | [x] | 2026-10-25 | 2026-10-25 |
+| **S7-07** | Connect conversational email summarization and calendar scheduling to agent coordinator | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S7-08** | Write automated integration tests for email reading, draft generation, and approval execution | 2h | [x] | 2026-10-25 | 2026-10-25 |
+
+#### Sprint 7 Definition of Done Checklist
+- [x] `EmailMessage`, `CalendarEvent`, and `PendingAction` database models created
+- [x] Alembic migration applied cleanly (`664cdbfbcfa9_create_email_calendar_and_pending_.py`)
+- [x] Pluggable provider adapter (local zero-cost mailbox + Google OAuth scaffolding)
+- [x] REST API routes for emails, calendar agenda, and approval authorization
+- [x] Agent tools `EmailTool` and `CalendarTool` registered in coordinator
+- [x] Human approval policy: sending emails/invites generates a `PendingAction` held until owner approval
+- [x] Next.js drawer for viewing inbox threads, calendar agenda, and approving pending actions
+- [x] All automated tests passing cleanly (29/29 tests passing)
+
+---
 | **Sprint 8: Research & Reporting** | Pluggable web search, source comparison, fact verification, Markdown report generation | 20h | [ ] |
 
 ---
@@ -212,3 +237,11 @@
 - **2026-10-25 (Fixed)**: Added fallback handling and resilient slash-parsing in model switcher dropdown (`apps/web/src/features/chat/chat-view.tsx`).
 - **2026-10-25 (Fixed)**: Updated `ConversationCreate` schema to default to configured `DEFAULT_MODEL_PROVIDER` and `DEFAULT_MODEL_NAME`.
 - **2026-10-25 (Fixed)**: Fixed `RuntimeError: Task got Future attached to a different loop` in `DocumentSearchTool` by using synchronous thread-safe `psycopg` connection and `EmbeddingService.get_sync_embedding()`, resolving CrewAI worker thread vs Uvicorn event loop conflict.
+- **2026-10-25 (Completed)**: Extracted and implemented executive-grade dark UI design system from `stitch_design_system_builder.zip`:
+  - Persistent left sidebar (`AppSidebar`) with workspace, knowledge, automation, integrations, system sections and "Avinash • Workspace Owner" profile.
+  - Fixed top navbar (`AppHeader`) with breadcrumbs, global search `⌘K`, and live agent status badge (`24ms local latency`).
+  - Executive Overview dashboard (`StitchDashboard`) with Command Desk banner, quick launchpad, 4 metric stat cards, Today's Priorities task manager, Upcoming Agenda with "Join Call", and multi-stream Recent Activity feed.
+  - Dedicated views for AI Assistant (`StitchChatView`), Documents (`DocumentsView`), Memory (`MemoryView`), Tasks (`TasksView`), Approvals (`ApprovalsView`), Email (`EmailView`), and Settings (`SettingsView`).
+  - Floating Action Button (FAB) at bottom-right ("Chat with AI") allowing chat overlay across all views.
+  - All files strictly adhere to the <500 lines per file limit. Next.js build passes with 0 errors and all 29 backend tests pass.
+- **2026-10-25 (Fixed)**: Fixed LiteLLM/Mistral `Invalid model: mistral/open-mistral-7b` (400 Bad Request) caused by model names already containing the provider prefix (`mistral/open-mistral-7b`) being prefixed again to `mistral/mistral/open-mistral-7b`. Added automatic model prefix normalization in [`CrewAILLMService.get_llm`](file:///Users/avinashmaurya/AceVertix/Personal%20AI/apps/api/app/modules/llm/service.py) and [`ConversationService.update_conversation_model`](file:///Users/avinashmaurya/AceVertix/Personal%20AI/apps/api/app/modules/conversations/service.py). Added unit test coverage (30/30 tests pass).

@@ -23,10 +23,20 @@ class CrewAILLMService:
                 status_code=403,
             )
 
+        # Normalize model name by stripping redundant provider prefixes (e.g. "mistral/open-mistral-7b" -> "open-mistral-7b")
+        cleaned_model = model_name.strip() if model_name else None
+        if cleaned_model:
+            while "/" in cleaned_model:
+                prefix, remainder = cleaned_model.split("/", 1)
+                if prefix.lower() in ("mistral", "ollama", "gemini", "openai"):
+                    cleaned_model = remainder
+                else:
+                    break
+
         if prov == "mistral":
             if not settings.MISTRAL_API_KEY:
                 raise AppException("Mistral API key is not configured.", status_code=500)
-            chosen_model = model_name or settings.MISTRAL_MODEL_NAME or "open-mistral-7b"
+            chosen_model = cleaned_model or settings.MISTRAL_MODEL_NAME or "open-mistral-7b"
             return LLM(
                 model=f"mistral/{chosen_model}",
                 api_key=settings.MISTRAL_API_KEY,
@@ -34,7 +44,7 @@ class CrewAILLMService:
             )
 
         elif prov == "ollama":
-            chosen_model = model_name or "llama3.2"
+            chosen_model = cleaned_model or "llama3.2"
             return LLM(
                 model=f"ollama/{chosen_model}",
                 base_url=settings.OLLAMA_BASE_URL,
@@ -43,7 +53,7 @@ class CrewAILLMService:
         elif prov == "gemini":
             if not settings.GEMINI_API_KEY:
                 raise AppException("Gemini API key is not configured.", status_code=500)
-            chosen_model = model_name or "gemini-1.5-flash"
+            chosen_model = cleaned_model or "gemini-1.5-flash"
             return LLM(
                 model=f"gemini/{chosen_model}",
                 api_key=settings.GEMINI_API_KEY,

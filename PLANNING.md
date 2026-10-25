@@ -1,7 +1,7 @@
 # Comprehensive System Architecture & Planning
 
 > **Project:** Personal AI Assistant  
-> **Status:** Stage A (Personal MVP) — Sprint 6 (Active)  
+> **Status:** Stage A (Personal MVP) — Sprint 7 (Active)  
 > **Repository Model:** Monorepo (Next.js Web + FastAPI Backend + PostgreSQL/Redis Infra)  
 > **Operating Budget:** ₹0 Target (Local Ollama default, Google Gemini & Mistral free-tier APIs)  
 > **Weekly Cadence:** ~10 hours/week (2 hours/day, 5 days/week)
@@ -254,8 +254,58 @@ flowchart LR
       end
   ```
 - **Sprint 7 — Email & Calendar Read/Draft Workflows (20h)**:
-  - *Deliverables:* OAuth connection for Google/Microsoft personal APIs; thread search and summarization; calendar event reading; draft creation for replies/invites without sending.
-  - *Acceptance:* Assistant drafts emails and calendar invites; all external mutations strictly held in pending state awaiting approval.
+  - *Deliverables:* OAuth connection for Google/Microsoft personal APIs; thread search and summarization; calendar event reading; draft creation for replies/invites without sending; approval policy gate for external mutations.
+  - *Acceptance:* Assistant drafts emails and calendar invites; all external mutations strictly held in pending state awaiting interactive owner approval.
+
+  ```mermaid
+  flowchart TD
+      subgraph UserInput ["Natural Language & Web UI"]
+          USER_CHAT["Chat: 'Summarize unread emails and draft a reply to Alex'"]
+          INBOX_DRAWER["Inbox, Calendar & Approvals Drawer"]
+      end
+
+      subgraph BackendRouting ["FastAPI Routers & Coordinator"]
+          CHAT_COORD["AgentCoordinator (CrewAI)"]
+          INBOX_ROUTER["Email & Calendar REST Routers (/api/v1/emails, /api/v1/calendar)"]
+          APPROVAL_ROUTER["Approvals REST Router (/api/v1/approvals)"]
+          USER_CHAT --> CHAT_COORD
+          INBOX_DRAWER --> INBOX_ROUTER
+          INBOX_DRAWER --> APPROVAL_ROUTER
+      end
+
+      subgraph ExecutionLayer ["Agent Tools & Safety Gates"]
+          EMAIL_TOOL["EmailTool (email_inbox: search, read_thread, draft_reply, send)"]
+          CALENDAR_TOOL["CalendarTool (calendar_agenda: list_events, check_availability, draft_invite)"]
+          APPROVAL_GATE["Approval Engine: Read/Draft = Auto; Send/Mutate = Pending Action"]
+          
+          CHAT_COORD --> EMAIL_TOOL
+          CHAT_COORD --> CALENDAR_TOOL
+          EMAIL_TOOL --> APPROVAL_GATE
+          CALENDAR_TOOL --> APPROVAL_GATE
+      end
+
+      subgraph DomainServices ["Domain Services (FastAPI)"]
+          EMAIL_SVC["EmailService (Local Mailbox + Google/MS Provider Adapter)"]
+          CALENDAR_SVC["CalendarService (Agenda, Availability, Event CRUD)"]
+          APPROVAL_SVC["ApprovalService (Pending Action Storage & Execution)"]
+
+          APPROVAL_GATE -->|Read/Draft| EMAIL_SVC
+          APPROVAL_GATE -->|Read/Draft| CALENDAR_SVC
+          APPROVAL_GATE -->|Mutation| APPROVAL_SVC
+          APPROVAL_ROUTER --> APPROVAL_SVC
+          APPROVAL_SVC -->|When Approved| EMAIL_SVC
+          APPROVAL_SVC -->|When Approved| CALENDAR_SVC
+      end
+
+      subgraph StorageLayerDB ["PostgreSQL 16 Persistence"]
+          EMAILS_DB[("emails table: id, user_id, subject, sender, recipient, body, is_read, thread_id")]
+          CALENDAR_DB[("calendar_events table: id, user_id, title, start_time, end_time, attendees")]
+          APPROVALS_DB[("pending_actions table: id, user_id, action_type, payload, status")]
+          EMAIL_SVC --> EMAILS_DB
+          CALENDAR_SVC --> CALENDAR_DB
+          APPROVAL_SVC --> APPROVALS_DB
+      end
+  ```
 - **Sprint 8 — Research & Reporting (20h)**:
   - *Deliverables:* Pluggable web search adapter (SearXNG/free APIs); source scraping, citation extraction, comparison matrices, and Markdown report exporter.
   - *Acceptance:* Produces structured research reports with verifiable citations and highlighted uncertainty.
