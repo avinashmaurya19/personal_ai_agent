@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Send, Sparkles, Cpu, Brain } from "lucide-react";
+import { Send, Sparkles, Cpu, Brain, FileText } from "lucide-react";
 import { MessageItem, ConversationItem, ModelOption } from "@/lib/api-client";
 import { MessageBubble } from "@/features/chat/message-bubble";
 import { MemoryDrawer } from "@/features/memory/memory-drawer";
+import { DocumentDrawer } from "@/features/documents/document-drawer";
 
 interface ChatViewProps {
   conversation: ConversationItem | null;
@@ -26,6 +27,7 @@ export function ChatView({
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [isMemoryOpen, setIsMemoryOpen] = useState(false);
+  const [isDocsOpen, setIsDocsOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -108,7 +110,16 @@ export function ChatView({
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setIsDocsOpen(true)}
+            className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 rounded-lg text-xs font-medium text-slate-200 transition-colors"
+            title="Open Document Knowledge (RAG)"
+          >
+            <FileText className="w-3.5 h-3.5 text-indigo-400" />
+            <span>Docs</span>
+          </button>
+
           <button
             onClick={() => setIsMemoryOpen(true)}
             className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 rounded-lg text-xs font-medium text-slate-200 transition-colors"
@@ -118,15 +129,16 @@ export function ChatView({
             <span>Memory</span>
           </button>
 
-          <div className="flex items-center gap-2 text-xs text-slate-400">
+          <div className="flex items-center gap-2 text-xs text-slate-400 ml-2">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span>Online</span>
           </div>
         </div>
       </header>
 
-      {/* Memory Drawer */}
+      {/* Drawers */}
       <MemoryDrawer isOpen={isMemoryOpen} onClose={() => setIsMemoryOpen(false)} />
+      <DocumentDrawer isOpen={isDocsOpen} onClose={() => setIsDocsOpen(false)} />
 
       {/* Messages Scroll Area */}
       <div className="flex-1 overflow-y-auto p-4 space-y-2">

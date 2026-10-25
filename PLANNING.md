@@ -1,7 +1,7 @@
 # Comprehensive System Architecture & Planning
 
 > **Project:** Personal AI Assistant  
-> **Status:** Stage A (Personal MVP) — Sprint 4 (Active)  
+> **Status:** Stage A (Personal MVP) — Sprint 6 (Active)  
 > **Repository Model:** Monorepo (Next.js Web + FastAPI Backend + PostgreSQL/Redis Infra)  
 > **Operating Budget:** ₹0 Target (Local Ollama default, Google Gemini & Mistral free-tier APIs)  
 > **Weekly Cadence:** ~10 hours/week (2 hours/day, 5 days/week)
@@ -193,9 +193,66 @@ flowchart LR
 - **Sprint 5 — Document Knowledge & RAG (20h)**:
   - *Deliverables:* File upload API (PDF, Markdown, TXT); chunking and embedding pipeline with pgvector; hybrid vector + text retrieval; citation and source document display in UI.
   - *Acceptance:* Answers ground strictly in uploaded documents with exact source citations; prompt injection defenses in place.
+
+  ```mermaid
+  flowchart TD
+      subgraph IngestionPipeline ["Document Ingestion Pipeline"]
+          FILE["User File (.pdf, .md, .txt)"] --> UPLOAD["FastAPI /api/v1/documents/upload"]
+          UPLOAD --> PARSER["DocumentParser (pypdf / text)"]
+          PARSER --> SANITIZER["Prompt Injection Sanitizer"]
+          SANITIZER --> CHUNKER["Recursive Semantic Chunker (500 chars / 100 overlap)"]
+          CHUNKER --> EMBED["EmbeddingService (1024-dim vectors)"]
+          EMBED --> DB_DOC[("Document & DocumentChunk (PostgreSQL + pgvector)")]
+      end
+
+      subgraph RetrievalFlow ["RAG & Grounded Tool Execution"]
+          QUERY["Agent / User Question"] --> DOC_TOOL["DocumentSearchTool"]
+          DOC_TOOL --> VEC_SEARCH["pgvector Cosine Search (<=>)"]
+          DB_DOC --> VEC_SEARCH
+          VEC_SEARCH --> CITATION["Extract Chunks with Page/File Citation Metadata"]
+          CITATION --> AGENT["CrewAI Agent Context & Grounded Synthesis"]
+          AGENT --> VERIFIED_OUTPUT["Grounded Response with Source Citations"]
+      end
+  ```
 - **Sprint 6 — Tasks, Notes & Reminders (20h)**:
   - *Deliverables:* Task and Note domain models; CRUD endpoints; conversational task extraction ("remind me to submit invoice by Friday"); priority and due dates; web task dashboard.
   - *Acceptance:* Assistant creates and updates tasks from natural dialogue with explicit confirmation and audit history.
+
+  ```mermaid
+  flowchart TD
+      subgraph UserInput ["Natural Language & Web UI"]
+          USER_CHAT["Chat Input: 'Remind me to finish Sprint 6 review by 5pm tomorrow'"]
+          WEB_DRAWER["Tasks & Notes Drawer (Direct CRUD / Toggle)"]
+      end
+
+      subgraph BackendRouting ["FastAPI Routers & Coordinator"]
+          CHAT_COORD["AgentCoordinator (CrewAI)"]
+          TASK_ROUTER["Task & Note REST Routers (/api/v1/tasks, /api/v1/notes)"]
+          USER_CHAT --> CHAT_COORD
+          WEB_DRAWER --> TASK_ROUTER
+      end
+
+      subgraph ExecutionLayer ["Agent Tools & Domain Services"]
+          TASK_TOOL["TaskManageTool (action: create, list, update)"]
+          NOTE_TOOL["NoteManageTool (action: create, search, update)"]
+          TASK_SVC["TaskService (Business Logic & Scoping)"]
+          NOTE_SVC["NoteService (Business Logic & Tag Filtering)"]
+          
+          CHAT_COORD --> TASK_TOOL
+          CHAT_COORD --> NOTE_TOOL
+          TASK_TOOL --> TASK_SVC
+          NOTE_TOOL --> NOTE_SVC
+          TASK_ROUTER --> TASK_SVC
+          TASK_ROUTER --> NOTE_SVC
+      end
+
+      subgraph StorageLayerDB ["PostgreSQL 16 Persistence"]
+          TASKS_DB[("tasks table: id, user_id, title, description, status, priority, due_date")]
+          NOTES_DB[("notes table: id, user_id, title, content, tags")]
+          TASK_SVC --> TASKS_DB
+          NOTE_SVC --> NOTES_DB
+      end
+  ```
 - **Sprint 7 — Email & Calendar Read/Draft Workflows (20h)**:
   - *Deliverables:* OAuth connection for Google/Microsoft personal APIs; thread search and summarization; calendar event reading; draft creation for replies/invites without sending.
   - *Acceptance:* Assistant drafts emails and calendar invites; all external mutations strictly held in pending state awaiting approval.

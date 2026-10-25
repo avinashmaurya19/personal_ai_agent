@@ -25,6 +25,7 @@
 - **NO Hardcoded Provider Bindings**: Do not bind business logic directly to OpenAI, Gemini, or Ollama SDK calls. Route all completions through the centralized `LLMProvider` interface.
 - **NO Prompt Injection Vulnerabilities**: Never trust retrieved content from external websites or user documents as system instructions. Treat all external data as data, not system prompts.
 - **NO Synchronous Agent Kickoff in Async Event Loops**: In FastAPI or async code, never call `crew.kickoff()`; always call `await crew.kickoff_async()` to avoid blocking the event loop.
+- **NO Async Engine Calls Inside Synchronous CrewAI Worker Threads**: When CrewAI executes agent tools, it runs them synchronously inside a `ThreadPoolExecutor` worker thread. Do not attempt `asyncio.run()` using an `asyncpg` engine connection pool tied to Uvicorn's main event loop (causes `RuntimeError: Task got Future attached to a different loop`). Use dedicated thread-safe synchronous connections (e.g., `psycopg.connect(...)`) and synchronous HTTP clients (`httpx.Client()`).
 - **NO Interactive Telemetry Prompts in Services**: Ensure `CREWAI_TELEMETRY_OPT_OUT=true`, `CREWAI_SHARE_EXECUTION_TRACE=false`, and `OTEL_SDK_DISABLED=true` are configured to prevent CLI prompts from hanging execution.
 - **NO Arbitrary Code Execution in Tools**: Never use unconstrained `eval()` or `exec()` in mathematical or scripting tools. Always use AST parsing with an explicit whitelist.
 

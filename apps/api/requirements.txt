@@ -12,3 +12,6 @@ httpx==0.28.1
 pgvector==0.5.1
 crewai==1.15.30
 litellm==1.106.3
+pypdf==6.21.2
+numpy==2.5.4
+psycopg[binary]==3.3.6

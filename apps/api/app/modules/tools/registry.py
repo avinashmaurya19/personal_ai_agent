@@ -6,6 +6,7 @@ from crewai.tools import BaseTool
 from app.core.exceptions import AppException
 from app.modules.tools.builtins.calculator_tool import SafeCalculatorTool
 from app.modules.tools.builtins.datetime_tool import CurrentDateTimeTool
+from app.modules.tools.builtins.document_search_tool import DocumentSearchTool
 from app.modules.tools.builtins.note_search_tool import NoteSearchTool
 from app.modules.tools.builtins.task_draft_tool import TaskDraftTool
 from app.modules.tools.schemas import ToolExecutionRecord, ToolMetadata
@@ -61,6 +62,11 @@ class ToolRegistry:
         )
         self.register(
             NoteSearchTool(),
+            category="search",
+            is_consequential=False,
+        )
+        self.register(
+            DocumentSearchTool(),
             category="search",
             is_consequential=False,
         )

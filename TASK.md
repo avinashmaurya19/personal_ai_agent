@@ -1,6 +1,6 @@
 # Active Task Tracker & Sprint Backlog
 
-> **Current Sprint:** Phase 1 Complete (Sprints 1–4) | Next: Sprint 5 — Document Knowledge & RAG  
+> **Current Sprint:** Sprint 6 — Tasks, Notes & Reminders  
 > **Phase Target:** Phase 2 — Knowledge & Daily Productivity (Sprints 5–8)  
 > **Last Updated:** 2026-10-25  
 > **Workflow Rule:** Mark completed tasks `[x]` immediately after finishing. Add new sub-tasks or bugs discovered during development to the `### 🔍 Discovered During Work` section.
@@ -126,8 +126,56 @@
 
 | Sprint | Goal | Estimate | Status |
 | :--- | :--- | :--- | :--- |
-| **Sprint 5: Document Knowledge & RAG** | Upload PDF/MD/TXT files, chunk, embed in pgvector, hybrid search with source citations | 20h | [ ] |
-| **Sprint 6: Tasks, Notes & Reminders** | Natural language task creation, priority/due dates, reminder schedules, task dashboard UI | 20h | [ ] |
+### Sprint 5: Document Knowledge & RAG (Completed)
+*Goal: Upload personal PDF, Markdown, and TXT files, chunk and embed in pgvector, and enable grounded question-answering with exact source citations.*
+
+| ID | Task Description | Estimate | Status | Assigned Date | Completion Date |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **S5-01** | Define document schema (`Document`, `DocumentChunk`) in PostgreSQL with pgvector | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S5-02** | Implement multipart file upload API with size/extension validation & injection defense | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S5-03** | Build document text extraction (pypdf, markdown, txt) and semantic chunker | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S5-04** | Generate 1024-dim pgvector embeddings for document chunks via `EmbeddingService` | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S5-05** | Implement hybrid vector + keyword chunk search with citation metadata | 4h | [x] | 2026-10-25 | 2026-10-25 |
+| **S5-06** | Create `document_search` tool in agent tool registry for grounded answering | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S5-07** | Build Document Management UI drawer (file upload, chunk count, delete) | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S5-08** | Add automated tests for upload, chunking, citation accuracy, and prompt injection defense | 3h | [x] | 2026-10-25 | 2026-10-25 |
+
+#### Sprint 5 Definition of Done Checklist
+- [x] `Document` and `DocumentChunk` relational models created with pgvector 1024-dim embeddings
+- [x] Alembic migration applied (`9707570b1dbc_create_documents_and_chunks_tables.py`)
+- [x] Multipart upload API (`POST /api/v1/documents/upload`) with 15MB file size boundary and format verification
+- [x] Text extraction pipeline with `pypdf` for PDFs, native utf-8/latin-1 for Markdown/TXT, and prompt injection token sanitization
+- [x] Recursive semantic chunker with 500-character windows and 100-character overlaps preserving page numbers
+- [x] `DocumentSearchTool` registered in default tool catalog for agent grounded RAG execution
+- [x] Next.js `DocumentDrawer` for drag & drop file uploads, chunk status badges, search preview, and deletion
+- [x] Full automated test suite passing (21/21 tests passing)
+
+---
+
+### Sprint 6: Tasks, Notes & Reminders (Active Sprint)
+*Goal: Conversational task management, structured notes with tagging, priority and due dates, agent execution tools, and a unified Productivity Drawer in the web UI.*
+
+| ID | Task Description | Estimate | Status | Assigned Date | Completion Date |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **S6-01** | Define `Task` and `Note` SQLAlchemy models with priority, status, and tag support | 2h | [ ] | 2026-10-25 | |
+| **S6-02** | Generate and apply Alembic migration for tasks and notes tables | 1h | [ ] | 2026-10-25 | |
+| **S6-03** | Build `TaskService` and `NoteService` domain modules in `apps/api/app/modules/tasks/` | 3h | [ ] | 2026-10-25 | |
+| **S6-04** | Implement REST CRUD routers (`/api/v1/tasks`, `/api/v1/notes`) with query filtering | 3h | [ ] | 2026-10-25 | |
+| **S6-05** | Build agent execution tools (`TaskManageTool`, `NoteManageTool`) with thread-safe DB operations | 3h | [ ] | 2026-10-25 | |
+| **S6-06** | Build unified Tasks & Notes drawer in Next.js web app (filters, check-off, note editor) | 4h | [ ] | 2026-10-25 | |
+| **S6-07** | Connect task tool execution to agent coordinator for conversational task creation & status changes | 2h | [ ] | 2026-10-25 | |
+| **S6-08** | Write integration tests for task/note CRUD, query filters, and agent tool execution | 2h | [ ] | 2026-10-25 | |
+
+#### Sprint 6 Definition of Done Checklist
+- [ ] `Task` and `Note` database models defined with owner isolation
+- [ ] Alembic migration applied successfully
+- [ ] REST API routes for tasks and notes with status/priority filtering
+- [ ] Agent tools `TaskManageTool` and `NoteManageTool` registered in runtime coordinator
+- [ ] Next.js Tasks & Notes drawer with check-off, filters, and quick creation
+- [ ] Natural language task commands ("remind me to...", "create task...", "mark task as done") verified via web chat
+- [ ] All automated tests passing cleanly
+
+---
 | **Sprint 7: Email & Calendar Workflows** | Google/Microsoft OAuth, thread summarization, draft emails/invites, approval policy for mutations | 20h | [ ] |
 | **Sprint 8: Research & Reporting** | Pluggable web search, source comparison, fact verification, Markdown report generation | 20h | [ ] |
 
@@ -163,3 +211,4 @@
 - **2026-10-25 (Fixed)**: Guarded cloud provider listing against placeholder credentials (`your_*`, `disabled`) in `CrewAILLMService.list_available_models()`.
 - **2026-10-25 (Fixed)**: Added fallback handling and resilient slash-parsing in model switcher dropdown (`apps/web/src/features/chat/chat-view.tsx`).
 - **2026-10-25 (Fixed)**: Updated `ConversationCreate` schema to default to configured `DEFAULT_MODEL_PROVIDER` and `DEFAULT_MODEL_NAME`.
+- **2026-10-25 (Fixed)**: Fixed `RuntimeError: Task got Future attached to a different loop` in `DocumentSearchTool` by using synchronous thread-safe `psycopg` connection and `EmbeddingService.get_sync_embedding()`, resolving CrewAI worker thread vs Uvicorn event loop conflict.

@@ -37,6 +37,43 @@ class EmbeddingService:
         return cls._deterministic_fallback_embed(cleaned)
 
     @classmethod
+    def get_sync_embedding(cls, text: str) -> List[float]:
+        """Generate a 1024-dimensional embedding synchronously for tools without event loop issues."""
+        cleaned = text.strip()
+        if not cleaned:
+            return [0.0] * EMBEDDING_DIM
+
+        if (
+            not settings.DISABLE_CLOUD_MODELS
+            and settings.MISTRAL_API_KEY
+            and not settings.MISTRAL_API_KEY.startswith("your_")
+            and settings.MISTRAL_API_KEY != "disabled"
+        ):
+            try:
+                with httpx.Client(timeout=10.0) as client:
+                    headers = {
+                        "Authorization": f"Bearer {settings.MISTRAL_API_KEY}",
+                        "Content-Type": "application/json",
+                    }
+                    payload = {
+                        "model": "mistral-embed",
+                        "input": [cleaned],
+                    }
+                    res = client.post(
+                        f"{settings.MISTRAL_API_BASE_URL}/embeddings",
+                        headers=headers,
+                        json=payload,
+                    )
+                    if res.status_code == 200:
+                        data = res.json()
+                        vector = data["data"][0]["embedding"]
+                        return cls._normalize(vector)
+            except Exception as e:
+                logger.warning(f"Mistral sync embedding API error: {e}")
+
+        return cls._deterministic_fallback_embed(cleaned)
+
+    @classmethod
     async def _get_mistral_embedding(cls, text: str) -> List[float]:
         """Call Mistral's official /embeddings API."""
         async with httpx.AsyncClient(timeout=10.0) as client:
