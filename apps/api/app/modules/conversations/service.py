@@ -10,6 +10,7 @@ from app.core.exceptions import NotFoundError, PermissionDeniedError
 from app.core.logging import logger
 from app.db.models.conversation import Conversation
 from app.db.models.message import Message
+from app.modules.agent.coordinator import AgentCoordinator
 from app.modules.conversations.schemas import ConversationCreate, MessageCreate
 from app.modules.llm.service import CrewAILLMService
 
@@ -138,35 +139,39 @@ class ConversationService:
             for m in recent_messages
         ]
 
-        # 3. Call CrewAI Native LLM
-        if settings.ENVIRONMENT == "testing" and not settings.MISTRAL_API_KEY:
-            assistant_content = f"Test response to: {data.content}"
-            token_count = 10
-        else:
-            try:
-                llm = CrewAILLMService.get_llm(
-                    provider=conversation.active_model_provider,
-                    model_name=conversation.active_model_name,
-                )
-                raw_response = llm.call(chat_messages)
-                assistant_content = str(raw_response)
-                token_count = len(assistant_content.split())
-                logger.info(
-                    f"CrewAI LLM completion [{conversation.active_model_provider}/{conversation.active_model_name}] completed"
-                )
-            except Exception as e:
-                logger.error(f"Error calling CrewAI LLM: {e}")
-                assistant_content = (
-                    f"⚠️ Error from {conversation.active_model_provider.capitalize()}: {str(e)}\n\n"
-                    "*(Your message is saved. Check model settings or API credentials.)*"
-                )
-                token_count = 0
+        # 3. Call Agent Coordinator (orchestrates CrewAI agent + audited tool execution)
+        tool_calls: list[dict[str, Any]] = []
+        tool_results: list[dict[str, Any]] = []
+
+        try:
+            assistant_content, tool_calls, tool_results = await AgentCoordinator.run_turn(
+                conversation_id=conversation_id,
+                user_prompt=data.content,
+                dialogue_history=recent_messages,
+                provider=conversation.active_model_provider,
+                model_name=conversation.active_model_name,
+                session=self.session,
+            )
+            token_count = len(assistant_content.split())
+            logger.info(
+                f"Agent turn completed [{conversation.active_model_provider}/{conversation.active_model_name}], "
+                f"tools invoked: {len(tool_calls)}"
+            )
+        except Exception as e:
+            logger.error(f"Error executing agent turn: {e}")
+            assistant_content = (
+                f"⚠️ Error from {conversation.active_model_provider.capitalize()}: {str(e)}\n\n"
+                "*(Your message is saved. Check model settings or API credentials.)*"
+            )
+            token_count = 0
 
         # 4. Persist assistant reply
         assistant_reply = Message(
             conversation_id=conversation_id,
             role="assistant",
             content=assistant_content,
+            tool_calls=tool_calls if tool_calls else None,
+            tool_results=tool_results if tool_results else None,
             token_count=token_count,
         )
         self.session.add(assistant_reply)

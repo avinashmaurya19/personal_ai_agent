@@ -68,14 +68,26 @@
 ### Sprint 3: Agent Runtime & Controlled Tools (20 Hours)
 *Goal: Assistant can select and invoke registered tools under strict safety constraints.*
 
-| ID | Task Description | Estimate | Status |
-| :--- | :--- | :--- | :--- |
-| **S3-01** | Integrate CrewAI multi-agent orchestration loop behind internal runtime coordinator | 4h | [ ] |
-| **S3-02** | Create typed tool registry with Pydantic argument validation | 3h | [ ] |
-| **S3-03** | Implement initial safe tools: date/time, calculator, task draft, note search | 3h | [ ] |
-| **S3-04** | Persist tool execution records, status codes, and timestamps in database | 3h | [ ] |
-| **S3-05** | Add tool activity and step-by-step reasoning feed in web UI | 4h | [ ] |
-| **S3-06** | Test tool argument validation, unknown tool rejection, and failure recovery | 3h | [ ] |
+| ID | Task Description | Estimate | Status | Assigned Date | Completion Date |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **S3-01** | Integrate CrewAI multi-agent orchestration loop behind internal runtime coordinator | 4h | [x] | 2026-10-25 | 2026-10-25 |
+| **S3-02** | Create typed tool registry with Pydantic argument validation | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S3-03** | Implement initial safe tools: date/time, calculator, task draft, note search | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S3-04** | Persist tool execution records, status codes, and timestamps in database | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S3-05** | Add tool activity and step-by-step reasoning feed in web UI | 4h | [x] | 2026-10-25 | 2026-10-25 |
+| **S3-06** | Test tool argument validation, unknown tool rejection, and failure recovery | 3h | [x] | 2026-10-25 | 2026-10-25 |
+
+#### Sprint 3 Definition of Done Checklist
+- [x] Internal `AgentCoordinator` orchestrating CrewAI multi-agent loop with async execution (`await crew.kickoff_async()`)
+- [x] Centralized `ToolRegistry` with Pydantic argument schemas and introspection endpoint (`GET /api/v1/tools`)
+- [x] Initial safe toolset implemented:
+  - `SafeCalculatorTool`: AST-parsed math execution (blocks code injection, DoS exponents, zero division)
+  - `CurrentDateTimeTool`: System UTC time and day-of-week reporting
+  - `TaskDraftTool`: Structured to-do drafting
+  - `NoteSearchTool`: Read-only message and note keyword search
+- [x] `ToolExecution` database model and Alembic migration (`0a1ce9cb0a27_create_tool_executions_table.py`)
+- [x] Collapsible Tool Activity UI badge & drawer in `MessageBubble` rendering execution duration and tool receipts
+- [x] Full automated test suite passing (14/14 tests passing)
 
 ---
 

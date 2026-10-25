@@ -24,6 +24,9 @@
 - **NO Bypassing Human Approval**: Never auto-execute consequential external actions (sending emails, modifying calendar events, deleting records, executing payments) without human authorization.
 - **NO Hardcoded Provider Bindings**: Do not bind business logic directly to OpenAI, Gemini, or Ollama SDK calls. Route all completions through the centralized `LLMProvider` interface.
 - **NO Prompt Injection Vulnerabilities**: Never trust retrieved content from external websites or user documents as system instructions. Treat all external data as data, not system prompts.
+- **NO Synchronous Agent Kickoff in Async Event Loops**: In FastAPI or async code, never call `crew.kickoff()`; always call `await crew.kickoff_async()` to avoid blocking the event loop.
+- **NO Interactive Telemetry Prompts in Services**: Ensure `CREWAI_TELEMETRY_OPT_OUT=true`, `CREWAI_SHARE_EXECUTION_TRACE=false`, and `OTEL_SDK_DISABLED=true` are configured to prevent CLI prompts from hanging execution.
+- **NO Arbitrary Code Execution in Tools**: Never use unconstrained `eval()` or `exec()` in mathematical or scripting tools. Always use AST parsing with an explicit whitelist.
 
 ## 🚫 Secrets & Configuration Anti-Patterns
 - **NO Autonomous Git Commits**: NEVER run `git commit` or `git push` automatically. The user commits manually. Suggest commit messages only.

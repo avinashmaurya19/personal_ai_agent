@@ -1,7 +1,7 @@
 # Comprehensive System Architecture & Planning
 
 > **Project:** Personal AI Assistant  
-> **Status:** Stage A (Personal MVP) — Sprint 1  
+> **Status:** Stage A (Personal MVP) — Sprint 3 (Active)  
 > **Repository Model:** Monorepo (Next.js Web + FastAPI Backend + PostgreSQL/Redis Infra)  
 > **Operating Budget:** ₹0 Target (Local Ollama default, Google Gemini & Mistral free-tier APIs)  
 > **Weekly Cadence:** ~10 hours/week (2 hours/day, 5 days/week)
@@ -134,6 +134,28 @@ flowchart LR
 - **Sprint 3 — Agent Runtime & Controlled Tools (20h)**:
   - *Deliverables:* CrewAI multi-agent orchestration integration behind internal runtime interface; tool registry with Pydantic input schemas; safe initial tools (date/time, calculator, task draft, note search); tool execution activity feed in web UI.
   - *Acceptance:* Agent invokes tools and uses results; unhandled or arbitrary shell/SQL/filesystem access is strictly blocked; tool runs recorded in DB.
+  
+  ```mermaid
+  flowchart TD
+      USER_MSG["User Prompt / Turn"] --> CONV_SVC["ConversationService"]
+      CONV_SVC --> AGENT_COORD["AgentCoordinator (Runtime)"]
+      
+      subgraph ToolRegistryGroup ["Controlled Tool Registry"]
+          REGISTRY["ToolRegistry"]
+          T1["CurrentDateTimeTool (Safe / Read-Only)"]
+          T2["SafeCalculatorTool (AST-Evaluated Math)"]
+          T3["TaskDraftTool (Safe Draft)"]
+          T4["NoteSearchTool (Read-Only Search)"]
+          REGISTRY --> T1 & T2 & T3 & T4
+      end
+
+      AGENT_COORD --> CREW["CrewAI Agent & Execution Loop"]
+      CREW <--> REGISTRY
+      CREW --> DB_EXEC[("ToolExecution Audit (PostgreSQL)")]
+      CREW --> FINAL_TURN["Assistant Response + Tool Receipts"]
+      FINAL_TURN --> DB_MSG[("Message Turn (PostgreSQL)")]
+      FINAL_TURN --> UI_FEED["Web UI Activity Feed"]
+  ```
 - **Sprint 4 — Custom Memory Engine (20h)**:
   - *Deliverables:* Memory extraction pipeline from conversation turns; deduplication & validation; pgvector embedding storage; hybrid semantic + keyword recall; memory viewer/editor/deletion UI.
   - *Acceptance:* Personal facts stored in one conversation are recalled in a separate session; owner-only memory access; user can inspect and delete memories.
