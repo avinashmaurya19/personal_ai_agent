@@ -7,6 +7,8 @@ from app.modules.llm.router import router as models_router
 from app.modules.tools.router import router as tools_router
 from app.modules.memory.router import router as memories_router
 from app.modules.documents.router import router as documents_router
+from app.modules.tasks.router import router as tasks_router
+from app.modules.notes.router import router as notes_router
 
 api_router = APIRouter(prefix="/api/v1")
 api_router.include_router(health_router)
@@ -15,3 +17,5 @@ api_router.include_router(models_router)
 api_router.include_router(tools_router)
 api_router.include_router(memories_router)
 api_router.include_router(documents_router)
+api_router.include_router(tasks_router)
+api_router.include_router(notes_router)

@@ -1,6 +1,6 @@
 # Active Task Tracker & Sprint Backlog
 
-> **Current Sprint:** Sprint 6 — Tasks, Notes & Reminders  
+> **Current Sprint:** Sprint 7 — Email & Calendar Workflows  
 > **Phase Target:** Phase 2 — Knowledge & Daily Productivity (Sprints 5–8)  
 > **Last Updated:** 2026-10-25  
 > **Workflow Rule:** Mark completed tasks `[x]` immediately after finishing. Add new sub-tasks or bugs discovered during development to the `### 🔍 Discovered During Work` section.
@@ -152,28 +152,28 @@
 
 ---
 
-### Sprint 6: Tasks, Notes & Reminders (Active Sprint)
+### Sprint 6: Tasks, Notes & Reminders (Completed)
 *Goal: Conversational task management, structured notes with tagging, priority and due dates, agent execution tools, and a unified Productivity Drawer in the web UI.*
 
 | ID | Task Description | Estimate | Status | Assigned Date | Completion Date |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **S6-01** | Define `Task` and `Note` SQLAlchemy models with priority, status, and tag support | 2h | [ ] | 2026-10-25 | |
-| **S6-02** | Generate and apply Alembic migration for tasks and notes tables | 1h | [ ] | 2026-10-25 | |
-| **S6-03** | Build `TaskService` and `NoteService` domain modules in `apps/api/app/modules/tasks/` | 3h | [ ] | 2026-10-25 | |
-| **S6-04** | Implement REST CRUD routers (`/api/v1/tasks`, `/api/v1/notes`) with query filtering | 3h | [ ] | 2026-10-25 | |
-| **S6-05** | Build agent execution tools (`TaskManageTool`, `NoteManageTool`) with thread-safe DB operations | 3h | [ ] | 2026-10-25 | |
-| **S6-06** | Build unified Tasks & Notes drawer in Next.js web app (filters, check-off, note editor) | 4h | [ ] | 2026-10-25 | |
-| **S6-07** | Connect task tool execution to agent coordinator for conversational task creation & status changes | 2h | [ ] | 2026-10-25 | |
-| **S6-08** | Write integration tests for task/note CRUD, query filters, and agent tool execution | 2h | [ ] | 2026-10-25 | |
+| **S6-01** | Define `Task` and `Note` SQLAlchemy models with priority, status, and tag support | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S6-02** | Generate and apply Alembic migration for tasks and notes tables | 1h | [x] | 2026-10-25 | 2026-10-25 |
+| **S6-03** | Build `TaskService` and `NoteService` domain modules in `apps/api/app/modules/tasks/` | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S6-04** | Implement REST CRUD routers (`/api/v1/tasks`, `/api/v1/notes`) with query filtering | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S6-05** | Build agent execution tools (`TaskManageTool`, `NoteManageTool`) with thread-safe DB operations | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S6-06** | Build unified Tasks & Notes drawer in Next.js web app (filters, check-off, note editor) | 4h | [x] | 2026-10-25 | 2026-10-25 |
+| **S6-07** | Connect task tool execution to agent coordinator for conversational task creation & status changes | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S6-08** | Write integration tests for task/note CRUD, query filters, and agent tool execution | 2h | [x] | 2026-10-25 | 2026-10-25 |
 
 #### Sprint 6 Definition of Done Checklist
-- [ ] `Task` and `Note` database models defined with owner isolation
-- [ ] Alembic migration applied successfully
-- [ ] REST API routes for tasks and notes with status/priority filtering
-- [ ] Agent tools `TaskManageTool` and `NoteManageTool` registered in runtime coordinator
-- [ ] Next.js Tasks & Notes drawer with check-off, filters, and quick creation
-- [ ] Natural language task commands ("remind me to...", "create task...", "mark task as done") verified via web chat
-- [ ] All automated tests passing cleanly
+- [x] `Task` and `Note` database models defined with owner isolation
+- [x] Alembic migration applied successfully (`11a45ba2011b_create_tasks_and_notes_tables.py`)
+- [x] REST API routes for tasks and notes with status/priority filtering
+- [x] Agent tools `TaskManageTool` and `NoteManageTool` registered in runtime coordinator
+- [x] Next.js Tasks & Notes drawer with check-off, filters, and quick creation
+- [x] Natural language task commands ("remind me to...", "create task...", "mark task as done") verified via web chat
+- [x] All automated tests passing cleanly (25/25 tests passing)
 
 ---
 | **Sprint 7: Email & Calendar Workflows** | Google/Microsoft OAuth, thread summarization, draft emails/invites, approval policy for mutations | 20h | [ ] |

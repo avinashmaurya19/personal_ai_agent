@@ -7,6 +7,8 @@ from app.db.models.message import Message
 from app.db.models.tool_execution import ToolExecution
 from app.db.models.memory import Memory
 from app.db.models.document import Document, DocumentChunk
+from app.db.models.task import Task
+from app.db.models.note import Note
 
 __all__ = [
     "Base",
@@ -17,4 +19,6 @@ __all__ = [
     "Memory",
     "Document",
     "DocumentChunk",
+    "Task",
+    "Note",
 ]

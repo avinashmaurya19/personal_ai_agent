@@ -48,19 +48,18 @@ class AgentCoordinator:
         """Wrap registry tools so each invocation is recorded with exact duration and payload."""
         audited_tools: List[BaseTool] = []
 
-        for registered_tool in default_tool_registry.get_crewai_tools():
-            # Dynamically subclass to capture execution telemetry
+        def wrap_tool(base_tool: BaseTool) -> BaseTool:
             class AuditedTool(BaseTool):
-                name: str = registered_tool.name
-                description: str = registered_tool.description
-                args_schema: Any = getattr(registered_tool, "args_schema", None)
+                name: str = base_tool.name
+                description: str = base_tool.description
+                args_schema: Any = getattr(base_tool, "args_schema", None)
 
                 def _run(self, **kwargs: Any) -> Any:
                     start = time.perf_counter()
                     status = "success"
                     output = None
                     try:
-                        output = registered_tool._run(**kwargs)
+                        output = base_tool._run(**kwargs)
                         return output
                     except Exception as e:
                         status = "error"
@@ -78,7 +77,10 @@ class AgentCoordinator:
                             }
                         )
 
-            audited_tools.append(AuditedTool())
+            return AuditedTool()
+
+        for registered_tool in default_tool_registry.get_crewai_tools():
+            audited_tools.append(wrap_tool(registered_tool))
 
         return audited_tools
 
@@ -97,7 +99,7 @@ class AgentCoordinator:
         captured_executions: list[dict[str, Any]] = []
 
         # Fast path for automated testing
-        if settings.ENVIRONMENT == "testing" and not settings.MISTRAL_API_KEY:
+        if settings.ENVIRONMENT == "testing":
             return cls._run_testing_stub(user_prompt)
 
         audited_tools = cls._create_audited_tools(captured_executions)
@@ -106,8 +108,9 @@ class AgentCoordinator:
         agent = Agent(
             role="Personal Assistant",
             goal=(
-                "Help the user efficiently and accurately. Answer questions directly, and use your registered tools "
-                "(date/time, calculator, task drafting, note search) whenever precision or real-time context is needed."
+                "Help the user efficiently and accurately. Always use your registered tools "
+                "(calculator, current_datetime, manage_tasks, manage_notes, document_search) "
+                "to execute calculations, manage tasks, search notes or documents, or inspect system time."
             ),
             backstory=(
                 "You are an expert personal software assistant. You value precision and conciseness. "

@@ -35,3 +35,13 @@ class User(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         back_populates="owner",
         cascade="all, delete-orphan",
     )
+    tasks: Mapped[List["Task"]] = relationship(
+        "Task",
+        back_populates="owner",
+        cascade="all, delete-orphan",
+    )
+    notes: Mapped[List["Note"]] = relationship(
+        "Note",
+        back_populates="owner",
+        cascade="all, delete-orphan",
+    )

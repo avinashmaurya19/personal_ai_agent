@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Send, Sparkles, Cpu, Brain, FileText } from "lucide-react";
+import { Send, Sparkles, Cpu, Brain, FileText, CheckSquare } from "lucide-react";
 import { MessageItem, ConversationItem, ModelOption } from "@/lib/api-client";
 import { MessageBubble } from "@/features/chat/message-bubble";
 import { MemoryDrawer } from "@/features/memory/memory-drawer";
 import { DocumentDrawer } from "@/features/documents/document-drawer";
+import { TasksDrawer } from "@/features/tasks/tasks-drawer";
 
 interface ChatViewProps {
   conversation: ConversationItem | null;
@@ -28,6 +29,7 @@ export function ChatView({
   const [isSending, setIsSending] = useState(false);
   const [isMemoryOpen, setIsMemoryOpen] = useState(false);
   const [isDocsOpen, setIsDocsOpen] = useState(false);
+  const [isTasksOpen, setIsTasksOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -112,6 +114,15 @@ export function ChatView({
 
         <div className="flex items-center gap-2">
           <button
+            onClick={() => setIsTasksOpen(true)}
+            className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 rounded-lg text-xs font-medium text-slate-200 transition-colors"
+            title="Open Tasks & Notes"
+          >
+            <CheckSquare className="w-3.5 h-3.5 text-indigo-400" />
+            <span>Tasks</span>
+          </button>
+
+          <button
             onClick={() => setIsDocsOpen(true)}
             className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 rounded-lg text-xs font-medium text-slate-200 transition-colors"
             title="Open Document Knowledge (RAG)"
@@ -137,6 +148,7 @@ export function ChatView({
       </header>
 
       {/* Drawers */}
+      <TasksDrawer isOpen={isTasksOpen} onClose={() => setIsTasksOpen(false)} />
       <MemoryDrawer isOpen={isMemoryOpen} onClose={() => setIsMemoryOpen(false)} />
       <DocumentDrawer isOpen={isDocsOpen} onClose={() => setIsDocsOpen(false)} />
 
