@@ -13,6 +13,7 @@ from app.db.models.message import Message
 from app.modules.agent.coordinator import AgentCoordinator
 from app.modules.conversations.schemas import ConversationCreate, MessageCreate
 from app.modules.llm.service import CrewAILLMService
+from app.modules.memory.service import MemoryService
 
 
 class ConversationService:
@@ -139,7 +140,19 @@ class ConversationService:
             for m in recent_messages
         ]
 
-        # 3. Call Agent Coordinator (orchestrates CrewAI agent + audited tool execution)
+        # 3. Ingest candidate memories & retrieve personalized context
+        memory_service = MemoryService(self.session)
+        await memory_service.ingest_from_message(
+            owner_id=owner_id,
+            conversation_id=conversation_id,
+            content=data.content,
+        )
+        memory_context = await memory_service.build_context_for_prompt(
+            owner_id=owner_id,
+            query=data.content,
+        )
+
+        # 4. Call Agent Coordinator (orchestrates CrewAI agent + memory context + audited tools)
         tool_calls: list[dict[str, Any]] = []
         tool_results: list[dict[str, Any]] = []
 
@@ -151,6 +164,7 @@ class ConversationService:
                 provider=conversation.active_model_provider,
                 model_name=conversation.active_model_name,
                 session=self.session,
+                memory_context=memory_context,
             )
             token_count = len(assistant_content.split())
             logger.info(

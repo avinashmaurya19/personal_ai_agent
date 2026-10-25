@@ -1,7 +1,7 @@
 # Active Task Tracker & Sprint Backlog
 
-> **Current Sprint:** Sprint 3 — Agent Runtime & Controlled Tools  
-> **Phase Target:** Phase 1 — Personal Foundation (Sprints 1–4)  
+> **Current Sprint:** Phase 1 Complete (Sprints 1–4) | Next: Sprint 5 — Document Knowledge & RAG  
+> **Phase Target:** Phase 2 — Knowledge & Daily Productivity (Sprints 5–8)  
 > **Last Updated:** 2026-10-25  
 > **Workflow Rule:** Mark completed tasks `[x]` immediately after finishing. Add new sub-tasks or bugs discovered during development to the `### 🔍 Discovered During Work` section.
 
@@ -94,15 +94,31 @@
 ### Sprint 4: Custom Memory Engine (20 Hours)
 *Goal: Remember personal facts and recall them across conversations using pgvector.*
 
-| ID | Task Description | Estimate | Status |
-| :--- | :--- | :--- | :--- |
-| **S4-01** | Define memory domain models and metadata categories in PostgreSQL | 2h | [ ] |
-| **S4-02** | Build candidate memory extraction pipeline from conversation turns | 3h | [ ] |
-| **S4-03** | Implement embedding provider abstraction and pgvector storage | 3h | [ ] |
-| **S4-04** | Implement hybrid semantic and keyword memory retrieval | 4h | [ ] |
-| **S4-05** | Implement recency and relevance scoring for context building | 2h | [ ] |
-| **S4-06** | Build memory management UI (view, search, edit, delete personal facts) | 3h | [ ] |
-| **S4-07** | Add tests for cross-conversation recall, owner-isolation, and fact deletion | 3h | [ ] |
+| ID | Task Description | Estimate | Status | Assigned Date | Completion Date |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **S4-01** | Define memory domain models and metadata categories in PostgreSQL | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S4-02** | Build candidate memory extraction pipeline from conversation turns | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S4-03** | Implement embedding provider abstraction and pgvector storage | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S4-04** | Implement hybrid semantic and keyword memory retrieval | 4h | [x] | 2026-10-25 | 2026-10-25 |
+| **S4-05** | Implement recency and relevance scoring for context building | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S4-06** | Build memory management UI (view, search, edit, delete personal facts) | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S4-07** | Add tests for cross-conversation recall, owner-isolation, and fact deletion | 3h | [x] | 2026-10-25 | 2026-10-25 |
+
+#### Sprint 4 Definition of Done Checklist
+- [x] `Memory` model and pgvector column (`087b94e69772_create_memories_table.py`)
+- [x] Multi-provider `EmbeddingService` supporting Mistral 1024-dim embeddings & deterministic local fallback
+- [x] `MemoryExtractor` automatically extracting durable preferences and personal facts from user message turns
+- [x] Hybrid semantic vector + keyword search with recency decay scoring (`MemoryService.hybrid_search`)
+- [x] Automated injection of retrieved memories into `AgentCoordinator` task context
+- [x] Dedicated Next.js `MemoryDrawer` for viewing, filtering, searching, creating, and deleting personal memories
+- [x] Full automated test suite passing (18/18 tests passing)
+
+---
+
+### 🎉 Phase 1: Personal Foundation (Sprints 1–4) — COMPLETE
+*Exit Milestone Achieved:* A fully working local assistant monorepo capable of persistent conversations, dynamic LLM model switching (Mistral & local Ollama via native CrewAI), controlled tool execution with database receipts, and long-term memory recall via pgvector at ₹0 infrastructure cost.
+
+---
 
 ---
 

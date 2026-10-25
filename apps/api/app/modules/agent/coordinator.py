@@ -91,6 +91,7 @@ class AgentCoordinator:
         provider: str,
         model_name: str,
         session: AsyncSession,
+        memory_context: str = "",
     ) -> Tuple[str, List[dict[str, Any]], List[dict[str, Any]]]:
         """Execute a conversational turn via CrewAI agent with audited tool access."""
         captured_executions: list[dict[str, Any]] = []
@@ -110,7 +111,7 @@ class AgentCoordinator:
             ),
             backstory=(
                 "You are an expert personal software assistant. You value precision and conciseness. "
-                "When a mathematical or date/time query is received, you always use the appropriate tool."
+                "You respect the user's stated preferences and memories."
             ),
             llm=llm,
             tools=audited_tools,
@@ -125,7 +126,7 @@ class AgentCoordinator:
 
         task = Task(
             description=(
-                f"{recent_context}Current User Request: {user_prompt}\n\n"
+                f"{memory_context}{recent_context}Current User Request: {user_prompt}\n\n"
                 "Instructions: Solve the user request. Use tools if helpful. Provide a clear, natural final response."
             ),
             expected_output="A helpful, accurate, and concise response to the user's request.",

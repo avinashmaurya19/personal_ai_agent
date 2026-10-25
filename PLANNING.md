@@ -1,7 +1,7 @@
 # Comprehensive System Architecture & Planning
 
 > **Project:** Personal AI Assistant  
-> **Status:** Stage A (Personal MVP) — Sprint 3 (Active)  
+> **Status:** Stage A (Personal MVP) — Sprint 4 (Active)  
 > **Repository Model:** Monorepo (Next.js Web + FastAPI Backend + PostgreSQL/Redis Infra)  
 > **Operating Budget:** ₹0 Target (Local Ollama default, Google Gemini & Mistral free-tier APIs)  
 > **Weekly Cadence:** ~10 hours/week (2 hours/day, 5 days/week)
@@ -159,6 +159,29 @@ flowchart LR
 - **Sprint 4 — Custom Memory Engine (20h)**:
   - *Deliverables:* Memory extraction pipeline from conversation turns; deduplication & validation; pgvector embedding storage; hybrid semantic + keyword recall; memory viewer/editor/deletion UI.
   - *Acceptance:* Personal facts stored in one conversation are recalled in a separate session; owner-only memory access; user can inspect and delete memories.
+  
+  ```mermaid
+  flowchart TD
+      subgraph Ingestion ["Memory Extraction & Ingestion Pipeline"]
+          MSG_TURN["New Message Turn"] --> EXTRACTOR["MemoryExtractor (Heuristic & Pattern Filter)"]
+          EXTRACTOR --> DEDUP["Deduplication & Category Classifier"]
+          DEDUP --> EMBEDDER["EmbeddingService (Mistral / Ollama / Fallback)"]
+          EMBEDDER --> PG_VEC[("PostgreSQL 16 + pgvector (1024-dim Vectors)")]
+      end
+
+      subgraph Retrieval ["Hybrid Retrieval & Context Injection"]
+          USER_PROMPT["User Query"] --> SEARCH["Hybrid Search (Cosine Sim + Keyword)"]
+          PG_VEC --> SEARCH
+          SEARCH --> SCORER["Scorer (Relevance + Recency Decay)"]
+          SCORER --> PROMPT_INJECT["Injected Long-Term Memory Context"]
+          PROMPT_INJECT --> AGENT_COORD["AgentCoordinator & CrewAI Execution"]
+      end
+
+      subgraph Management ["Owner Memory Management (UI)"]
+          UI_VIEW["Web Memory Drawer / Modal"] --> API_MEM["FastAPI /api/v1/memories"]
+          API_MEM --> PG_VEC
+      end
+  ```
 
 *Phase 1 Exit Milestone:* A working local assistant capable of persistent conversation, dynamic model switching, tool execution, and long-term memory recall at ₹0 infrastructure cost.
 
