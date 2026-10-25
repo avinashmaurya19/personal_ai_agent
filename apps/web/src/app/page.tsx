@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from "react";
-import { api, ConversationItem, MessageItem } from "@/lib/api-client";
+import { api, ConversationItem, MessageItem, ModelOption } from "@/lib/api-client";
 import { ConversationList } from "@/features/conversations/conversation-list";
 import { ChatView } from "@/features/chat/chat-view";
 
@@ -9,8 +9,15 @@ export default function HomePage() {
   const [conversations, setConversations] = useState<ConversationItem[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [messages, setMessages] = useState<MessageItem[]>([]);
+  const [models, setModels] = useState<ModelOption[]>([]);
   const [isLoadingMessages, setIsLoadingMessages] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    api.getModels()
+      .then(setModels)
+      .catch((err) => console.error("Failed to load models:", err));
+  }, []);
 
   const fetchConversations = useCallback(async () => {
     try {
@@ -114,6 +121,18 @@ export default function HomePage() {
     }
   };
 
+  const handleModelChange = async (provider: string, model: string) => {
+    if (!selectedId) return;
+    try {
+      const updated = await api.updateConversationModel(selectedId, provider, model);
+      setConversations((prev) =>
+        prev.map((c) => (c.id === selectedId ? updated : c))
+      );
+    } catch (err) {
+      console.error("Failed to update conversation model:", err);
+    }
+  };
+
   const selectedConversation = conversations.find((c) => c.id === selectedId) || null;
 
   return (
@@ -135,8 +154,10 @@ export default function HomePage() {
         <ChatView
           conversation={selectedConversation}
           messages={messages}
+          models={models}
           isLoading={isLoadingMessages}
           onSendMessage={handleSendMessage}
+          onModelChange={handleModelChange}
         />
       </div>
     </div>

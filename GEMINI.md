@@ -11,11 +11,15 @@ Welcome to the **Personal AI Assistant** project. You are operating as an expert
   1. *Planning Phase*: Outline plan with Mermaid diagrams in `PLANNING.md` before writing code.
   2. *Implementation Phase*: Code in modular chunks (<500 lines per file). Log mistakes in `.agent/rules/things-to-avoid.md`.
   3. *Test Phase*: Run tests and verify functionality.
-  4. *Document Phase*: Check off tasks in `TASK.md`, update documentation, and make atomic commits.
+  4. *Document Phase*: Check off tasks in `TASK.md`, update documentation, and suggest a commit message for the user.
+- **NO Autonomous Git Commits**: The agent must NEVER run `git commit` or `git push` autonomously. The repository owner handles all commits manually. Provide suggested commit commands instead.
 
 ---
 
 ## 2. Core Constraints & Anti-Patterns
+- **Production-Level Code Only**: We are building production software, not learning tutorials or proof-of-concept demos. Write clean, robust, deterministic code with proper typing, validation, error handling, and tests.
+- **Strict Dependency Management**: Always maintain clean, pinned `requirements.txt` (and `requirements-dev.txt`) in `apps/api` for deterministic container and environment builds.
+- **Zero Unnecessary Code**: Never write speculative abstractions, fake wrappers, or reinvent features that battle-tested frameworks (like CrewAI, FastAPI, SQLAlchemy) already provide.
 - **500-Line Limit**: Never create a file longer than 500 lines of code. Split into sub-modules or helpers.
 - **₹0 Infrastructure Target**: Built for local compute (Ollama local inference, Dockerized PostgreSQL + pgvector, Redis) with free-tier cloud fallback (Gemini API, Mistral API).
 - **The "Do the Work" Principle**: Workflows follow strict states: `Requested` ➔ `Planned` ➔ `Authorized` ➔ `Executed` ➔ `Verified` ➔ `Reported`. Never claim an action succeeded unless verified by tool execution and database receipt.

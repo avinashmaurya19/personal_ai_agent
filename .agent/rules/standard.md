@@ -1,6 +1,9 @@
 # Development Standards & Quality Guidelines
 
 ## 1. Code Quality & Modularity
+- **Production-Level Engineering**: This is production software, not a learning tutorial. All code must be production-ready, strictly typed, tested, and resilient.
+- **Zero Unnecessary Code**: Do NOT write speculative boilerplate, custom wrappers, or redundant code when existing robust libraries (CrewAI, FastAPI, SQLAlchemy) solve the problem natively.
+- **Strict Dependency Management**: Always maintain clean, pinned `apps/api/requirements.txt` and `apps/api/requirements-dev.txt` for deterministic production container and CI/CD builds.
 - **File Length Limit**: Strictly limit files to **500 lines of code**. If a file approaches this limit, refactor into cohesive sub-modules or utility helpers.
 - **Single Responsibility Principle**: Each module, class, and function must have a single clear purpose.
 - **Import Conventions**:
@@ -18,11 +21,7 @@ Follow the **Conventional Commits** specification:
 - `chore: <description>` — Tooling, dependency, or configuration updates
 
 ### Git Workflow Rules
-1. **Commit Frequently**: Make atomic commits corresponding to logical steps in the workflow:
-   - After Planning phase updates to `@PLANNING.md` and `@TASK.md`.
-   - After Implementation phase code changes.
-   - After Test phase validation.
-   - After Documentation phase completion.
+1. **NO Autonomous Commits**: The agent must NEVER run `git commit` or `git push` autonomously. Always suggest the conventional commit command for the user to review and run manually.
 2. **Never Commit Secrets**: Ensure `.env` is always git-ignored. Only commit `.env.example` containing variable names and placeholders.
 
 ## 3. Testing Standards

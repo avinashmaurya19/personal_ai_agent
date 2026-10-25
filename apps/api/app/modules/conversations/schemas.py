@@ -10,8 +10,15 @@ class ConversationCreate(BaseModel):
     """Payload to create a new conversation."""
 
     title: Optional[str] = Field(default=None, max_length=255)
-    active_model_provider: str = Field(default="ollama", max_length=64)
-    active_model_name: str = Field(default="llama3.2", max_length=128)
+    active_model_provider: Optional[str] = Field(default=None, max_length=64)
+    active_model_name: Optional[str] = Field(default=None, max_length=128)
+
+
+class ConversationModelUpdate(BaseModel):
+    """Payload to switch model provider and name for an existing conversation."""
+
+    active_model_provider: str = Field(..., max_length=64)
+    active_model_name: str = Field(..., max_length=128)
 
 
 class ConversationResponse(BaseModel):

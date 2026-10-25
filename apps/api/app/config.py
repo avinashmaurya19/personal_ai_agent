@@ -1,16 +1,31 @@
 """Application configuration and environment settings using Pydantic Settings."""
 
 from functools import lru_cache
+from pathlib import Path
 from typing import Literal
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+def _find_repo_root() -> Path:
+    """Find repository root directory containing .env or compose.yaml."""
+    current = Path(__file__).resolve().parent
+    for parent in [current, *current.parents]:
+        if (parent / "compose.yaml").exists() or (parent / ".git").exists():
+            return parent
+    return Path(__file__).resolve().parents[3]
+
+
+_REPO_ROOT = _find_repo_root()
+_ROOT_ENV = _REPO_ROOT / ".env"
+_LOCAL_ENV = Path(__file__).resolve().parents[1] / ".env"
 
 
 class Settings(BaseSettings):
     """Central configuration for FastAPI Personal AI Assistant backend."""
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=(_ROOT_ENV, _LOCAL_ENV, ".env"),
         env_file_encoding="utf-8",
         extra="ignore",
     )

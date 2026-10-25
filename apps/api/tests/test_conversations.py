@@ -42,7 +42,7 @@ async def test_conversation_lifecycle_and_persistence() -> None:
         assert msg_res.status_code == 201
         assistant_reply = msg_res.json()
         assert assistant_reply["role"] == "assistant"
-        assert "Received" in assistant_reply["content"]
+        assert len(assistant_reply["content"]) > 0
 
         # 4. Fetch messages history
         history_res = await client.get(f"/api/v1/conversations/{conv_id}/messages")

@@ -9,6 +9,7 @@ from app.api.dependencies import get_current_owner, get_db_session
 from app.db.models.user import User
 from app.modules.conversations.schemas import (
     ConversationCreate,
+    ConversationModelUpdate,
     ConversationResponse,
     MessageCreate,
     MessageResponse,
@@ -57,6 +58,23 @@ async def get_conversation(
 ) -> ConversationResponse:
     """Retrieve conversation metadata by ID."""
     return await service.get_conversation(conversation_id, owner.id)
+
+
+@router.patch(
+    "/{conversation_id}/model",
+    response_model=ConversationResponse,
+    summary="Update conversation active model",
+)
+async def update_conversation_model(
+    conversation_id: uuid.UUID,
+    payload: ConversationModelUpdate,
+    owner: User = Depends(get_current_owner),
+    service: ConversationService = Depends(get_conversation_service),
+) -> ConversationResponse:
+    """Switch the model provider or model name for this conversation."""
+    return await service.update_conversation_model(
+        conversation_id, owner.id, payload.active_model_provider, payload.active_model_name
+    )
 
 
 @router.delete(

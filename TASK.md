@@ -1,6 +1,6 @@
 # Active Task Tracker & Sprint Backlog
 
-> **Current Sprint:** Sprint 1 — Monorepo Foundation & Web Chat Persistence  
+> **Current Sprint:** Sprint 3 — Agent Runtime & Controlled Tools  
 > **Phase Target:** Phase 1 — Personal Foundation (Sprints 1–4)  
 > **Last Updated:** 2026-10-25  
 > **Workflow Rule:** Mark completed tasks `[x]` immediately after finishing. Add new sub-tasks or bugs discovered during development to the `### 🔍 Discovered During Work` section.
@@ -42,17 +42,26 @@
 ### Sprint 2: LLM Gateway & Provider Adapters (20 Hours)
 *Goal: Switch between Ollama, Gemini, and Mistral without changing business logic.*
 
-| ID | Task Description | Estimate | Status |
-| :--- | :--- | :--- | :--- |
-| **S2-01** | Define abstract `LLMProvider` interface and standardized completion schemas | 2h | [ ] |
-| **S2-02** | Implement local Ollama provider adapter with streaming support | 3h | [ ] |
-| **S2-03** | Implement Google Gemini API (Free tier) provider adapter | 3h | [ ] |
-| **S2-04** | Implement Mistral API (Free tier) provider adapter | 2h | [ ] |
-| **S2-05** | Add disabled OpenAI adapter interface slot | 1h | [ ] |
-| **S2-06** | Add central provider/model configuration with `DISABLE_CLOUD_MODELS` switch | 2h | [ ] |
-| **S2-07** | Implement token usage, latency logging, and timeout/retry error handling | 3h | [ ] |
-| **S2-08** | Build dynamic model selector dropdown in web chat header | 2h | [ ] |
-| **S2-09** | Add unit and integration tests for provider switching and outage behavior | 2h | [ ] |
+| ID | Task Description | Estimate | Status | Assigned Date | Completion Date |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **S2-01** | Define abstract `LLMProvider` interface and standardized completion schemas | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S2-02** | Implement local Ollama provider adapter with streaming support | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S2-03** | Implement Google Gemini API (Free tier) provider adapter | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S2-04** | Implement Mistral API adapter using configured `open-mistral-7b` credentials | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S2-05** | Add disabled OpenAI adapter interface slot | 1h | [x] | 2026-10-25 | 2026-10-25 |
+| **S2-06** | Add central provider/model configuration with `DISABLE_CLOUD_MODELS` switch | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S2-07** | Implement token usage, latency logging, and timeout/retry error handling | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S2-08** | Build dynamic model selector dropdown in web chat header | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S2-09** | Add unit and integration tests for provider switching and outage behavior | 2h | [x] | 2026-10-25 | 2026-10-25 |
+
+#### Sprint 2 Definition of Done Checklist
+- [x] CrewAI native LLM integration (`from crewai import LLM`) unified across providers
+- [x] Model options catalog endpoint (`GET /api/v1/models`) listing active local & cloud models
+- [x] Mistral API connected with `open-mistral-7b`
+- [x] Ollama local integration configured for `llama3.2`
+- [x] OpenAI adapter disabled to respect ₹0 budget target
+- [x] Dynamic model switching dropdown in web chat header with instant persistence
+- [x] All 9 automated tests passing with coverage for model switching & safety switches
 
 ---
 
@@ -122,4 +131,7 @@
 
 > *New sub-tasks, bugs, or refactorings identified during implementation must be logged here with the date discovered.*
 
-- *(No items discovered yet)*
+- **2026-10-25 (Fixed)**: Root `.env` loading in `apps/api/app/config.py` updated to resolve root directory `.env` dynamically when launched from `apps/api` via `dev.sh`.
+- **2026-10-25 (Fixed)**: Guarded cloud provider listing against placeholder credentials (`your_*`, `disabled`) in `CrewAILLMService.list_available_models()`.
+- **2026-10-25 (Fixed)**: Added fallback handling and resilient slash-parsing in model switcher dropdown (`apps/web/src/features/chat/chat-view.tsx`).
+- **2026-10-25 (Fixed)**: Updated `ConversationCreate` schema to default to configured `DEFAULT_MODEL_PROVIDER` and `DEFAULT_MODEL_NAME`.

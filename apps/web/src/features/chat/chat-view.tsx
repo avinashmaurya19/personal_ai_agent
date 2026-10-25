@@ -1,22 +1,26 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Send, Sparkles, AlertCircle } from "lucide-react";
-import { MessageItem, ConversationItem } from "@/lib/api-client";
+import { Send, Sparkles, Cpu } from "lucide-react";
+import { MessageItem, ConversationItem, ModelOption } from "@/lib/api-client";
 import { MessageBubble } from "@/features/chat/message-bubble";
 
 interface ChatViewProps {
   conversation: ConversationItem | null;
   messages: MessageItem[];
+  models: ModelOption[];
   isLoading: boolean;
   onSendMessage: (content: string) => Promise<void>;
+  onModelChange: (provider: string, model: string) => Promise<void>;
 }
 
 export function ChatView({
   conversation,
   messages,
+  models,
   isLoading,
   onSendMessage,
+  onModelChange,
 }: ChatViewProps) {
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
@@ -69,12 +73,39 @@ export function ChatView({
     <div className="flex-1 flex flex-col h-full bg-slate-950">
       {/* Chat Top Bar */}
       <header className="h-14 px-6 border-b border-slate-800/80 bg-slate-900/40 backdrop-blur-md flex items-center justify-between">
-        <div>
-          <h1 className="text-sm font-semibold text-slate-100 truncate max-w-md">{conversation.title}</h1>
-          <p className="text-[11px] text-slate-400">
-            Model: {conversation.active_model_provider}/{conversation.active_model_name}
-          </p>
+        <div className="flex items-center gap-4">
+          <div className="truncate max-w-xs">
+            <h1 className="text-sm font-semibold text-slate-100 truncate">{conversation.title}</h1>
+          </div>
+
+          {/* Model Switcher Dropdown */}
+          <div className="flex items-center gap-1.5 bg-slate-800/60 border border-slate-700/60 rounded-lg px-2.5 py-1 text-xs text-slate-300">
+            <Cpu className="w-3.5 h-3.5 text-indigo-400" />
+            <select
+              value={`${conversation.active_model_provider}/${conversation.active_model_name}`}
+              onChange={(e) => {
+                const val = e.target.value;
+                const slashIdx = val.indexOf("/");
+                const provider = slashIdx !== -1 ? val.slice(0, slashIdx) : val;
+                const model = slashIdx !== -1 ? val.slice(slashIdx + 1) : "";
+                onModelChange(provider, model);
+              }}
+              className="bg-transparent text-slate-200 focus:outline-none cursor-pointer"
+            >
+              {!models.some((m) => m.id === `${conversation.active_model_provider}/${conversation.active_model_name}`) && (
+                <option value={`${conversation.active_model_provider}/${conversation.active_model_name}`} className="bg-slate-900 text-slate-200">
+                  {conversation.active_model_name} ({conversation.active_model_provider})
+                </option>
+              )}
+              {models.map((opt) => (
+                <option key={opt.id} value={opt.id} className="bg-slate-900 text-slate-200">
+                  {opt.name} {opt.is_local ? "🏠 Local" : "☁️ Cloud"}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
+
         <div className="flex items-center gap-2 text-xs text-slate-400">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           <span>Online</span>

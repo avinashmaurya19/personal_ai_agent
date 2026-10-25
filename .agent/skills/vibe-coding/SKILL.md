@@ -13,7 +13,7 @@ This skill defines the structured pair-programming lifecycle for this project. N
 flowchart LR
     P1["1. Planning Phase<br/>(No code yet)"] --> P2["2. Implementation Phase<br/>(Modular, <500 lines)"]
     P2 --> P3["3. Test Phase<br/>(Verify functionality)"]
-    P3 --> P4["4. Document Phase<br/>(Check TASK.md & commit)"]
+    P3 --> P4["4. Document Phase<br/>(Check TASK.md)"]
 ```
 
 ---
@@ -32,8 +32,8 @@ flowchart LR
 4. **Persist Plan & Tasks**:
    - Append or update the finalized plan into `PLANNING.md`.
    - List actionable, atomic tasks with estimates in `TASK.md`.
-5. **Git Commit**:
-   - Commit: `docs: plan <feature name> in PLANNING.md and TASK.md`
+5. **Suggest Commit (No Auto-Commit)**:
+   - Provide suggested command for user: `git commit -m "docs: plan <feature name> in PLANNING.md and TASK.md"`
 
 ---
 
@@ -49,8 +49,8 @@ flowchart LR
    - Use strict type annotations (Python Pydantic v2 / TypeScript strict).
 3. **Capture & Learn from Mistakes**:
    - If a bug, hallucination, or design mistake occurs during development, fix it immediately and **record the rule in `.agent/rules/things-to-avoid.md`**.
-4. **Git Commit**:
-   - Commit: `feat: implement <feature name>` or `fix: <issue description>`
+4. **Suggest Commit (No Auto-Commit)**:
+   - Provide suggested command for user: `git commit -m "feat: implement <feature name>"` or `git commit -m "fix: <issue description>"`
 
 ---
 
@@ -63,8 +63,8 @@ flowchart LR
 2. **Functional Validation**:
    - Test happy path and error boundaries.
    - Verify that actions and tool executions persist to the database.
-3. **Git Commit**:
-   - Commit: `test: verify <feature name> test cases`
+3. **Suggest Commit (No Auto-Commit)**:
+   - Provide suggested command for user: `git commit -m "test: verify <feature name> test cases"`
 
 ---
 
@@ -77,5 +77,5 @@ flowchart LR
 2. **Update Documentation**:
    - Add docstrings to public interfaces and update OpenAPI route tags.
    - Update `README.md` or user documentation if public behavior changed.
-3. **Git Commit**:
-   - Commit: `docs: update TASK.md and documentation for <feature name>`
+3. **Suggest Commit (No Auto-Commit)**:
+   - Provide suggested command for user: `git commit -m "docs: update TASK.md and documentation for <feature name>"`

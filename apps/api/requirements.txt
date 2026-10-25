@@ -1,0 +1,14 @@
+# Production Dependencies for Personal AI Assistant Backend Runtime
+fastapi==0.162.0
+uvicorn[standard]==0.54.0
+pydantic==2.12.5
+pydantic-settings==2.16.1
+sqlalchemy==2.1.6
+asyncpg==0.32.0
+greenlet==3.5.6
+alembic==1.20.1
+redis==8.1.0
+httpx==0.28.1
+pgvector==0.5.1
+crewai==1.15.30
+litellm==1.106.3
