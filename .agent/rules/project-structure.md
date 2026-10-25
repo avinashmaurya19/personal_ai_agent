@@ -36,7 +36,7 @@ personal-ai-assistant/
 │       │   │   ├── conversations/   # Conversation management & message history
 │       │   │   ├── assistant/       # Assistant core coordinator & runtime
 │       │   │   ├── llm/             # LLM provider gateway (Ollama, Gemini, Mistral)
-│       │   │   ├── agents/          # Agent planning, loops, and Google ADK integration
+│       │   │   ├── agents/          # Agent planning, loops, and CrewAI integration
 │       │   │   ├── tools/           # Controlled tool registry & execution
 │       │   │   ├── memory/          # Long-term memory & context builder
 │       │   │   ├── knowledge/       # Document ingestion, RAG & pgvector search

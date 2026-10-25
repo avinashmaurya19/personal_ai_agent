@@ -131,7 +131,7 @@ terms before relying on them.
   Backend                 Python + FastAPI        Open source; run
                                                   locally
 
-  Agent framework         Google ADK              Open source; use behind
+  Agent framework         CrewAI                  Open source; use behind
                                                   our own interface
 
   Local model runtime     Ollama                  Local inference; no API
@@ -467,7 +467,7 @@ disabled entirely.
 
 **Goal:** The assistant can select and invoke registered tools.
 
-Tasks: 1. Integrate Google ADK behind an internal agent interface. 2.
+Tasks: 1. Integrate CrewAI behind an internal agent interface. 2.
 Define tool contract and registration. 3. Add safe initial tools:
 date/time, calculator, task draft and note search. 4. Validate tool
 arguments. 5. Persist tool calls and results. 6. Add execution IDs and
@@ -852,8 +852,8 @@ Sprint 1 is limited to the personal web MVP foundation.
 -   [ ] Tests pass.
 
 **Important sequencing:** Sprint 1 proves the web/backend/database
-foundation. Sprint 2 adds dynamic LLM providers. Sprint 3 adds Google
-ADK and tool execution. Do not mix all three concerns into the first
+foundation. Sprint 2 adds dynamic LLM providers. Sprint 3 adds CrewAI
+and tool execution. Do not mix all three concerns into the first
 sprint.
 
 ------------------------------------------------------------------------

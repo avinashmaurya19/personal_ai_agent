@@ -61,7 +61,7 @@
 
 | ID | Task Description | Estimate | Status |
 | :--- | :--- | :--- | :--- |
-| **S3-01** | Integrate Google ADK / agent loop behind internal runtime coordinator | 4h | [ ] |
+| **S3-01** | Integrate CrewAI multi-agent orchestration loop behind internal runtime coordinator | 4h | [ ] |
 | **S3-02** | Create typed tool registry with Pydantic argument validation | 3h | [ ] |
 | **S3-03** | Implement initial safe tools: date/time, calculator, task draft, note search | 3h | [ ] |
 | **S3-04** | Persist tool execution records, status codes, and timestamps in database | 3h | [ ] |

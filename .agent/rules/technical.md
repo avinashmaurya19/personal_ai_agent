@@ -6,7 +6,7 @@
 | :--- | :--- | :--- |
 | **Frontend** | Next.js 14+ (App Router), TypeScript, Tailwind CSS | Local execution, modern reactive UI |
 | **Backend** | Python 3.11+, FastAPI, Pydantic v2 | High-performance async API, clean typing |
-| **Agent Framework** | Google ADK / Custom Agent Runtime | Standardized tool calling and agent orchestration |
+| **Agent Framework** | CrewAI Multi-Agent Runtime | Standardized tool calling and agent orchestration |
 | **Database** | PostgreSQL 16+ with `pgvector` extension | Local Docker container; relational source of truth + vector embeddings |
 | **Cache & Queue** | Redis 7+ | Local Docker container; job queue, fast session cache |
 | **ORM & Migrations** | SQLAlchemy 2.0 (asyncio) + Alembic | Type-safe queries and declarative schema migrations |

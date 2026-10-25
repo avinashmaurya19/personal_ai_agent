@@ -41,7 +41,7 @@ flowchart TD
     subgraph CoreRuntime ["Assistant Runtime & Agent Engine"]
         RUNTIME["Assistant Runtime Coordinator"]
         CTX["Context Builder & Memory Ingestion"]
-        PLANNER["Agent Planner & Loop (Google ADK / ReAct)"]
+        PLANNER["Agent Planner & Loop (CrewAI Multi-Agent Runtime)"]
         REGISTRY["Controlled Tool Registry"]
         POLICY["Policy & Permission Filter (Safe vs Consequential)"]
     end
@@ -132,7 +132,7 @@ flowchart LR
   - *Deliverables:* Abstract `LLMProvider` interface; adapters for local Ollama, Google Gemini (Free tier), Mistral (Free mode); disabled OpenAI adapter; token usage/latency logging; dynamic model switcher in web UI.
   - *Acceptance:* Same chat endpoint works with Ollama, Gemini, and Mistral; zero cloud egress when `DISABLE_CLOUD_MODELS=true`.
 - **Sprint 3 — Agent Runtime & Controlled Tools (20h)**:
-  - *Deliverables:* Google ADK integration behind internal runtime interface; tool registry with Pydantic input schemas; safe initial tools (date/time, calculator, task draft, note search); tool execution activity feed in web UI.
+  - *Deliverables:* CrewAI multi-agent orchestration integration behind internal runtime interface; tool registry with Pydantic input schemas; safe initial tools (date/time, calculator, task draft, note search); tool execution activity feed in web UI.
   - *Acceptance:* Agent invokes tools and uses results; unhandled or arbitrary shell/SQL/filesystem access is strictly blocked; tool runs recorded in DB.
 - **Sprint 4 — Custom Memory Engine (20h)**:
   - *Deliverables:* Memory extraction pipeline from conversation turns; deduplication & validation; pgvector embedding storage; hybrid semantic + keyword recall; memory viewer/editor/deletion UI.

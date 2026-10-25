@@ -70,7 +70,7 @@ architecture cleanly scales into a secure multi-user product for businesses (Sta
   - Global privacy toggle to disable cloud egress completely.
 
 [FR-3] Controlled Agent Runtime & Tool Registry
-  - Integration with Google ADK / modular agent runtime.
+  - Integration with CrewAI multi-agent orchestration / modular agent runtime.
   - Explicit tool registry with strict Pydantic input schemas, timeouts, and logging.
   - LLM receives typed tool signatures; never direct shell, SQL, or filesystem access.
 
