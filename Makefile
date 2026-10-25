@@ -2,6 +2,7 @@
 
 help:
 	@echo "Available commands:"
+	@echo "  make dev       - Run database, backend (:8000), and frontend (:3000) concurrently"
 	@echo "  make up        - Start local infrastructure (Postgres + Redis)"
 	@echo "  make down      - Stop local infrastructure"
 	@echo "  make restart   - Restart local infrastructure"
@@ -9,6 +10,10 @@ help:
 	@echo "  make ps        - List running containers"
 	@echo "  make test      - Run automated test suite"
 	@echo "  make clean     - Clean caches and temporary files"
+
+dev:
+	@chmod +x infra/scripts/dev.sh
+	@./infra/scripts/dev.sh
 
 up:
 	docker compose up -d
@@ -25,7 +30,7 @@ ps:
 	docker compose ps
 
 test:
-	pytest apps/api/tests/
+	PYTHONPATH=apps/api apps/api/.venv/bin/pytest apps/api/tests/
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +
