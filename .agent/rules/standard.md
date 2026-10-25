@@ -1,9 +1,3 @@
----
-description: Coding standards, git conventions, testing, and quality guidelines
-globs: *
-alwaysApply: true
----
-
 # Development Standards & Quality Guidelines
 
 ## 1. Code Quality & Modularity

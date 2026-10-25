@@ -10,7 +10,7 @@
 
 | ID | Task | Estimate | Status | Assigned Date | Completion Date |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **S1-00** | Initialize Vibe Coding rules (`.cursor/rules/`, `PRD.txt`, `PLANNING.md`, `TASK.md`) | 1h | [x] | 2026-10-25 | 2026-10-25 |
+| **S1-00** | Initialize Antigravity Vibe Coding workflow (`GEMINI.md`, `.agent/`, `PRD.txt`, `PLANNING.md`, `TASK.md`) | 1h | [x] | 2026-10-25 | 2026-10-25 |
 | **S1-01** | Create monorepo skeleton, `.gitignore`, `.env.example`, and baseline documentation | 2h | [ ] | 2026-10-25 | - |
 | **S1-02** | Scaffold Next.js 14+ web application in `apps/web` (TypeScript, Tailwind CSS) | 2h | [ ] | 2026-10-25 | - |
 | **S1-03** | Scaffold FastAPI backend application in `apps/api` with Pydantic settings & config | 2h | [ ] | 2026-10-25 | - |

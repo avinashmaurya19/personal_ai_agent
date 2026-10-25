@@ -1,9 +1,3 @@
----
-description: Technical stack, architecture decisions, and implementation guidelines
-globs: *
-alwaysApply: true
----
-
 # Technical Guidelines & Architecture Rules
 
 ## 1. Technical Stack (Free-First / ₹0 Target)

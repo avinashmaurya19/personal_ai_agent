@@ -1,9 +1,3 @@
----
-description: Anti-patterns, common mistakes, and strict constraints to avoid
-globs: *
-alwaysApply: true
----
-
 # Things to Avoid (Anti-Patterns & Pitfalls)
 
 > This document is updated whenever mistakes, architectural missteps, or recurring bugs are identified. Always review this before proposing or writing code.

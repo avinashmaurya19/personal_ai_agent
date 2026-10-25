@@ -1,9 +1,3 @@
----
-description: Project structure and repository layout standards
-globs: *
-alwaysApply: true
----
-
 # Project Structure & Repository Layout
 
 This project follows a monorepo architecture designed for a modular monolith. Avoid premature microservices, but maintain strict modularity within the codebase.
@@ -60,7 +54,10 @@ personal-ai-assistant/
 │   ├── docker/                      # Dockerfiles for apps
 │   └── scripts/                     # Local setup & seed scripts
 ├── docs/                            # Deep-dive architecture and design documentation
-├── .cursor/rules/                   # Vibe coding & Cursor AI rules
+├── .agent/                          # Antigravity agent configuration, rules, and skills
+│   ├── rules/                       # Modular rules (awareness, structure, technical, standards, things-to-avoid)
+│   └── skills/                      # Custom workflow skills (e.g. vibe-coding)
+├── GEMINI.md                        # Master Antigravity project instructions (always-on)
 ├── PLANNING.md                      # Architecture, system state & design decisions
 ├── TASK.md                          # Active sprint task tracking & backlog
 ├── PRD.txt                          # Product Requirements Document
