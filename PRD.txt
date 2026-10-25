@@ -1,0 +1,115 @@
+================================================================================
+                    PRODUCT REQUIREMENTS DOCUMENT (PRD)
+                         PERSONAL AI ASSISTANT
+================================================================================
+
+1. PRODUCT OVERVIEW
+--------------------------------------------------------------------------------
+The Personal AI Assistant is an autonomous, context-aware digital companion 
+designed for one owner first. Unlike generic chatbots, its primary objective is 
+to execute real digital work—retrieving personal context, synthesizing documents, 
+coordinating tasks, drafting communications, and running multi-step automated 
+workflows—while operating on a strict ₹0 infrastructure budget using local and 
+free-tier services.
+
+After proving genuine utility in the owner's daily workflow (Stage A & B), the 
+architecture cleanly scales into a secure multi-user product for businesses (Stage C).
+
+
+2. CORE PRODUCT PRINCIPLES
+--------------------------------------------------------------------------------
+- "One Assistant, One Truth, Many Channels":
+  A centralized backend assistant runtime powers the Next.js web app today, and 
+  future WhatsApp, mobile, or MCP client channels tomorrow without duplicated logic.
+
+- "Do the Work" Action State Machine:
+  All agentic tasks explicitly transition across 6 transparent states:
+    [Requested] -> [Planned] -> [Authorized] -> [Executed] -> [Verified] -> [Reported]
+  The assistant NEVER claims an external action succeeded unless verified by the 
+  underlying tool and persistent database receipt.
+
+- Free-First (₹0 Budget Target):
+  Development and local execution must rely on open-source local services (Ollama, 
+  PostgreSQL, pgvector, Redis) and free-tier cloud APIs (Gemini, Mistral). OpenAI 
+  is an architectural adapter enabled only when paid budget exists.
+
+- Privacy and Safety by Default:
+  Local services are default. Sensitive documents, emails, and credentials are 
+  never broadcast to cloud APIs without user consent. Consequential external actions 
+  (sending email, deleting records, changing system state) strictly require explicit 
+  human approval.
+
+
+3. TARGET USERS & PHASES
+--------------------------------------------------------------------------------
+- Stage A (Current Focus): Personal MVP
+  Single owner, local web interface, persistent conversations, dynamic LLM provider 
+  switching (Ollama / Gemini / Mistral), basic personal memory, tool calling, and 
+  human-in-the-loop approvals.
+
+- Stage B: Daily-Use Personal Assistant
+  Reliable multi-step workflows, personal RAG & document indexing, email/calendar 
+  read/draft workflows, daily morning briefings, proactive scheduled reminders.
+
+- Stage C: Customer-Ready Multi-User Product
+  Organization/tenant model, RBAC, SSO, tenant-isolated memory, usage metering, 
+  and self-hosted enterprise deployment. (Deferred until Stage A & B are validated).
+
+
+4. FUNCTIONAL REQUIREMENTS
+--------------------------------------------------------------------------------
+[FR-1] Web Conversation & Chat Interface
+  - Real-time streaming response web chat built with Next.js & Tailwind CSS.
+  - Multi-conversation management with persistent history and search.
+  - Clear visual indicators of agent execution states (planning, tool calls, approvals).
+
+[FR-2] Dynamic LLM Provider Gateway
+  - Provider-neutral abstraction supporting local models (Ollama) and cloud APIs 
+    (Google Gemini Free Tier, Mistral Free Tier).
+  - Ability to switch models/providers dynamically based on task type.
+  - Global privacy toggle to disable cloud egress completely.
+
+[FR-3] Controlled Agent Runtime & Tool Registry
+  - Integration with Google ADK / modular agent runtime.
+  - Explicit tool registry with strict Pydantic input schemas, timeouts, and logging.
+  - LLM receives typed tool signatures; never direct shell, SQL, or filesystem access.
+
+[FR-4] Human-in-the-Loop Approval System
+  - Classification of actions into Safe (read-only / drafts) vs Consequential (write / send / delete).
+  - Web UI modal / action card presenting consequential tool calls for owner approval 
+    before execution.
+
+[FR-5] Personal Memory & Context Engine
+  - Hybrid memory: relational store for structured facts/preferences + vector store 
+    (pgvector) for semantic retrieval.
+  - Context builder assembling pertinent memory without exceeding model context windows.
+
+[FR-6] Document Ingestion & Knowledge RAG
+  - Uploading personal documents (PDF, Markdown, text).
+  - Local chunking and embedding storage in PostgreSQL with pgvector.
+  - Untrusted data isolation: retrieved text is treated strictly as data, never prompt instructions.
+
+[FR-7] Tasks, Notes & Daily Operations
+  - Native task tracking with priorities, due dates, and reminders.
+  - Integration with personal email/calendar via standard APIs (read/draft workflows).
+
+
+5. NON-FUNCTIONAL REQUIREMENTS
+--------------------------------------------------------------------------------
+[NFR-1] Performance & Latency: Local Ollama inference responsive; streaming web responses.
+[NFR-2] Security: API keys stored in environment variables excluded from Git; strict ownership checks on all DB queries.
+[NFR-3] Modularity: Modular monolith structure. Maximum 500 lines per file.
+[NFR-4] Reliability: Database-backed audit trail for all tool executions and agent actions.
+[NFR-5] Maintainability: 100% typed Python (FastAPI + Pydantic v2) and TypeScript.
+
+
+6. INITIAL SPRINT ROADMAP OVERVIEW
+--------------------------------------------------------------------------------
+Sprint 1: Repository Monorepo, Web Scaffold, FastAPI Backend, PostgreSQL + Redis Docker, 
+          Alembic, Conversation & Message Persistence, Basic Chat UI.
+Sprint 2: LLM Gateway & Provider Adapters (Ollama, Gemini, Mistral).
+Sprint 3: Agent Runtime & Controlled Tool Registry.
+Sprint 4: Custom Memory Service & Context Builder.
+Sprint 5: Document Knowledge & RAG (pgvector).
+Sprint 6+: Tasks, Email/Calendar, Durable Workflows, and Approvals.
+================================================================================
