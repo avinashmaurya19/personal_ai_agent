@@ -15,7 +15,7 @@
 | ID | Task Description | Estimate | Status | Assigned Date | Completion Date |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **S1-00** | Initialize Antigravity Vibe Coding workflow (`GEMINI.md`, `.agent/`, `PRD.txt`, `PLANNING.md`, `TASK.md`) | 1h | [x] | 2026-10-25 | 2026-10-25 |
-| **S1-01** | Create monorepo skeleton, `.gitignore`, `.env.example`, and directory structure | 2h | [ ] | 2026-10-25 | - |
+| **S1-01** | Create monorepo skeleton, `.gitignore`, `.env.example`, and directory structure | 2h | [x] | 2026-10-25 | 2026-10-25 |
 | **S1-02** | Scaffold Next.js 14+ web application in `apps/web` (TypeScript, Tailwind CSS) | 2h | [ ] | 2026-10-25 | - |
 | **S1-03** | Scaffold FastAPI backend in `apps/api` with Pydantic settings & config validation | 2h | [ ] | 2026-10-25 | - |
 | **S1-04** | Add Docker Compose (`compose.yaml`) for PostgreSQL 16 (pgvector) and Redis 7 | 2h | [ ] | 2026-10-25 | - |
