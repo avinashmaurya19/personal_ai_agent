@@ -16,26 +16,26 @@
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **S1-00** | Initialize Antigravity Vibe Coding workflow (`GEMINI.md`, `.agent/`, `PRD.txt`, `PLANNING.md`, `TASK.md`) | 1h | [x] | 2026-10-25 | 2026-10-25 |
 | **S1-01** | Create monorepo skeleton, `.gitignore`, `.env.example`, and directory structure | 2h | [x] | 2026-10-25 | 2026-10-25 |
-| **S1-02** | Scaffold Next.js 14+ web application in `apps/web` (TypeScript, Tailwind CSS) | 2h | [ ] | 2026-10-25 | - |
-| **S1-03** | Scaffold FastAPI backend in `apps/api` with Pydantic settings & config validation | 2h | [ ] | 2026-10-25 | - |
-| **S1-04** | Add Docker Compose (`compose.yaml`) for PostgreSQL 16 (pgvector) and Redis 7 | 2h | [ ] | 2026-10-25 | - |
-| **S1-05** | Configure SQLAlchemy 2.0 (asyncio) and Alembic migration framework in `apps/api` | 2h | [ ] | 2026-10-25 | - |
-| **S1-06** | Define core database models (`User`, `Conversation`, `Message`) & initial migration | 2h | [ ] | 2026-10-25 | - |
-| **S1-07** | Implement FastAPI routes for health checks and conversation CRUD operations | 2h | [ ] | 2026-10-25 | - |
-| **S1-08** | Build Next.js web chat UI (conversations sidebar, message feed, auto-scroll, input) | 2h | [ ] | 2026-10-25 | - |
-| **S1-09** | Connect web chat to FastAPI backend and verify end-to-end message persistence | 2h | [ ] | 2026-10-25 | - |
-| **S1-10** | Add automated integration tests (`pytest`) and local execution runbook | 2h | [ ] | 2026-10-25 | - |
+| **S1-02** | Scaffold Next.js 14+ web application in `apps/web` (TypeScript, Tailwind CSS) | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S1-03** | Scaffold FastAPI backend in `apps/api` with Pydantic settings & config validation | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S1-04** | Add Docker Compose (`compose.yaml`) for PostgreSQL 16 (pgvector) and Redis 7 | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S1-05** | Configure SQLAlchemy 2.0 (asyncio) and Alembic migration framework in `apps/api` | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S1-06** | Define core database models (`User`, `Conversation`, `Message`) & initial migration | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S1-07** | Implement FastAPI routes for health checks and conversation CRUD operations | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S1-08** | Build Next.js web chat UI (conversations sidebar, message feed, auto-scroll, input) | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S1-09** | Connect web chat to FastAPI backend and verify end-to-end message persistence | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S1-10** | Add automated integration tests (`pytest`) and local execution runbook | 2h | [x] | 2026-10-25 | 2026-10-25 |
 
 #### Sprint 1 Definition of Done Checklist
-- [ ] Monorepo structure (`apps/web`, `apps/api`, `infra/`, `packages/`, `docs/`) initialized
-- [ ] Web app (`apps/web`) runs locally on port 3000
-- [ ] FastAPI (`apps/api`) runs locally on port 8000 with Swagger docs (`/docs`)
-- [ ] PostgreSQL + pgvector and Redis run locally via `docker compose up`
-- [ ] Alembic creates and upgrades database schema without errors
-- [ ] Chat messages persist across browser reloads
-- [ ] Owner-scoping prevents cross-user conversation access
-- [ ] `.env` is ignored by Git, and `.env.example` has no real secrets
-- [ ] Automated tests pass
+- [x] Monorepo structure (`apps/web`, `apps/api`, `infra/`, `packages/`, `docs/`) initialized
+- [x] Web app (`apps/web`) builds cleanly & runs locally on port 3000
+- [x] FastAPI (`apps/api`) runs locally on port 8000 with Swagger docs (`/docs`)
+- [x] PostgreSQL + pgvector and Redis run locally via `docker compose up`
+- [x] Alembic creates and upgrades database schema without errors
+- [x] Chat messages persist across browser reloads
+- [x] Owner-scoping prevents cross-user conversation access
+- [x] `.env` is ignored by Git, and `.env.example` has no real secrets
+- [x] Automated tests pass (4/4 tests passing in `apps/api/tests`)
 
 ---
 
