@@ -50,6 +50,8 @@ class Settings(BaseSettings):
     # Free Cloud Providers
     GEMINI_API_KEY: str = ""
     MISTRAL_API_KEY: str = ""
+    MISTRAL_MODEL_NAME: str = "open-mistral-7b"
+    MISTRAL_API_BASE_URL: str = "https://api.mistral.ai/v1"
     OPENAI_API_KEY: str = "disabled"
 
     # CORS Settings
