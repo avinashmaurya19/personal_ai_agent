@@ -27,8 +27,10 @@ import { ApprovalsView } from "@/features/approvals/approvals-view";
 import { EmailView } from "@/features/email/email-view";
 import { SettingsView } from "@/features/settings/settings-view";
 import { ConnectedAppsView } from "@/features/integrations/connected-apps-view";
+import { AuthProvider, useAuth } from "@/features/auth/auth-context";
+import { AuthModal } from "@/features/auth/auth-modal";
 
-export default function HomePage() {
+function MainDashboard() {
   const [activeView, setActiveView] = useState<NavViewId>("overview");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -83,9 +85,11 @@ export default function HomePage() {
     }
   }, []);
 
+  const { token } = useAuth();
+
   useEffect(() => {
     loadDashboardData();
-  }, [loadDashboardData]);
+  }, [token, loadDashboardData]);
 
   // Load Models
   useEffect(() => {
@@ -390,6 +394,21 @@ export default function HomePage() {
         onSendMessage={handleSendMessage}
         onModelChange={handleModelChange}
       />
+      {/* 4. Global Auth Modal */}
+      <AuthModal
+        onSuccess={() => {
+          loadDashboardData();
+          fetchConversations();
+        }}
+      />
     </div>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <AuthProvider>
+      <MainDashboard />
+    </AuthProvider>
   );
 }

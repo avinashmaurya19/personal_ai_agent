@@ -78,21 +78,32 @@ export function GmailMessageDetail({
     setIsSending(true);
     setReplyFeedback(null);
     try {
-      await api.createEmailDraft({
+      await api.sendEmail({
         recipient: thread.last_sender,
         subject: thread.subject.startsWith("Re:") ? thread.subject : `Re: ${thread.subject}`,
         body: replyText.trim(),
         thread_id: thread.thread_id,
       });
-      setReplyFeedback("Draft prepared and staged for sending!");
+      setReplyFeedback("Email reply sent successfully!");
       setReplyText("");
       setIsReplying(false);
       onRefresh();
     } catch (err: any) {
-      setReplyFeedback(`Error: ${err.message || "Failed to stage reply"}`);
+      setReplyFeedback(`Error: ${err.message || "Failed to send reply"}`);
     } finally {
       setIsSending(false);
     }
+  };
+
+  const handleDeleteThread = async () => {
+    if (!window.confirm("Move this email to trash?")) return;
+    try {
+      await api.trashGmailMessage(thread.thread_id);
+    } catch {
+      // ignore
+    }
+    onBack();
+    onRefresh();
   };
 
   const smartReplies = [
@@ -127,6 +138,14 @@ export function GmailMessageDetail({
             >
               {isStarred ? "star" : "star_border"}
             </span>
+          </button>
+
+          <button
+            onClick={handleDeleteThread}
+            className="p-1.5 rounded-lg hover:bg-red-500/10 hover:text-red-400 text-text-tertiary transition"
+            title="Move to Trash"
+          >
+            <span className="material-symbols-outlined text-[18px]">delete</span>
           </button>
         </div>
 
@@ -258,9 +277,20 @@ export function GmailMessageDetail({
               </div>
 
               {/* Message Body */}
-              <div className="text-xs text-text-primary leading-relaxed whitespace-pre-wrap pl-13 font-sans">
-                {m.body || m.snippet}
-              </div>
+              {m.body && /<[a-z][\s\S]*>/i.test(m.body) ? (
+                <div className="pl-13 pt-1">
+                  <iframe
+                    sandbox="allow-same-origin"
+                    srcDoc={m.body}
+                    className="w-full min-h-[380px] border border-border-hairline rounded-xl bg-white text-slate-900 shadow-sm"
+                    title="Email Body HTML"
+                  />
+                </div>
+              ) : (
+                <div className="text-xs text-text-primary leading-relaxed whitespace-pre-wrap pl-13 font-sans">
+                  {m.body || m.snippet}
+                </div>
+              )}
             </div>
           ))
         )}

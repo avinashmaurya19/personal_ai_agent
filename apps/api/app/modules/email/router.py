@@ -72,3 +72,19 @@ async def create_draft(
 ) -> EmailResponse:
     """Save an email draft without sending."""
     return await service.create_draft(owner.id, payload)
+
+
+@router.post("/send", response_model=EmailResponse, status_code=status.HTTP_201_CREATED, summary="Send an email message")
+async def send_email(
+    payload: DraftEmailCreate,
+    owner: User = Depends(get_current_owner),
+    service: EmailService = Depends(get_email_service),
+) -> EmailResponse:
+    """Dispatch an email message immediately."""
+    return await service.execute_send(
+        owner_id=owner.id,
+        recipient=payload.recipient,
+        subject=payload.subject,
+        body=payload.body,
+        thread_id=payload.thread_id,
+    )

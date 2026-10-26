@@ -20,23 +20,45 @@ import {
   GoogleAuthUrlResponse,
   GoogleConnectionStatus,
   GmailSyncResult,
+  UserProfileItem,
+  AuthTokenResponse,
 } from "./api-types";
+import { ApiIntegrations } from "./api-integrations";
+import { ApiAuth } from "./api-auth";
 
 export * from "./api-types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
-class ApiClient {
+export class ApiClient {
   private baseUrl: string;
+  private integrations: ApiIntegrations;
+  private auth: ApiAuth;
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
+    this.auth = new ApiAuth(this.request.bind(this));
+    this.integrations = new ApiIntegrations(this.request.bind(this));
   }
 
-  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  getAuthToken(): string | null {
+    return this.auth.getAuthToken();
+  }
+
+  setAuthToken(token: string | null): void {
+    this.auth.setAuthToken(token);
+  }
+
+  private getAuthHeaders(): Record<string, string> {
+    const token = this.getAuthToken();
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  }
+
+  async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
     const headers = {
       "Content-Type": "application/json",
+      ...this.getAuthHeaders(),
       ...(options.headers || {}),
     };
 
@@ -57,7 +79,7 @@ class ApiClient {
           }
         }
       } catch {
-        // fallback to default error message
+        // fallback
       }
       throw new Error(errorMessage);
     }
@@ -68,6 +90,15 @@ class ApiClient {
   async checkHealth(): Promise<HealthStatus> {
     return this.request<HealthStatus>("/api/v1/health");
   }
+
+  // --- Auth & User Profile Delegated Methods ---
+
+  register = (email: string, password: string, fullName?: string) =>
+    this.auth.register(email, password, fullName);
+  login = (email: string, password: string) => this.auth.login(email, password);
+  loginWithGoogle = (accessToken: string) => this.auth.loginWithGoogle(accessToken);
+  getCurrentUser = () => this.auth.getCurrentUser();
+  logout = () => this.auth.logout();
 
   // --- Chat & Conversation Methods ---
 
@@ -117,7 +148,7 @@ class ApiClient {
   }
 
   async deleteConversation(conversationId: string): Promise<void> {
-    await fetch(`${this.baseUrl}/api/v1/conversations/${conversationId}`, {
+    await this.request(`/api/v1/conversations/${conversationId}`, {
       method: "DELETE",
     });
   }
@@ -170,7 +201,7 @@ class ApiClient {
   }
 
   async deleteMemory(memoryId: string): Promise<void> {
-    await fetch(`${this.baseUrl}/api/v1/memories/${memoryId}`, {
+    await this.request(`/api/v1/memories/${memoryId}`, {
       method: "DELETE",
     });
   }
@@ -185,8 +216,10 @@ class ApiClient {
     const formData = new FormData();
     formData.append("file", file);
 
+    const headers = this.getAuthHeaders();
     const response = await fetch(`${this.baseUrl}/api/v1/documents/upload`, {
       method: "POST",
+      headers,
       body: formData,
     });
 
@@ -205,7 +238,7 @@ class ApiClient {
   }
 
   async deleteDocument(documentId: string): Promise<void> {
-    await fetch(`${this.baseUrl}/api/v1/documents/${documentId}`, {
+    await this.request(`/api/v1/documents/${documentId}`, {
       method: "DELETE",
     });
   }
@@ -262,7 +295,7 @@ class ApiClient {
   }
 
   async deleteTask(taskId: string): Promise<void> {
-    await fetch(`${this.baseUrl}/api/v1/tasks/${taskId}`, {
+    await this.request(`/api/v1/tasks/${taskId}`, {
       method: "DELETE",
     });
   }
@@ -288,7 +321,7 @@ class ApiClient {
   }
 
   async deleteNote(noteId: string): Promise<void> {
-    await fetch(`${this.baseUrl}/api/v1/notes/${noteId}`, {
+    await this.request(`/api/v1/notes/${noteId}`, {
       method: "DELETE",
     });
   }
@@ -312,7 +345,7 @@ class ApiClient {
   }
 
   async markThreadRead(threadId: string): Promise<void> {
-    await fetch(`${this.baseUrl}/api/v1/emails/threads/${threadId}/read`, {
+    await this.request(`/api/v1/emails/threads/${threadId}/read`, {
       method: "POST",
     });
   }
@@ -385,7 +418,7 @@ class ApiClient {
   }
 
   async deleteResearchReport(reportId: string): Promise<void> {
-    await fetch(`${this.baseUrl}/api/v1/research/${reportId}`, {
+    await this.request(`/api/v1/research/${reportId}`, {
       method: "DELETE",
     });
   }
@@ -396,35 +429,22 @@ class ApiClient {
     );
   }
 
-  // --- Google & Gmail Integrations ---
+  // --- Delegated Google & Gmail Integrations ---
 
-  async getGoogleAuthUrl(): Promise<GoogleAuthUrlResponse> {
-    return this.request<GoogleAuthUrlResponse>("/api/v1/integrations/google/auth-url");
-  }
-
-  async getGoogleStatus(): Promise<GoogleConnectionStatus> {
-    return this.request<GoogleConnectionStatus>("/api/v1/integrations/google/status");
-  }
-
-  async disconnectGoogle(): Promise<{ success: boolean; message: string }> {
-    return this.request<{ success: boolean; message: string }>(
-      "/api/v1/integrations/google/disconnect",
-      { method: "POST" }
-    );
-  }
-
-  async syncGmail(maxResults = 10): Promise<GmailSyncResult> {
-    return this.request<GmailSyncResult>(
-      `/api/v1/integrations/google/gmail/sync?max_results=${maxResults}`,
-      { method: "POST" }
-    );
-  }
-
-  async searchGmail(query: string, limit = 10): Promise<any[]> {
-    return this.request<any[]>(
-      `/api/v1/integrations/google/gmail/search?q=${encodeURIComponent(query)}&limit=${limit}`
-    );
-  }
+  getGoogleAuthUrl = () => this.integrations.getGoogleAuthUrl();
+  getGoogleStatus = () => this.integrations.getGoogleStatus();
+  disconnectGoogle = () => this.integrations.disconnectGoogle();
+  syncGmail = (maxResults = 10) => this.integrations.syncGmail(maxResults);
+  searchGmail = (query: string, limit = 10) => this.integrations.searchGmail(query, limit);
+  sendLiveGmail = (data: { recipient: string; subject: string; body: string; thread_id?: string }) =>
+    this.integrations.sendLiveGmail(data);
+  sendEmail = (data: { recipient: string; subject: string; body: string; thread_id?: string }) =>
+    this.integrations.sendEmail(data);
+  starGmailMessage = (messageId: string, starred = true) =>
+    this.integrations.starGmailMessage(messageId, starred);
+  readGmailMessage = (messageId: string, read = true) =>
+    this.integrations.readGmailMessage(messageId, read);
+  trashGmailMessage = (messageId: string) => this.integrations.trashGmailMessage(messageId);
 }
 
 export const api = new ApiClient(API_BASE_URL);

@@ -92,8 +92,8 @@ export function GmailSidebar({
           <span className="material-symbols-outlined text-[14px]">account_circle</span>
           <span className="font-medium">Active Mailbox</span>
         </div>
-        <p className="font-mono text-text-primary text-[10px] truncate" title={googleEmail || "Local Mock Inbox"}>
-          {googleConnected && googleEmail ? googleEmail : "Personal AI Local Inbox"}
+        <p className="font-mono text-text-primary text-[10px] truncate" title={googleEmail || "Mailbox"}>
+          {googleConnected && googleEmail ? googleEmail : "Personal AI Mailbox"}
         </p>
       </div>
     </div>

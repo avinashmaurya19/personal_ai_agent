@@ -285,3 +285,27 @@
   - Detailed `GmailMessageDetail`: Gmail reading view with back navigation, sender circular initial avatars, recipient details, Personal AI Executive Briefing card with 1-click smart reply prompts, and expandable inline reply editor with "AI Polish".
   - Floating `GmailComposeModal`: Dockable bottom-right compose window with recipient, subject, body, and "Draft with Personal AI" auto-generator.
   - Modularized across 5 files under `components/` strictly adhering to the <500 lines limit. Next.js build passes with 0 errors.
+- **2026-10-26 (Completed)**: Added live Gmail interactive actions & rich HTML rendering:
+  - Backend: Added `modify_message_labels`, `star_message`, `mark_message_read`, and `trash_message` to `GmailService`.
+  - Backend: Added REST routes `POST /integrations/google/gmail/send`, `POST /integrations/google/gmail/messages/{id}/star`, `POST /integrations/google/gmail/messages/{id}/read`, and `POST /integrations/google/gmail/messages/{id}/trash`.
+  - Backend: Enhanced `_extract_body` to handle HTML emails gracefully and extract star labels.
+  - Backend: Added `POST /api/v1/emails/send` fallback endpoint.
+  - Frontend: Wired live outbound email dispatching in `GmailComposeModal` and `GmailMessageDetail`.
+  - Frontend: Added isolated sandboxed iframe body rendering for rich HTML emails (newsletters, styled messages).
+  - Frontend: Wired live star toggling and trash synchronization with Google.
+  - Tests: Added unit tests for live Gmail actions in `test_google_gmail.py` (all tests passing). Next.js builds cleanly.
+- **2026-10-26 (Fixed)**: Fixed Gmail session persistence & auto-sync across app launches:
+  - Cause 1: `test_google_gmail.py` ran against `DEV_OWNER_ID` and executed `disconnect`, deleting the real stored OAuth token in PostgreSQL during test runs. Isolated tests to an independent `TEST_OWNER_ID`.
+  - Cause 2: UI showed a brief flash of "Connect Gmail" on launch because `googleStatus` initialized to `null`. Added `localStorage` status caching and a loading skeleton so the UI never flashes "Connect Gmail" when already authorized.
+  - Cause 3: On app launch, Gmail messages were not auto-fetched unless the user manually clicked "Sync Gmail". Added automatic background sync on initial load whenever Google OAuth is connected.
+- **2026-10-26 (Completed)**: Implemented complete User Authentication & Multi-User Data Isolation:
+  - Database schema: Added `hashed_password`, `avatar_url`, and `is_active` fields to `User` model with Alembic migration `a3ac604abf42_add_auth_fields_to_users.py`.
+  - Backend Security & Token Engine: Created `apps/api/app/core/security.py` using native `bcrypt` password hashing and `PyJWT` with HS256 tokens.
+  - Backend Auth Module: Created schemas, service, and router under `apps/api/app/modules/auth/` mounted at `/api/v1/auth` (`/register`, `/login`, `/google`, `/me`).
+  - Strict Multi-User Isolation: Updated `get_current_owner` dependency to extract Bearer JWT tokens with fallback to `DEV_OWNER_ID` in development/testing mode. Every query across tasks, notes, emails, memories, documents, and conversations strictly filters by the authenticated `owner_id`.
+  - Frontend Authentication Engine:
+    - Modularized `api-client.ts`, `api-auth.ts`, `api-integrations.ts`, and `api-types.ts` strictly keeping each under the 500-line limit.
+    - Added `AuthProvider` and `useAuth` hook (`apps/web/src/features/auth/auth-context.tsx`) managing JWT tokens in `localStorage`.
+    - Added dark Stitch `AuthModal` dialog (`apps/web/src/features/auth/auth-modal.tsx`) with Sign In and Register tabs.
+    - Added responsive `UserMenu` (`apps/web/src/features/auth/user-menu.tsx`) in both `AppHeader` and `AppSidebar` with active sandbox badges, account switching, and sign out.
+  - Verification: All 41 backend tests passing (100% test pass rate in `pytest`). Frontend Next.js production build succeeds with 0 errors. All files strictly adhere to the <500-line limit.

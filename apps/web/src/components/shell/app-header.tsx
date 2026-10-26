@@ -2,6 +2,7 @@
 
 import React from "react";
 import { NavViewId } from "./app-sidebar";
+import { UserMenu } from "@/features/auth/user-menu";
 
 interface AppHeaderProps {
   activeView: NavViewId;
@@ -90,10 +91,8 @@ export function AppHeader({
           )}
         </button>
 
-        {/* Avatar */}
-        <div className="w-8 h-8 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center cursor-pointer text-primary">
-          <span className="material-symbols-outlined text-[18px]">person</span>
-        </div>
+        {/* User Account Menu */}
+        <UserMenu variant="header" />
       </div>
     </header>
   );

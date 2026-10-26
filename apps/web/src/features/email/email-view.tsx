@@ -20,7 +20,19 @@ export function EmailView({ emailThreads, onRefresh }: EmailViewProps) {
   const [starredThreadIds, setStarredThreadIds] = useState<Set<string>>(new Set());
   const [isComposeOpen, setIsComposeOpen] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
-  const [googleStatus, setGoogleStatus] = useState<GoogleConnectionStatus | null>(null);
+  const [googleStatus, setGoogleStatus] = useState<GoogleConnectionStatus | null>(() => {
+    if (typeof window !== "undefined") {
+      const cached = localStorage.getItem("google_status_cache");
+      if (cached) {
+        try {
+          return JSON.parse(cached);
+        } catch {
+          // ignore
+        }
+      }
+    }
+    return null;
+  });
   const [notification, setNotification] = useState<{
     type: "success" | "error" | "info";
     text: string;
@@ -31,6 +43,9 @@ export function EmailView({ emailThreads, onRefresh }: EmailViewProps) {
     try {
       const status = await api.getGoogleStatus();
       setGoogleStatus(status);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("google_status_cache", JSON.stringify(status));
+      }
     } catch {
       setGoogleStatus({
         connected: false,
@@ -40,6 +55,13 @@ export function EmailView({ emailThreads, onRefresh }: EmailViewProps) {
       });
     }
   }, []);
+
+  // Auto-sync on startup if connected
+  useEffect(() => {
+    if (googleStatus?.connected) {
+      api.syncGmail(15).then(() => onRefresh()).catch(() => {});
+    }
+  }, [googleStatus?.connected, onRefresh]);
 
   useEffect(() => {
     checkGoogleStatus();
@@ -84,6 +106,9 @@ export function EmailView({ emailThreads, onRefresh }: EmailViewProps) {
     if (!window.confirm("Are you sure you want to disconnect your Google account?")) return;
     try {
       await api.disconnectGoogle();
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("google_status_cache");
+      }
       setNotification({ type: "info", text: "Google account disconnected." });
       await checkGoogleStatus();
       onRefresh();
@@ -114,19 +139,27 @@ export function EmailView({ emailThreads, onRefresh }: EmailViewProps) {
     }
   };
 
-  const handleToggleStar = (threadId: string, e: React.MouseEvent) => {
+  const handleToggleStar = async (threadId: string, e: React.MouseEvent) => {
     e.stopPropagation();
+    const willBeStarred = !starredThreadIds.has(threadId);
     setStarredThreadIds((prev) => {
       const next = new Set(prev);
       if (next.has(threadId)) next.delete(threadId);
       else next.add(threadId);
       return next;
     });
+
+    try {
+      await api.starGmailMessage(threadId, willBeStarred);
+    } catch {
+      // Local optimistic state updated
+    }
   };
 
   const handleMarkRead = async (threadId: string) => {
     try {
       await api.markThreadRead(threadId);
+      await api.readGmailMessage(threadId, true);
       onRefresh();
     } catch (err) {
       console.error("Failed to mark thread read:", err);

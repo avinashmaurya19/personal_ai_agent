@@ -39,7 +39,11 @@ export function GmailHeader({
             </span>
           </h2>
           <p className="text-[10px] text-text-tertiary">
-            {googleStatus?.connected && googleStatus.email ? googleStatus.email : "Local Simulated Gateway"}
+            {googleStatus === null
+              ? "Checking connection..."
+              : googleStatus.connected && googleStatus.email
+              ? googleStatus.email
+              : "Disconnected"}
           </p>
         </div>
       </div>
@@ -70,7 +74,12 @@ export function GmailHeader({
 
       {/* Action Controls */}
       <div className="flex items-center gap-2">
-        {googleStatus?.connected ? (
+        {googleStatus === null ? (
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-elevated-surface text-text-tertiary text-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Checking Gmail...</span>
+          </div>
+        ) : googleStatus.connected ? (
           <>
             <button
               onClick={onSync}

@@ -57,7 +57,7 @@ export function GmailComposeModal({
     setIsSending(true);
     setError(null);
     try {
-      await api.createEmailDraft({
+      await api.sendEmail({
         recipient: recipient.trim(),
         subject: subject.trim(),
         body: body.trim(),
@@ -68,7 +68,7 @@ export function GmailComposeModal({
       setSubject("");
       setBody("");
     } catch (err: any) {
-      setError(err.message || "Failed to create message draft.");
+      setError(err.message || "Failed to send email.");
     } finally {
       setIsSending(false);
     }

@@ -1,16 +1,34 @@
 """FastAPI router for Google OAuth2 connection, token callbacks, and Gmail integration."""
 
 from typing import Any, Dict, List, Optional
+from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, Query, status
 from fastapi.responses import RedirectResponse
+from pydantic import BaseModel, Field
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.dependencies import get_current_owner, get_db_session
 from app.config import settings
 from app.core.exceptions import AppException
+from app.db.models.email import EmailMessage
 from app.db.models.user import User
 from app.modules.integrations.gmail_service import GmailService
 from app.modules.integrations.google_service import GoogleAuthService, OAuthTokenManager
+
+
+class LiveGmailSendRequest(BaseModel):
+    """Payload to dispatch an authentic outbound email via Gmail API."""
+
+    recipient: str = Field(..., min_length=3)
+    subject: str = Field(..., min_length=1)
+    body: str = Field(..., min_length=1)
+    thread_id: Optional[str] = None
+
+
+class MessageLabelUpdateRequest(BaseModel):
+    """Payload to toggle a message state (starred or read)."""
+
+    value: bool = True
 
 router = APIRouter(prefix="/integrations/google", tags=["Google & Gmail Integration"])
 
@@ -136,3 +154,97 @@ async def search_live_gmail(
 
     gmail = GmailService(access_token=access_token)
     return await gmail.search_emails(query=q, max_results=limit)
+
+
+@router.post("/gmail/send", summary="Send live email via Gmail API")
+async def send_live_gmail(
+    payload: LiveGmailSendRequest,
+    session: AsyncSession = Depends(get_db_session),
+    owner: User = Depends(get_current_owner),
+) -> Dict[str, Any]:
+    """Send an outbound email directly through the owner's authorized Gmail account."""
+    token_mgr = OAuthTokenManager(session)
+    access_token = await token_mgr.get_valid_access_token(owner.id, "google")
+    if not access_token:
+        raise AppException("Google account is not connected. Authorize via /auth-url first.", status_code=400)
+
+    gmail = GmailService(access_token=access_token)
+    res = await gmail.send_message(
+        recipient=payload.recipient,
+        subject=payload.subject,
+        body=payload.body,
+        thread_id=payload.thread_id,
+    )
+
+    # Persist sent email to workspace database
+    sent_msg = EmailMessage(
+        owner_id=owner.id,
+        thread_id=payload.thread_id or f"th_{res.get('id', 'sent')}",
+        sender="me",
+        recipient=payload.recipient,
+        subject=payload.subject,
+        body=payload.body,
+        snippet=payload.body[:120],
+        is_read=True,
+        is_draft=False,
+        sent_at=datetime.now(timezone.utc),
+    )
+    session.add(sent_msg)
+    await session.commit()
+
+    return {"status": "sent", "id": res.get("id"), "threadId": res.get("threadId"), "recipient": payload.recipient}
+
+
+@router.post("/gmail/messages/{message_id}/star", summary="Toggle star status on Gmail message")
+async def star_live_gmail_message(
+    message_id: str,
+    payload: Optional[MessageLabelUpdateRequest] = None,
+    session: AsyncSession = Depends(get_db_session),
+    owner: User = Depends(get_current_owner),
+) -> Dict[str, Any]:
+    """Star or unstar a message in Gmail."""
+    token_mgr = OAuthTokenManager(session)
+    access_token = await token_mgr.get_valid_access_token(owner.id, "google")
+    if not access_token:
+        raise AppException("Google account is not connected.", status_code=400)
+
+    is_starred = payload.value if payload else True
+    gmail = GmailService(access_token=access_token)
+    res = await gmail.star_message(message_id, starred=is_starred)
+    return {"status": "ok", "starred": is_starred, "id": message_id}
+
+
+@router.post("/gmail/messages/{message_id}/read", summary="Toggle read status on Gmail message")
+async def read_live_gmail_message(
+    message_id: str,
+    payload: Optional[MessageLabelUpdateRequest] = None,
+    session: AsyncSession = Depends(get_db_session),
+    owner: User = Depends(get_current_owner),
+) -> Dict[str, Any]:
+    """Mark a message as read or unread in Gmail."""
+    token_mgr = OAuthTokenManager(session)
+    access_token = await token_mgr.get_valid_access_token(owner.id, "google")
+    if not access_token:
+        raise AppException("Google account is not connected.", status_code=400)
+
+    is_read = payload.value if payload else True
+    gmail = GmailService(access_token=access_token)
+    res = await gmail.mark_message_read(message_id, read=is_read)
+    return {"status": "ok", "is_read": is_read, "id": message_id}
+
+
+@router.post("/gmail/messages/{message_id}/trash", summary="Move Gmail message to trash")
+async def trash_live_gmail_message(
+    message_id: str,
+    session: AsyncSession = Depends(get_db_session),
+    owner: User = Depends(get_current_owner),
+) -> Dict[str, Any]:
+    """Move a message to Google Trash."""
+    token_mgr = OAuthTokenManager(session)
+    access_token = await token_mgr.get_valid_access_token(owner.id, "google")
+    if not access_token:
+        raise AppException("Google account is not connected.", status_code=400)
+
+    gmail = GmailService(access_token=access_token)
+    res = await gmail.trash_message(message_id)
+    return {"status": "ok", "trashed": True, "id": message_id}

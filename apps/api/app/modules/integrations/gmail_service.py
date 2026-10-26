@@ -78,6 +78,7 @@ class GmailService:
         body_text = self._extract_body(payload)
         snippet = msg_data.get("snippet", body_text[:120])
         thread_id = msg_data.get("threadId", f"th_{msg_data.get('id')}")
+        labels = msg_data.get("labelIds", [])
 
         return {
             "id": msg_data.get("id"),
@@ -88,12 +89,12 @@ class GmailService:
             "snippet": snippet,
             "body": body_text or snippet,
             "date_str": date_str,
-            "unread": "UNREAD" in msg_data.get("labelIds", []),
+            "unread": "UNREAD" in labels,
+            "starred": "STARRED" in labels,
         }
 
     def _extract_body(self, payload: Dict[str, Any]) -> str:
-        """Recursively extract plain text body from MIME multipart parts."""
-        mime_type = payload.get("mimeType", "")
+        """Recursively extract readable body from MIME multipart parts."""
         parts = payload.get("parts", [])
 
         if not parts and "data" in payload.get("body", {}):
@@ -104,21 +105,32 @@ class GmailService:
             except Exception:
                 return ""
 
-        extracted = []
+        plain_texts = []
+        html_texts = []
         for part in parts:
             p_mime = part.get("mimeType", "")
             if p_mime == "text/plain" and "data" in part.get("body", {}):
                 try:
                     text = base64.urlsafe_b64decode(part["body"]["data"]).decode("utf-8", errors="replace")
-                    extracted.append(text.strip())
+                    plain_texts.append(text.strip())
+                except Exception:
+                    pass
+            elif p_mime == "text/html" and "data" in part.get("body", {}):
+                try:
+                    html = base64.urlsafe_b64decode(part["body"]["data"]).decode("utf-8", errors="replace")
+                    html_texts.append(html.strip())
                 except Exception:
                     pass
             elif "parts" in part:
                 sub_body = self._extract_body(part)
                 if sub_body:
-                    extracted.append(sub_body)
+                    plain_texts.append(sub_body)
 
-        return "\n\n".join(extracted)
+        if plain_texts:
+            return "\n\n".join(plain_texts)
+        if html_texts:
+            return "\n\n".join(html_texts)
+        return ""
 
     async def search_emails(
         self, query: str, max_results: int = 10
@@ -162,6 +174,52 @@ class GmailService:
                 logger.error(f"Gmail send_message error: {resp.status_code} - {resp.text}")
                 raise AppException(f"Gmail Send failed: {resp.text}", status_code=resp.status_code)
             return resp.json()
+
+    async def modify_message_labels(
+        self,
+        message_id: str,
+        add_labels: Optional[List[str]] = None,
+        remove_labels: Optional[List[str]] = None,
+    ) -> Dict[str, Any]:
+        """Modify label IDs for a specific message (e.g. STARRED, UNREAD)."""
+        payload: Dict[str, Any] = {
+            "addLabelIds": add_labels or [],
+            "removeLabelIds": remove_labels or [],
+        }
+        async with httpx.AsyncClient(timeout=12.0) as client:
+            resp = await client.post(
+                f"{self.BASE_URL}/messages/{message_id}/modify",
+                headers=self.headers,
+                json=payload,
+            )
+            if resp.status_code != 200:
+                logger.error(f"Gmail modify error: {resp.status_code} - {resp.text}")
+                raise AppException(f"Gmail modify failed: {resp.text}", status_code=resp.status_code)
+            return resp.json()
+
+    async def star_message(self, message_id: str, starred: bool = True) -> Dict[str, Any]:
+        """Star or unstar an email message."""
+        if starred:
+            return await self.modify_message_labels(message_id, add_labels=["STARRED"])
+        return await self.modify_message_labels(message_id, remove_labels=["STARRED"])
+
+    async def mark_message_read(self, message_id: str, read: bool = True) -> Dict[str, Any]:
+        """Mark an email message as read or unread in Gmail."""
+        if read:
+            return await self.modify_message_labels(message_id, remove_labels=["UNREAD"])
+        return await self.modify_message_labels(message_id, add_labels=["UNREAD"])
+
+    async def trash_message(self, message_id: str) -> Dict[str, Any]:
+        """Move an email message to Google Trash."""
+        async with httpx.AsyncClient(timeout=12.0) as client:
+            resp = await client.post(
+                f"{self.BASE_URL}/messages/{message_id}/trash",
+                headers=self.headers,
+            )
+            if resp.status_code not in (200, 204):
+                logger.error(f"Gmail trash error: {resp.status_code} - {resp.text}")
+                raise AppException(f"Gmail trash failed: {resp.text}", status_code=resp.status_code)
+            return resp.json() if resp.text else {"trashed": True}
 
     async def sync_recent_to_db(
         self, session: AsyncSession, owner_id: uuid.UUID, max_results: int = 10

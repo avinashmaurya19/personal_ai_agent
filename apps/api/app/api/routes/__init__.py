@@ -14,9 +14,11 @@ from app.modules.calendar.router import router as calendar_router
 from app.modules.approvals.router import router as approvals_router
 from app.modules.research.router import router as research_router
 from app.modules.integrations.router import router as integrations_router
+from app.modules.auth.router import router as auth_router
 
 api_router = APIRouter(prefix="/api/v1")
 api_router.include_router(health_router)
+api_router.include_router(auth_router)
 api_router.include_router(conversations_router)
 api_router.include_router(conversations_router, prefix="/chat")
 api_router.include_router(models_router)

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { UserMenu } from "@/features/auth/user-menu";
 
 export type NavViewId =
   | "overview"
@@ -166,33 +167,7 @@ export function AppSidebar({
       </div>
 
       {/* User Profile Footer */}
-      <div className="p-3 m-3 bg-card-surface border border-border-hairline rounded-xl flex items-center justify-between">
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="relative flex-shrink-0">
-            <div className="w-9 h-9 rounded-full bg-elevated-surface flex items-center justify-center overflow-hidden border border-border-hairline">
-              <span className="material-symbols-outlined text-text-secondary text-[20px]">
-                account_circle
-              </span>
-            </div>
-            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-success ring-2 ring-card-surface"></span>
-          </div>
-          <div className="flex flex-col min-w-0">
-            <span className="text-xs font-semibold text-text-primary truncate">
-              Avinash
-            </span>
-            <span className="text-[11px] text-text-tertiary truncate">
-              Workspace Owner • Pro
-            </span>
-          </div>
-        </div>
-        <button
-          onClick={() => onSelectView("settings")}
-          className="text-text-tertiary hover:text-text-primary transition-colors p-1 rounded-md hover:bg-elevated-surface"
-          aria-label="User Settings"
-        >
-          <span className="material-symbols-outlined text-[18px]">unfold_more</span>
-        </button>
-      </div>
+      <UserMenu variant="sidebar" onOpenSettings={() => onSelectView("settings")} />
     </aside>
   );
 }
