@@ -18,6 +18,7 @@ const VIEW_TITLES: Record<NavViewId, { category: string; title: string }> = {
   calendar: { category: "Workspace", title: "Calendar & Agenda" },
   memory: { category: "Knowledge", title: "Neural Memory Graph" },
   documents: { category: "Knowledge", title: "Document Intelligence (RAG)" },
+  research: { category: "Knowledge", title: "Autonomous Research & Reporting" },
   notes: { category: "Knowledge", title: "Notes & Scratchpad" },
   workflows: { category: "Automation", title: "Autonomous Workflows" },
   approvals: { category: "Automation", title: "Human Approvals" },

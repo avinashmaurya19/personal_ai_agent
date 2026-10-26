@@ -307,8 +307,29 @@ flowchart LR
       end
   ```
 - **Sprint 8 — Research & Reporting (20h)**:
-  - *Deliverables:* Pluggable web search adapter (SearXNG/free APIs); source scraping, citation extraction, comparison matrices, and Markdown report exporter.
+  - *Deliverables:* Pluggable web search adapter (DDGS / SearXNG); source scraping, citation extraction, comparison matrices, and Markdown report exporter.
   - *Acceptance:* Produces structured research reports with verifiable citations and highlighted uncertainty.
+  ```mermaid
+  flowchart TD
+      subgraph ResearchArchitecture ["Sprint 8: Research & Reporting Architecture"]
+          USER_QUERY["User Query / Autonomous Goal"]
+          ROUTER["Assistant Coordinator (CrewAI)"]
+          SEARCH_TOOL["WebSearchTool / DeepResearchTool"]
+          DDGS["SearchService (DuckDuckGo DDGS - ₹0)"]
+          SCRAPER["WebScraperService (HTML to Clean Text)"]
+          SYNTHESIZER["Synthesis Agent (Multi-Source Cross-Check)"]
+          REPORT_DB[("PostgreSQL: research_reports")]
+          UI_VIEW["Next.js Research & Notes Workspace"]
+
+          USER_QUERY --> ROUTER
+          ROUTER --> SEARCH_TOOL
+          SEARCH_TOOL --> DDGS
+          SEARCH_TOOL --> SCRAPER
+          SCRAPER --> SYNTHESIZER
+          SYNTHESIZER --> REPORT_DB
+          REPORT_DB --> UI_VIEW
+      end
+  ```
 
 *Phase 2 Exit Milestone:* Assistant actively handles everyday personal productivity—documents, tasks, email/calendar drafts, and research.
 

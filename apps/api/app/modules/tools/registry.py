@@ -11,6 +11,7 @@ from app.modules.tools.builtins.document_search_tool import DocumentSearchTool
 from app.modules.tools.builtins.email_tool import EmailTool
 from app.modules.tools.builtins.note_manage_tool import NoteManageTool
 from app.modules.tools.builtins.note_search_tool import NoteSearchTool
+from app.modules.tools.builtins.research_tool import DeepResearchTool, WebSearchTool
 from app.modules.tools.builtins.task_draft_tool import TaskDraftTool
 from app.modules.tools.builtins.task_manage_tool import TaskManageTool
 from app.modules.tools.schemas import ToolExecutionRecord, ToolMetadata
@@ -92,6 +93,16 @@ class ToolRegistry:
         self.register(
             CalendarTool(),
             category="scheduling",
+            is_consequential=False,
+        )
+        self.register(
+            WebSearchTool(),
+            category="search",
+            is_consequential=False,
+        )
+        self.register(
+            DeepResearchTool(),
+            category="search",
             is_consequential=False,
         )
 

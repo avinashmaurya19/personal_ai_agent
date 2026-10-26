@@ -60,3 +60,17 @@ class NoteSearchInput(BaseModel):
 
     query: str = Field(..., min_length=1, max_length=255, description="Keyword or phrase to search for")
     limit: int = Field(default=5, ge=1, le=20, description="Maximum number of matches to return")
+
+
+class WebSearchInput(BaseModel):
+    """Input for quick web search."""
+
+    query: str = Field(..., min_length=1, max_length=255, description="Web search query string")
+    max_results: int = Field(default=5, ge=1, le=10, description="Max search results to retrieve")
+
+
+class DeepResearchInput(BaseModel):
+    """Input for in-depth web research and markdown report generation."""
+
+    topic: str = Field(..., min_length=2, max_length=255, description="Research topic or question to investigate")
+    max_sources: int = Field(default=3, ge=1, le=5, description="Number of primary sources to scrape and synthesize")

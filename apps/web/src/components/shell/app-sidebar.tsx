@@ -9,6 +9,7 @@ export type NavViewId =
   | "calendar"
   | "memory"
   | "documents"
+  | "research"
   | "notes"
   | "workflows"
   | "approvals"
@@ -58,6 +59,7 @@ export function AppSidebar({
       items: [
         { id: "memory", label: "Memory", icon: "psychology" },
         { id: "documents", label: "Documents", icon: "description" },
+        { id: "research", label: "Research", icon: "menu_book" },
         { id: "notes", label: "Notes", icon: "edit_note" },
       ],
     },

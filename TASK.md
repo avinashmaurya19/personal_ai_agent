@@ -202,7 +202,28 @@
 - [x] All automated tests passing cleanly (29/29 tests passing)
 
 ---
-| **Sprint 8: Research & Reporting** | Pluggable web search, source comparison, fact verification, Markdown report generation | 20h | [ ] |
+### Sprint 8: Research & Reporting (Completed)
+*Goal: Pluggable web search (DDGS/free search), webpage scraping/extraction, source comparison, fact verification, and Markdown report generation.*
+
+| ID | Task Description | Estimate | Status | Assigned Date | Completion Date |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **S8-01** | Add zero-cost search and scraping dependencies (`ddgs`, `beautifulsoup4`) | 1h | [x] | 2026-10-25 | 2026-10-25 |
+| **S8-02** | Define `ResearchReport` database model with owner scoping, topic, and citations | 2h | [x] | 2026-10-25 | 2026-10-25 |
+| **S8-03** | Generate and apply Alembic migration for `research_reports` table | 1h | [x] | 2026-10-25 | 2026-10-25 |
+| **S8-04** | Build `SearchService` (DDGS) and `WebScraperService` (clean markdown extraction) | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S8-05** | Implement agent tools `WebSearchTool` and `DeepResearchTool` in `ToolRegistry` | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S8-06** | Implement REST CRUD endpoints (`/api/v1/research`) for research report generation & inspection | 3h | [x] | 2026-10-25 | 2026-10-25 |
+| **S8-07** | Build Next.js Research & Notes Workspace in Stitch design system with report viewer | 4h | [x] | 2026-10-25 | 2026-10-25 |
+| **S8-08** | Write automated unit and integration tests (`pytest`) covering search, scraping, and reports | 3h | [x] | 2026-10-25 | 2026-10-25 |
+
+#### Sprint 8 Definition of Done Checklist
+- [x] Dependencies added and pinned in `requirements.txt`
+- [x] `ResearchReport` database model and Alembic migration applied cleanly
+- [x] Zero-cost DuckDuckGo search and HTTP page extraction operational
+- [x] `WebSearchTool` and `DeepResearchTool` registered in runtime coordinator
+- [x] REST API routes for listing, reading, generating, and deleting research reports
+- [x] Next.js frontend research view integrated into Stitch design shell
+- [x] Automated tests passing (100% test pass rate, 33/33 tests green)
 
 ---
 

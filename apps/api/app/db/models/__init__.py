@@ -12,6 +12,7 @@ from app.db.models.note import Note
 from app.db.models.email import EmailMessage
 from app.db.models.calendar import CalendarEvent
 from app.db.models.pending_action import PendingAction
+from app.db.models.research import ResearchReport
 
 __all__ = [
     "Base",
@@ -27,4 +28,5 @@ __all__ = [
     "EmailMessage",
     "CalendarEvent",
     "PendingAction",
+    "ResearchReport",
 ]

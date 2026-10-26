@@ -12,6 +12,7 @@ import {
   PendingActionItem,
   DocumentItem,
   MemoryItem,
+  ResearchReportItem,
 } from "@/lib/api-client";
 import { AppSidebar, NavViewId } from "@/components/shell/app-sidebar";
 import { AppHeader } from "@/components/shell/app-header";
@@ -20,6 +21,7 @@ import { StitchChatView } from "@/features/chat/stitch-chat-view";
 import { FloatingChatWidget } from "@/features/chat/floating-chat-widget";
 import { DocumentsView } from "@/features/documents/documents-view";
 import { MemoryView } from "@/features/memory/memory-view";
+import { ResearchView } from "@/features/research/research-view";
 import { TasksView } from "@/features/tasks/tasks-view";
 import { ApprovalsView } from "@/features/approvals/approvals-view";
 import { EmailView } from "@/features/email/email-view";
@@ -36,6 +38,7 @@ export default function HomePage() {
   const [pendingActions, setPendingActions] = useState<PendingActionItem[]>([]);
   const [documents, setDocuments] = useState<DocumentItem[]>([]);
   const [memories, setMemories] = useState<MemoryItem[]>([]);
+  const [researchReports, setResearchReports] = useState<ResearchReportItem[]>([]);
 
   // --- Chat State ---
   const [conversations, setConversations] = useState<ConversationItem[]>([]);
@@ -56,6 +59,7 @@ export default function HomePage() {
         actionsData,
         docsData,
         memsData,
+        reportsData,
       ] = await Promise.all([
         api.getTasks().catch(() => []),
         api.getEmailThreads().catch(() => []),
@@ -63,6 +67,7 @@ export default function HomePage() {
         api.getPendingActions().catch(() => []),
         api.getDocuments().catch(() => []),
         api.getMemories().catch(() => []),
+        api.getResearchReports().catch(() => []),
       ]);
 
       setTasks(tasksData);
@@ -71,6 +76,7 @@ export default function HomePage() {
       setPendingActions(actionsData);
       setDocuments(docsData);
       setMemories(memsData);
+      setResearchReports(reportsData);
     } catch (err) {
       console.error("Failed to load dashboard data:", err);
     }
@@ -324,6 +330,10 @@ export default function HomePage() {
 
             {activeView === "documents" && (
               <DocumentsView documents={documents} onRefresh={loadDashboardData} />
+            )}
+
+            {activeView === "research" && (
+              <ResearchView reports={researchReports} onRefresh={loadDashboardData} />
             )}
 
             {activeView === "memory" && (

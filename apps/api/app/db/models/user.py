@@ -60,3 +60,8 @@ class User(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         back_populates="owner",
         cascade="all, delete-orphan",
     )
+    research_reports: Mapped[List["ResearchReport"]] = relationship(
+        "ResearchReport",
+        back_populates="owner",
+        cascade="all, delete-orphan",
+    )

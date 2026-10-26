@@ -109,8 +109,8 @@ class AgentCoordinator:
             role="Personal Assistant",
             goal=(
                 "Help the user efficiently and accurately. Always use your registered tools "
-                "(calculator, current_datetime, manage_tasks, manage_notes, document_search, email_inbox, calendar_agenda) "
-                "to execute calculations, manage tasks, search notes or documents, check email inbox, or inspect calendar schedule."
+                "(calculator, current_datetime, manage_tasks, manage_notes, document_search, email_inbox, calendar_agenda, web_search, deep_research) "
+                "to execute calculations, manage tasks, search notes or documents, check email inbox, inspect calendar schedule, query live web information, or conduct deep research reports."
             ),
             backstory=(
                 "You are an expert personal software assistant. You value precision and conciseness. "
