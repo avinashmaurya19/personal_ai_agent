@@ -13,6 +13,7 @@ from app.db.models.email import EmailMessage
 from app.db.models.calendar import CalendarEvent
 from app.db.models.pending_action import PendingAction
 from app.db.models.research import ResearchReport
+from app.db.models.oauth import OAuthToken
 
 __all__ = [
     "Base",
@@ -29,4 +30,5 @@ __all__ = [
     "CalendarEvent",
     "PendingAction",
     "ResearchReport",
+    "OAuthToken",
 ]

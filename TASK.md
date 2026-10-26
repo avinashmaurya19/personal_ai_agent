@@ -266,3 +266,22 @@
   - Floating Action Button (FAB) at bottom-right ("Chat with AI") allowing chat overlay across all views.
   - All files strictly adhere to the <500 lines per file limit. Next.js build passes with 0 errors and all 29 backend tests pass.
 - **2026-10-25 (Fixed)**: Fixed LiteLLM/Mistral `Invalid model: mistral/open-mistral-7b` (400 Bad Request) caused by model names already containing the provider prefix (`mistral/open-mistral-7b`) being prefixed again to `mistral/mistral/open-mistral-7b`. Added automatic model prefix normalization in [`CrewAILLMService.get_llm`](file:///Users/avinashmaurya/AceVertix/Personal%20AI/apps/api/app/modules/llm/service.py) and [`ConversationService.update_conversation_model`](file:///Users/avinashmaurya/AceVertix/Personal%20AI/apps/api/app/modules/conversations/service.py). Added unit test coverage (30/30 tests pass).
+- **2026-10-26 (Completed)**: Implemented complete Google OAuth2 & Gmail Integration:
+  - Database schema & model `OAuthToken` in `apps/api/app/db/models/oauth.py` with Alembic migration `b78de5db5a6a_create_oauth_tokens_table.py`.
+  - Backend `GoogleAuthService` & `OAuthTokenManager` (`apps/api/app/modules/integrations/google_service.py`) supporting authorization URL generation, OAuth callback exchange, proactive token refresh within 60s of expiration, and userinfo retrieval.
+  - Backend `GmailService` (`apps/api/app/modules/integrations/gmail_service.py`) supporting message listing, MIME header parsing, base64 body decoding, live Gmail search, and direct sync into database `EmailMessage` records.
+  - REST endpoints mounted under `/api/v1/integrations/google` (`/auth-url`, `/callback`, `/status`, `/disconnect`, `/gmail/sync`, `/gmail/search`).
+  - Agent `EmailTool` updated with `summarize_emails` and automatic Gmail integration awareness.
+  - Frontend integration:
+    - Updated `api-client.ts` with Google OAuth, Gmail sync & search methods; factored out types into `api-types.ts` to strictly maintain <500 lines per file limit.
+    - Updated `EmailView` (`apps/web/src/features/email/email-view.tsx`) with live Google connection status badge, "Connect Gmail" button, "Sync Live Gmail" action with spinner, and "Disconnect" option.
+    - Updated `SettingsView` (`apps/web/src/features/settings/settings-view.tsx`) with Google Workspace & Gmail OAuth card.
+    - Added dedicated `ConnectedAppsView` (`apps/web/src/features/integrations/connected-apps-view.tsx`) accessible via sidebar.
+  - Tests: Added `apps/api/tests/test_google_gmail.py` covering OAuth URLs, status checks, disconnects, mock Gmail parsing, and EmailTool actions (100% test pass rate, 38/38 tests passing). Fixed `.gitignore` to track `apps/web/src/lib/`. Next.js build passes with 0 errors.
+- **2026-10-26 (Completed)**: Overhauled Email UI to authentic Gmail application design (`apps/web/src/features/email/`):
+  - Top `GmailHeader`: Search in mail input, live sync button, active Google account status badge.
+  - Left `GmailSidebar`: Gmail-style "+ Compose" button, folder navigation (`Inbox`, `Starred`, `Sent`, `Drafts`, `AI Triaged`) with dynamic unread counts.
+  - Central `GmailThreadList`: True Gmail row layout featuring selection checkboxes, star toggling, bold unread typography, single-row `Subject - Snippet` truncation, date/time formatting, category tabs (`Primary`, `Promotions`, `Updates`), and on-hover quick actions (archive, mark as read, star).
+  - Detailed `GmailMessageDetail`: Gmail reading view with back navigation, sender circular initial avatars, recipient details, Personal AI Executive Briefing card with 1-click smart reply prompts, and expandable inline reply editor with "AI Polish".
+  - Floating `GmailComposeModal`: Dockable bottom-right compose window with recipient, subject, body, and "Draft with Personal AI" auto-generator.
+  - Modularized across 5 files under `components/` strictly adhering to the <500 lines limit. Next.js build passes with 0 errors.

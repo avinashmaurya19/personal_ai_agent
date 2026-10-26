@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Any, Optional
 import uuid
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class ConversationCreate(BaseModel):
@@ -40,6 +40,14 @@ class MessageCreate(BaseModel):
 
     content: str = Field(..., min_length=1)
     role: str = Field(default="user")
+
+    @model_validator(mode="before")
+    @classmethod
+    def allow_message_alias(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            if "content" not in data and "message" in data:
+                data["content"] = data["message"]
+        return data
 
 
 class MessageResponse(BaseModel):

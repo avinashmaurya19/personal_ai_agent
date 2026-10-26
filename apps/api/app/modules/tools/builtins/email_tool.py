@@ -15,9 +15,9 @@ from app.config import settings
 class EmailToolInput(BaseModel):
     """Input parameters for email operations."""
 
-    action: Literal["list_threads", "read_thread", "draft_reply", "send_email"] = Field(
+    action: Literal["list_threads", "read_thread", "draft_reply", "send_email", "summarize_emails"] = Field(
         ...,
-        description="Action to perform: 'list_threads' (summary of inbox), 'read_thread' (read all messages in thread), 'draft_reply' (save draft without sending), or 'send_email' (propose sending email requiring approval).",
+        description="Action to perform: 'list_threads' (summary of inbox), 'read_thread' (read all messages in thread), 'summarize_emails' (synthesize recent/unread emails into an executive briefing), 'draft_reply' (save draft without sending), or 'send_email' (propose sending email requiring approval).",
     )
     query: Optional[str] = Field(
         default=None,
@@ -205,8 +205,39 @@ class EmailTool(BaseTool):
                             f"- Status: PENDING OWNER APPROVAL (Review and approve in the Approvals drawer)"
                         )
 
+                    elif action == "summarize_emails":
+                        # Check if Google OAuth connection is active
+                        cur.execute("SELECT account_email FROM oauth_tokens WHERE owner_id = %s AND provider = 'google'", (str(DEV_OWNER_ID),))
+                        oauth_row = cur.fetchone()
+                        account_header = f"Connected Gmail: {oauth_row[0]}" if oauth_row and oauth_row[0] else "Local Workspace Mailbox"
+
+                        cur.execute(
+                            """
+                            SELECT thread_id, subject, sender, snippet, is_read, created_at
+                            FROM email_messages
+                            WHERE owner_id = %s AND is_draft = false
+                            ORDER BY created_at DESC
+                            LIMIT 8
+                            """,
+                            (str(DEV_OWNER_ID),),
+                        )
+                        rows = cur.fetchall()
+                        if not rows:
+                            return f"📬 Inbox Briefing ({account_header}): Mailbox is completely empty. No emails to summarize."
+
+                        unread_count = sum(1 for r in rows if not r[4])
+                        summary_lines = [
+                            f"📬 Executive Email Synthesis ({account_header}):",
+                            f"Evaluated {len(rows)} recent thread(s) • {unread_count} Unread\n",
+                        ]
+                        for tid, subj, snd, snip, is_r, crt in rows:
+                            tag = "🔴 [UNREAD]" if not is_r else "⚪ [READ]"
+                            summary_lines.append(f"{tag} **{subj}** (From: {snd})\n   Key Snippet: {snip}\n   Thread ID: {tid}")
+
+                        return "\n".join(summary_lines)
+
                     else:
-                        return f"Unknown email action: '{action}'. Valid actions: list_threads, read_thread, draft_reply, send_email."
+                        return f"Unknown email action: '{action}'. Valid actions: list_threads, read_thread, draft_reply, send_email, summarize_emails."
 
         except Exception as exc:
             return f"Database error in email tool: {str(exc)}"

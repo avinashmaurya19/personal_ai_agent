@@ -1,7 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
-import { EmailThreadItem } from "@/lib/api-client";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { EmailThreadItem, GoogleConnectionStatus, api } from "@/lib/api-client";
+import { GmailHeader } from "./components/gmail-header";
+import { GmailSidebar, GmailFolder } from "./components/gmail-sidebar";
+import { GmailThreadList } from "./components/gmail-thread-list";
+import { GmailMessageDetail } from "./components/gmail-message-detail";
+import { GmailComposeModal } from "./components/gmail-compose-modal";
 
 interface EmailViewProps {
   emailThreads: EmailThreadItem[];
@@ -9,129 +14,248 @@ interface EmailViewProps {
 }
 
 export function EmailView({ emailThreads, onRefresh }: EmailViewProps) {
-  const [selectedThread, setSelectedThread] = useState<EmailThreadItem | null>(
-    emailThreads[0] || null
-  );
+  const [selectedThread, setSelectedThread] = useState<EmailThreadItem | null>(null);
+  const [currentFolder, setCurrentFolder] = useState<GmailFolder>("inbox");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [starredThreadIds, setStarredThreadIds] = useState<Set<string>>(new Set());
+  const [isComposeOpen, setIsComposeOpen] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [googleStatus, setGoogleStatus] = useState<GoogleConnectionStatus | null>(null);
+  const [notification, setNotification] = useState<{
+    type: "success" | "error" | "info";
+    text: string;
+  } | null>(null);
+
+  // Check Google OAuth status
+  const checkGoogleStatus = useCallback(async () => {
+    try {
+      const status = await api.getGoogleStatus();
+      setGoogleStatus(status);
+    } catch {
+      setGoogleStatus({
+        connected: false,
+        email: null,
+        scopes: [],
+        expires_at: null,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    checkGoogleStatus();
+
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("google_connected") === "true") {
+        setNotification({
+          type: "success",
+          text: "Google account successfully connected! Gmail access active.",
+        });
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+        checkGoogleStatus();
+        onRefresh();
+      } else if (urlParams.get("google_error")) {
+        setNotification({
+          type: "error",
+          text: `Google connection failed: ${urlParams.get("google_error")}`,
+        });
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+      }
+    }
+  }, [checkGoogleStatus, onRefresh]);
+
+  const handleConnectGoogle = async () => {
+    try {
+      const res = await api.getGoogleAuthUrl();
+      if (res.authorization_url) {
+        window.location.href = res.authorization_url;
+      }
+    } catch (err: any) {
+      setNotification({
+        type: "error",
+        text: err.message || "Failed to initiate Google authorization.",
+      });
+    }
+  };
+
+  const handleDisconnectGoogle = async () => {
+    if (!window.confirm("Are you sure you want to disconnect your Google account?")) return;
+    try {
+      await api.disconnectGoogle();
+      setNotification({ type: "info", text: "Google account disconnected." });
+      await checkGoogleStatus();
+      onRefresh();
+    } catch (err: any) {
+      setNotification({
+        type: "error",
+        text: err.message || "Failed to disconnect Google account.",
+      });
+    }
+  };
+
+  const handleSyncGmail = async () => {
+    setIsSyncing(true);
+    try {
+      const result = await api.syncGmail(15);
+      setNotification({
+        type: "success",
+        text: `Sync complete: ${result.synced_count} emails synced from Gmail!`,
+      });
+      onRefresh();
+    } catch (err: any) {
+      setNotification({
+        type: "error",
+        text: err.message || "Failed to sync Gmail messages.",
+      });
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
+  const handleToggleStar = (threadId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setStarredThreadIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(threadId)) next.delete(threadId);
+      else next.add(threadId);
+      return next;
+    });
+  };
+
+  const handleMarkRead = async (threadId: string) => {
+    try {
+      await api.markThreadRead(threadId);
+      onRefresh();
+    } catch (err) {
+      console.error("Failed to mark thread read:", err);
+    }
+  };
+
+  // Filter threads based on folder and search query
+  const filteredThreads = useMemo(() => {
+    return emailThreads.filter((t) => {
+      // 1. Folder filter
+      if (currentFolder === "starred" && !starredThreadIds.has(t.thread_id)) {
+        return false;
+      }
+
+      // 2. Search query filter
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        const matchesSender = t.last_sender.toLowerCase().includes(q);
+        const matchesSubject = t.subject.toLowerCase().includes(q);
+        const matchesSnippet = t.snippet.toLowerCase().includes(q);
+        if (!matchesSender && !matchesSubject && !matchesSnippet) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }, [emailThreads, currentFolder, starredThreadIds, searchQuery]);
+
+  const unreadCount = useMemo(() => {
+    return emailThreads.filter((t) => t.has_unread).length;
+  }, [emailThreads]);
 
   return (
     <div className="flex flex-col w-full pb-16 select-none">
-      {/* Page Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-4 pb-6 border-b border-border-hairline">
-        <div className="flex flex-col gap-1 min-w-0">
-          <div className="flex items-center gap-2.5">
-            <h1 className="text-2xl font-bold text-text-primary tracking-tight">
-              Autonomous Email Triaging &amp; Briefings
-            </h1>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-secondary-container/30 text-secondary border border-secondary/20">
-              <span className="material-symbols-outlined text-[13px]">mail</span> IMAP/SMTP Gateway Active
+      {/* Toast Notification */}
+      {notification && (
+        <div
+          className={`mb-4 px-4 py-2.5 rounded-xl text-xs flex items-center justify-between border shadow-sm ${
+            notification.type === "success"
+              ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+              : notification.type === "error"
+              ? "bg-red-500/10 text-red-400 border-red-500/30"
+              : "bg-blue-500/10 text-blue-400 border-blue-500/30"
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            <span className="material-symbols-outlined text-[16px]">
+              {notification.type === "success"
+                ? "check_circle"
+                : notification.type === "error"
+                ? "error"
+                : "info"}
             </span>
+            <span>{notification.text}</span>
           </div>
-          <p className="text-xs text-text-secondary max-w-3xl">
-            Inspect autonomous inbox classification, AI-drafted responses, and thread summaries.
-          </p>
+          <button
+            onClick={() => setNotification(null)}
+            className="text-text-tertiary hover:text-text-primary ml-4"
+          >
+            ✕
+          </button>
         </div>
-      </div>
+      )}
 
-      {/* Main Two-Pane Inbox */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6 min-h-[500px]">
-        {/* Left List (5 cols) */}
-        <div className="lg:col-span-5 bg-card-surface border border-border-hairline rounded-2xl overflow-hidden shadow-xl flex flex-col">
-          <div className="p-4 border-b border-border-hairline flex items-center justify-between">
-            <span className="text-xs font-semibold text-text-primary">
-              Inbox Threads ({emailThreads.length})
-            </span>
-            <button
-              onClick={onRefresh}
-              className="text-xs text-text-tertiary hover:text-text-primary flex items-center gap-1"
-            >
-              <span className="material-symbols-outlined text-[16px]">refresh</span>
-              <span>Sync</span>
-            </button>
-          </div>
+      {/* Main Gmail App Shell */}
+      <div className="rounded-2xl border border-border-hairline bg-card-surface shadow-2xl overflow-hidden flex flex-col min-h-[640px]">
+        {/* Top Gmail Header Bar */}
+        <GmailHeader
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          googleStatus={googleStatus}
+          isSyncing={isSyncing}
+          onSync={handleSyncGmail}
+          onConnect={handleConnectGoogle}
+          onDisconnect={handleDisconnectGoogle}
+        />
 
-          <div className="divide-y divide-border-hairline/60 overflow-y-auto max-h-[540px]">
-            {emailThreads.length === 0 ? (
-              <div className="p-8 text-center text-xs text-text-tertiary">
-                No email threads found in mock/local inbox.
-              </div>
-            ) : (
-              emailThreads.map((thread) => {
-                const isSelected = selectedThread?.thread_id === thread.thread_id;
-                return (
-                  <div
-                    key={thread.thread_id}
-                    onClick={() => setSelectedThread(thread)}
-                    className={`p-4 cursor-pointer transition-colors ${
-                      isSelected
-                        ? "bg-elevated-surface border-l-2 border-l-primary"
-                        : "hover:bg-elevated-surface/50"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between gap-2 mb-1">
-                      <span className="text-xs font-semibold text-text-primary truncate">
-                        {thread.last_sender}
-                      </span>
-                      <span className="text-[10px] text-text-tertiary font-mono">
-                        {new Date(thread.last_activity).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                      </span>
-                    </div>
-                    <p className="text-xs text-text-secondary font-medium truncate mb-1">
-                      {thread.subject}
-                    </p>
-                    <p className="text-[11px] text-text-tertiary line-clamp-2">
-                      {thread.snippet}
-                    </p>
-                  </div>
-                );
-              })
-            )}
-          </div>
-        </div>
+        {/* Lower Two-Column Layout: Sidebar + Message View */}
+        <div className="flex flex-1 min-h-[560px] overflow-hidden">
+          {/* Left Gmail Navigation Sidebar */}
+          <GmailSidebar
+            currentFolder={currentFolder}
+            onSelectFolder={(f) => {
+              setCurrentFolder(f);
+              setSelectedThread(null);
+            }}
+            inboxCount={unreadCount}
+            starredCount={starredThreadIds.size}
+            onOpenCompose={() => setIsComposeOpen(true)}
+            googleConnected={!!googleStatus?.connected}
+            googleEmail={googleStatus?.email || null}
+          />
 
-        {/* Right Detail (7 cols) */}
-        <div className="lg:col-span-7 bg-card-surface border border-border-hairline rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+          {/* Right Main Pane: Thread List or Thread Detail */}
           {selectedThread ? (
-            <div className="space-y-4">
-              <div className="border-b border-border-hairline pb-4 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-accent-subtle text-primary border border-primary/20">
-                    Triaged by Personal AI
-                  </span>
-                  <span className="text-xs font-mono text-text-tertiary">
-                    {new Date(selectedThread.last_activity).toLocaleString()}
-                  </span>
-                </div>
-                <h2 className="text-lg font-bold text-text-primary">
-                  {selectedThread.subject}
-                </h2>
-                <div className="text-xs text-text-secondary flex items-center gap-2">
-                  <span className="text-text-tertiary">From:</span>
-                  <span className="font-semibold text-text-primary">{selectedThread.last_sender}</span>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-xl bg-elevated-surface border border-border-hairline text-xs text-text-primary leading-relaxed whitespace-pre-wrap">
-                {selectedThread.snippet}
-              </div>
-
-              {/* AI Autonomous Suggestion / Draft Callout */}
-              <div className="p-4 rounded-xl bg-secondary-container/20 border border-secondary/30 space-y-2">
-                <div className="flex items-center gap-2 text-secondary text-xs font-semibold">
-                  <span className="material-symbols-outlined text-[16px]">smart_toy</span>
-                  <span>AI Executive Analysis</span>
-                </div>
-                <p className="text-xs text-text-secondary leading-relaxed">
-                  This thread requires attention. Assistant suggests preparing an acknowledgment draft.
-                </p>
-              </div>
-            </div>
+            <GmailMessageDetail
+              thread={selectedThread}
+              onBack={() => setSelectedThread(null)}
+              isStarred={starredThreadIds.has(selectedThread.thread_id)}
+              onToggleStar={handleToggleStar}
+              onRefresh={onRefresh}
+            />
           ) : (
-            <div className="h-full flex items-center justify-center text-xs text-text-tertiary">
-              Select an email thread from the left to view contents.
-            </div>
+            <GmailThreadList
+              threads={filteredThreads}
+              selectedThreadId={null}
+              onSelectThread={(t) => setSelectedThread(t)}
+              onRefresh={onRefresh}
+              onMarkRead={handleMarkRead}
+              starredThreadIds={starredThreadIds}
+              onToggleStar={handleToggleStar}
+            />
           )}
         </div>
       </div>
+
+      {/* Floating Compose Modal (Dockable Gmail Style) */}
+      <GmailComposeModal
+        isOpen={isComposeOpen}
+        onClose={() => setIsComposeOpen(false)}
+        onSuccess={() => {
+          setNotification({
+            type: "success",
+            text: "Message draft created successfully!",
+          });
+          onRefresh();
+        }}
+      />
     </div>
   );
 }

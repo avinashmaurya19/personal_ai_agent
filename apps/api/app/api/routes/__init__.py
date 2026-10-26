@@ -13,11 +13,14 @@ from app.modules.email.router import router as emails_router
 from app.modules.calendar.router import router as calendar_router
 from app.modules.approvals.router import router as approvals_router
 from app.modules.research.router import router as research_router
+from app.modules.integrations.router import router as integrations_router
 
 api_router = APIRouter(prefix="/api/v1")
 api_router.include_router(health_router)
 api_router.include_router(conversations_router)
+api_router.include_router(conversations_router, prefix="/chat")
 api_router.include_router(models_router)
+api_router.include_router(models_router, prefix="/chat")
 api_router.include_router(tools_router)
 api_router.include_router(memories_router)
 api_router.include_router(documents_router)
@@ -27,3 +30,4 @@ api_router.include_router(emails_router)
 api_router.include_router(calendar_router)
 api_router.include_router(approvals_router)
 api_router.include_router(research_router)
+api_router.include_router(integrations_router)

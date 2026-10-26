@@ -69,6 +69,12 @@ class Settings(BaseSettings):
     MISTRAL_API_BASE_URL: str = "https://api.mistral.ai/v1"
     OPENAI_API_KEY: str = "disabled"
 
+    # Google OAuth / Gmail Integration Settings
+    GOOGLE_CLIENT_ID: str = ""
+    GOOGLE_CLIENT_SECRET: str = ""
+    GOOGLE_REDIRECT_URI: str = "http://localhost:8000/api/v1/integrations/google/callback"
+    FRONTEND_URL: str = "http://localhost:3000"
+
     # CORS Settings
     CORS_ORIGINS: list[str] = [
         "http://localhost:3000",

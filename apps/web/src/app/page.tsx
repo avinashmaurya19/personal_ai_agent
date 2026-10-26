@@ -26,6 +26,7 @@ import { TasksView } from "@/features/tasks/tasks-view";
 import { ApprovalsView } from "@/features/approvals/approvals-view";
 import { EmailView } from "@/features/email/email-view";
 import { SettingsView } from "@/features/settings/settings-view";
+import { ConnectedAppsView } from "@/features/integrations/connected-apps-view";
 
 export default function HomePage() {
   const [activeView, setActiveView] = useState<NavViewId>("overview");
@@ -98,6 +99,7 @@ export default function HomePage() {
     try {
       const data = await api.getConversations();
       setConversations(data);
+      setError(null);
       if (data.length > 0 && !selectedId) {
         setSelectedId(data[0].id);
       }
@@ -352,7 +354,11 @@ export default function HomePage() {
               <SettingsView models={models} />
             )}
 
-            {(activeView === "notes" || activeView === "workflows" || activeView === "activity-history" || activeView === "connected-apps" || activeView === "mcp-servers") && (
+            {activeView === "connected-apps" && (
+              <ConnectedAppsView />
+            )}
+
+            {(activeView === "notes" || activeView === "workflows" || activeView === "activity-history" || activeView === "mcp-servers") && (
               <div className="py-12 text-center text-xs text-text-tertiary bg-card-surface border border-border-hairline rounded-2xl">
                 <span className="material-symbols-outlined text-[32px] text-text-secondary mb-2 block">
                   construction

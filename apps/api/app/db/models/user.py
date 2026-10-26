@@ -65,3 +65,8 @@ class User(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         back_populates="owner",
         cascade="all, delete-orphan",
     )
+    oauth_tokens: Mapped[List["OAuthToken"]] = relationship(
+        "OAuthToken",
+        back_populates="owner",
+        cascade="all, delete-orphan",
+    )

@@ -258,6 +258,39 @@ flowchart LR
   - *Acceptance:* Assistant drafts emails and calendar invites; all external mutations strictly held in pending state awaiting interactive owner approval.
 
   ```mermaid
+  sequenceDiagram
+      autonumber
+      actor Owner as Workspace Owner
+      participant Web as Next.js Web App
+      participant API as FastAPI Integrations Router
+      participant Google as Google Identity & Gmail REST API
+      participant DB as PostgreSQL (oauth_tokens & emails)
+      participant Agent as CrewAI Agent & EmailTool
+
+      Owner->>Web: Clicks "Connect Gmail"
+      Web->>API: GET /api/v1/integrations/google/auth-url
+      API-->>Web: {"auth_url": "https://accounts.google.com/..."}
+      Web->>Google: Redirect to Google Consent Screen
+      Google-->>Owner: Request consent (email, profile, gmail scopes)
+      Owner->>Google: Approves consent
+      Google->>API: Callback /api/v1/integrations/google/callback?code=XYZ
+      API->>Google: Exchange authorization code for tokens
+      Google-->>API: access_token, refresh_token, expires_in
+      API->>Google: Fetch user profile (userinfo)
+      API->>DB: Upsert OAuthToken record
+      API-->>Web: Redirect to /?google_connected=true
+      Web->>API: POST /api/v1/integrations/google/gmail/sync
+      API->>Google: GET /gmail/v1/users/me/messages
+      Google-->>API: Live messages and MIME payloads
+      API->>DB: Upsert EmailMessage records
+      Owner->>Agent: "Summarize my emails"
+      Agent->>EmailTool: action='summarize_emails'
+      EmailTool->>DB: Read live synced messages
+      EmailTool-->>Agent: Synthesized thread summaries
+      Agent-->>Owner: Executive briefing
+  ```
+
+  ```mermaid
   flowchart TD
       subgraph UserInput ["Natural Language & Web UI"]
           USER_CHAT["Chat: 'Summarize unread emails and draft a reply to Alex'"]
