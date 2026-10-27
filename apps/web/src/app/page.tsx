@@ -34,6 +34,7 @@ import { AuthModal } from "@/features/auth/auth-modal";
 function MainDashboard() {
   const [activeView, setActiveView] = useState<NavViewId>("overview");
   const [searchQuery, setSearchQuery] = useState("");
+  const [dashboardExternalPrompt, setDashboardExternalPrompt] = useState<string | null>(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   useEffect(() => {
@@ -271,19 +272,22 @@ function MainDashboard() {
     }
   };
 
-  const handleSendPromptFromDashboard = async (prompt: string) => {
+  const handleAskAssistantFromHeader = async (prompt: string) => {
+    if (activeView === "overview") {
+      setDashboardExternalPrompt(prompt);
+      return;
+    }
+
     try {
-      let targetConvId = selectedId;
-      if (!targetConvId) {
-        const newConv = await api.createConversation({ title: prompt.slice(0, 30) });
-        setConversations((prev) => [newConv, ...prev]);
-        setSelectedId(newConv.id);
-        targetConvId = newConv.id;
-      }
+      const newConv = await api.createConversation({
+        title: prompt.length > 35 ? prompt.slice(0, 35) + "..." : prompt,
+      });
+      setConversations((prev) => [newConv, ...prev]);
+      setSelectedId(newConv.id);
       setActiveView("ai-assistant");
-      await handleSendMessage(prompt, targetConvId);
+      await handleSendMessage(prompt, newConv.id);
     } catch (err) {
-      console.error("Failed to send prompt from dashboard:", err);
+      console.error("Failed to ask assistant from header:", err);
     }
   };
 
@@ -311,7 +315,7 @@ function MainDashboard() {
           conversations={conversations}
           onNavigateToView={setActiveView}
           onSelectConversation={setSelectedId}
-          onAskAssistant={handleSendPromptFromDashboard}
+          onAskAssistant={handleAskAssistantFromHeader}
         />
 
         {/* Global Connection Warning */}
@@ -345,7 +349,16 @@ function MainDashboard() {
                 onOpenEmails={() => setActiveView("email")}
                 onOpenResearch={() => setActiveView("research")}
                 onToggleTask={handleToggleTask}
-                onSendPrompt={handleSendPromptFromDashboard}
+                onNavigateToChat={(convId) => {
+                  setSelectedId(convId);
+                  setActiveView("ai-assistant");
+                }}
+                onRefreshData={() => {
+                  loadDashboardData();
+                  fetchConversations();
+                }}
+                externalPrompt={dashboardExternalPrompt}
+                onClearExternalPrompt={() => setDashboardExternalPrompt(null)}
               />
             </div>
           )}

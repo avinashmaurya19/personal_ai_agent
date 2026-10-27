@@ -393,10 +393,6 @@
       - Added strict prompt directive: whenever a user requests an update, edit, or reschedule of an existing task, the agent MUST call `manage_tasks` with `action='update'` and NEVER `action='create'`.
     - Cleaned up duplicate "Attend Google Seminar" tasks in PostgreSQL and updated the remaining task to `2026-10-28`.
   - Verification: 100% backend tests passing (41/41 in `pytest`), Next.js production build succeeded with 0 errors (`next build`), all files strictly under 500 lines.
-- **2026-10-27 (Fixed)**: Task List Query 'status=all' Bug:
-  - Root Cause: When the user asked "show me the task list", the LLM called `manage_tasks(action='list', status_filter='all')`. Because `task_manage_tool.py` directly appended `query += " AND status = %s"` with value `'all'`, PostgreSQL executed `WHERE owner_id = %s AND status = 'all'`. Since valid task statuses in the database are `pending`, `in_progress`, `completed`, and `cancelled` (never literal string `'all'`), the query matched 0 rows and returned `"No tasks found with status 'all'."`. The assistant then misinformed the user that their task list was completely empty.
-  - Fix: Updated `task_manage_tool.py` and `TaskService.list_tasks` to check `if status_filter and status_filter.lower() not in ("all", "*", "any"):` before appending the SQL WHERE clause. Tested directly with `status_filter='all'`, `None`, and `'pending'`: all tasks now return reliably.
-  - Verification: 100% backend tests passing (41/41 in `pytest`), Next.js production build succeeded with 0 errors (`next build`), all files strictly under 500 lines.
 - **2026-10-27 (Fixed)**: Conversation Deletion HTTP 204 Error & Task Bulk Deletion Execution:
   - 1. Fixed Chat Session Deletion UI Freeze:
     - Root Cause: `DELETE /api/v1/conversations/{id}` returned HTTP 204 No Content. In `ApiClient.request`, calling `response.json()` on an empty 204 response threw `SyntaxError: Unexpected end of JSON input`. This uncaught error prevented `setConversations` from running, leaving the deleted chat session visible in the sidebar. When clicked again, the backend returned 404 Not Found (since it was already deleted), continuing to throw errors.
@@ -409,23 +405,22 @@
       - Strengthened Agent prompt guidelines in `coordinator.py` with the "Do the Work" Principle: mandating tool execution whenever the user requests or confirms any task or state modification and prohibiting claiming success without database confirmation.
       - Executed real bulk deletion of the 5 pending tasks in PostgreSQL; task count is now verified clean.
   - Verification: 100% backend tests passing (41/41 in `pytest`), Next.js production build succeeded with 0 errors (`next build`), all files strictly under 500 lines.
-- **2026-10-27 (Fixed)**: Task List Query 'status=all' Bug:
-  - Root Cause: When the user asked "show me the task list", the LLM called `manage_tasks(action='list', status_filter='all')`. Because `task_manage_tool.py` directly appended `query += " AND status = %s"` with value `'all'`, PostgreSQL executed `WHERE owner_id = %s AND status = 'all'`. Since valid task statuses in the database are `pending`, `in_progress`, `completed`, and `cancelled` (never literal string `'all'`), the query matched 0 rows and returned `"No tasks found with status 'all'."`. The assistant then misinformed the user that their task list was completely empty.
-  - Fix: Updated `task_manage_tool.py` and `TaskService.list_tasks` to check `if status_filter and status_filter.lower() not in ("all", "*", "any"):` before appending the SQL WHERE clause. Tested directly with `status_filter='all'`, `None`, and `'pending'`: all tasks now return reliably.
-  - Verification: 100% backend tests passing (41/41 in `pytest`), Next.js production build succeeded with 0 errors (`next build`), all files strictly under 500 lines.
-- **2026-10-27 (Fixed)**: Task Update Action Support & Date Year Protection:
-  - Root Cause: `TaskManageTool` did not support an `update` or `reschedule` action (`action` only accepted `"create"`, `"list"`, `"complete"`, `"delete"`, `"clear"`). When the user asked to "update the first task 'Attend Google seminar' date for tomorrow", the LLM had no update action available and invoked `action='create'`, creating duplicate tasks instead of modifying the existing one. In addition, `_parse_due_date` lacked relative date handling and year protection, causing relative dates or LLM training cutoff dates to save with legacy years (2023 instead of 2026).
+- **2026-10-27 (Completed)**: Inline Dashboard Assistant Expansion (Perplexity / Raycast UX Pattern):
+  - Problem: Submitting prompts from the Home Dashboard previously triggered an abrupt view switch to the full Chat view (`activeView = "ai-assistant"`) and appended the message to whatever old conversation was selected in the background, creating a jarring, unnatural user experience.
   - Implementation:
-    - Updated `TaskManageTool` in `apps/api/app/modules/tools/builtins/task_manage_tool.py`:
-      - Added `action in ("update", "reschedule", "modify", "edit")` supporting in-place modification of title, description, priority, due date, or status.
-      - Supported target matching by UUID, title search phrase, or ordinal terms (`"first"`, `"latest"`, `"1st"`).
-      - Enhanced `_parse_due_date` with relative date resolution (`"today"`, `"tomorrow"`, `"in X days"`) and year guards (`parsed.year < now.year` automatically adjusts to the current system year).
-    - Updated `AgentCoordinator` in `apps/api/app/modules/agent/coordinator.py`:
-      - Injected current UTC system date and year (`Current System UTC Date: Tuesday, October 27, 2026`) directly into the agent task context.
-      - Added strict prompt directive: whenever a user requests an update, edit, or reschedule of an existing task, the agent MUST call `manage_tasks` with `action='update'` and NEVER `action='create'`.
-    - Cleaned up duplicate "Attend Google Seminar" tasks in PostgreSQL and updated the remaining task to `2026-10-28`.
-  - Verification: 100% backend tests passing (41/41 in `pytest`), Next.js production build succeeded with 0 errors (`next build`), all files strictly under 500 lines.
-- **2026-10-27 (Fixed)**: Task List Query 'status=all' Bug:
-  - Root Cause: When the user asked "show me the task list", the LLM called `manage_tasks(action='list', status_filter='all')`. Because `task_manage_tool.py` directly appended `query += " AND status = %s"` with value `'all'`, PostgreSQL executed `WHERE owner_id = %s AND status = 'all'`. Since valid task statuses in the database are `pending`, `in_progress`, `completed`, and `cancelled` (never literal string `'all'`), the query matched 0 rows and returned `"No tasks found with status 'all'."`. The assistant then misinformed the user that their task list was completely empty.
-  - Fix: Updated `task_manage_tool.py` and `TaskService.list_tasks` to check `if status_filter and status_filter.lower() not in ("all", "*", "any"):` before appending the SQL WHERE clause. Tested directly with `status_filter='all'`, `None`, and `'pending'`: all tasks now return reliably.
+    - Designed and implemented [`DashboardInlineAssistant`](file:///Users/avinashmaurya/AceVertix/Personal%20AI/apps/web/src/features/dashboard/components/dashboard-inline-assistant.tsx) component:
+      - Mounts directly beneath `AiPromptCenter` on the Home Dashboard when a prompt is sent.
+      - Displays real-time synthesis and tool execution indicators without switching pages.
+      - Renders responses using markdown renderer with crisp formatting, code blocks, and copy action.
+      - Provides an inline follow-up bar enabling multi-turn conversation without leaving the dashboard overview.
+      - Includes an "Open in Chat ↗" escape hatch button that smoothly transitions into the full chat view with this exact conversation loaded.
+      - Provides a 1-click "✕ Close" button to dismiss the card when done.
+    - Updated [`StitchDashboard`](file:///Users/avinashmaurya/AceVertix/Personal%20AI/apps/web/src/features/dashboard/stitch-dashboard.tsx):
+      - Replaced automatic page redirection with local inline session management.
+      - Automatically creates an isolated conversation session per prompt task, preventing pollution of existing conversations.
+      - Auto-refreshes dashboard data (`onRefreshData`) on completion so Today's task list, emails, and documents reflect modifications immediately.
+      - Added support for external prompts submitted from the top universal search bar.
+    - Updated [`page.tsx`](file:///Users/avinashmaurya/AceVertix/Personal%20AI/apps/web/src/app/page.tsx):
+      - Connected `handleAskAssistantFromHeader` to route to inline dashboard execution when on overview, and isolated new chat when on other views.
+      - Passed `onNavigateToChat` and `onRefreshData` handlers.
   - Verification: 100% backend tests passing (41/41 in `pytest`), Next.js production build succeeded with 0 errors (`next build`), all files strictly under 500 lines.

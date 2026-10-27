@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
+  api,
   TaskItem,
   DocumentItem,
   ConversationItem,
@@ -11,6 +12,10 @@ import { HeroGreeting } from "./components/hero-greeting";
 import { AiPromptCenter } from "./components/ai-prompt-center";
 import { TodayWidget } from "./components/today-widget";
 import { RecentDocumentsWidget } from "./components/recent-documents-widget";
+import {
+  DashboardInlineAssistant,
+  InlineTurn,
+} from "./components/dashboard-inline-assistant";
 
 interface StitchDashboardProps {
   tasks: TaskItem[];
@@ -23,7 +28,10 @@ interface StitchDashboardProps {
   onOpenEmails: () => void;
   onOpenResearch: () => void;
   onToggleTask: (task: TaskItem) => Promise<void>;
-  onSendPrompt: (prompt: string, sources?: string[]) => void;
+  onNavigateToChat: (conversationId: string) => void;
+  onRefreshData?: () => void;
+  externalPrompt?: string | null;
+  onClearExternalPrompt?: () => void;
 }
 
 export function StitchDashboard({
@@ -35,8 +43,81 @@ export function StitchDashboard({
   onOpenEmails,
   onOpenResearch,
   onToggleTask,
-  onSendPrompt,
+  onNavigateToChat,
+  onRefreshData,
+  externalPrompt,
+  onClearExternalPrompt,
 }: StitchDashboardProps) {
+  const [inlineSession, setInlineSession] = useState<{
+    conversationId: string;
+    turns: InlineTurn[];
+    isGenerating: boolean;
+    error: string | null;
+  } | null>(null);
+
+  const handleExecutePrompt = async (promptText: string) => {
+    if (!promptText.trim()) return;
+
+    let convId = inlineSession?.conversationId;
+
+    try {
+      if (!convId) {
+        const title = promptText.length > 35 ? promptText.slice(0, 35) + "..." : promptText;
+        const newConv = await api.createConversation({ title });
+        convId = newConv.id;
+      }
+
+      const userTurn: InlineTurn = {
+        id: "turn-" + Date.now(),
+        role: "user",
+        content: promptText,
+      };
+
+      setInlineSession((prev) => ({
+        conversationId: convId!,
+        turns: prev ? [...prev.turns, userTurn] : [userTurn],
+        isGenerating: true,
+        error: null,
+      }));
+
+      const reply = await api.sendMessage(convId, promptText);
+
+      setInlineSession((prev) => {
+        if (!prev) return null;
+        return {
+          ...prev,
+          turns: [
+            ...prev.turns,
+            { id: reply.id, role: "assistant", content: reply.content },
+          ],
+          isGenerating: false,
+          error: null,
+        };
+      });
+
+      // Refresh tasks, documents, and notifications on the dashboard
+      onRefreshData?.();
+    } catch (err: any) {
+      console.error("Dashboard assistant execution error:", err);
+      setInlineSession((prev) => {
+        if (!prev) return null;
+        return {
+          ...prev,
+          isGenerating: false,
+          error: err.message || "Failed to reach AI coordinator. Please try again.",
+        };
+      });
+    }
+  };
+
+  // Listen to external prompts (e.g. from top universal search bar)
+  useEffect(() => {
+    if (externalPrompt && externalPrompt.trim()) {
+      handleExecutePrompt(externalPrompt.trim());
+      onClearExternalPrompt?.();
+    }
+  }, [externalPrompt]);
+
   return (
     <div className="relative w-full min-h-[calc(100vh-3.5rem)] select-none pb-12">
       {/* Mountain Twilight Panorama Backdrop */}
@@ -52,13 +133,26 @@ export function StitchDashboard({
             onAddTask={onOpenTasks}
             onSummarizeDoc={onOpenDocs}
             onPlanTrip={() =>
-              onSendPrompt("Plan a 4-day weekend trip with travel itinerary, hotels, and schedule.")
+              handleExecutePrompt("Plan a 4-day weekend trip with travel itinerary, hotels, and schedule.")
             }
             onGenerateReport={onOpenResearch}
           />
 
           {/* AI Prompt Input Center with Source Chips & Suggestions */}
-          <AiPromptCenter onSendPrompt={onSendPrompt} />
+          <AiPromptCenter onSendPrompt={(text) => handleExecutePrompt(text)} />
+
+          {/* Inline Assistant Response Expansion */}
+          {inlineSession && (
+            <DashboardInlineAssistant
+              turns={inlineSession.turns}
+              isGenerating={inlineSession.isGenerating}
+              error={inlineSession.error}
+              conversationId={inlineSession.conversationId}
+              onOpenInChat={onNavigateToChat}
+              onClose={() => setInlineSession(null)}
+              onSendFollowUp={handleExecutePrompt}
+            />
+          )}
         </div>
 
         {/* Right Column (Widgets: 4 Cols) */}
@@ -69,7 +163,7 @@ export function StitchDashboard({
             onToggleTask={onToggleTask}
             onOpenTasks={onOpenTasks}
             onOpenDailyBriefing={() =>
-              onSendPrompt("Generate a comprehensive daily briefing covering today's priorities and schedule.")
+              handleExecutePrompt("Generate a comprehensive daily briefing covering today's priorities and schedule.")
             }
           />
 
