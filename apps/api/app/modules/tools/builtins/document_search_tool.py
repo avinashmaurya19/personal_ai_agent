@@ -7,6 +7,7 @@ import psycopg
 from pgvector.psycopg import register_vector
 from pydantic import BaseModel, Field
 
+from app.core.context import get_current_owner_id
 from app.config import settings
 from app.modules.memory.embedding import EmbeddingService
 
@@ -54,11 +55,11 @@ class DocumentSearchTool(BaseTool):
                     SELECT dc.content, d.filename, dc.page_number, (dc.embedding <=> %s) AS distance
                     FROM document_chunks dc
                     JOIN documents d ON d.id = dc.document_id
-                    WHERE d.status = %s
+                    WHERE d.status = %s AND d.owner_id = %s
                     ORDER BY distance ASC
                     LIMIT %s;
                     """,
-                    (vec_arr, "ready", limit),
+                    (vec_arr, "ready", str(get_current_owner_id()), limit),
                 )
                 rows = cur.fetchall()
 

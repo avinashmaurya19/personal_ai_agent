@@ -7,7 +7,7 @@ from crewai.tools import BaseTool
 import psycopg
 from pydantic import BaseModel, Field
 
-from app.api.dependencies import DEV_OWNER_ID
+from app.core.context import get_current_owner_id
 from app.config import settings
 
 
@@ -56,6 +56,7 @@ class NoteManageTool(BaseTool):
         **kwargs: object,
     ) -> str:
         """Execute note operations using synchronous psycopg connection."""
+        owner_id_str = str(get_current_owner_id())
         db_url = settings.DATABASE_URL.replace("postgresql+asyncpg://", "postgresql://")
 
         try:
@@ -75,7 +76,7 @@ class NoteManageTool(BaseTool):
                             """,
                             (
                                 str(new_id),
-                                str(DEV_OWNER_ID),
+                                owner_id_str,
                                 title.strip(),
                                 content.strip(),
                                 json.dumps(clean_tags),
@@ -102,7 +103,7 @@ class NoteManageTool(BaseTool):
                             ORDER BY updated_at DESC
                             LIMIT 5
                             """,
-                            (str(DEV_OWNER_ID), f"%{target_q}%", f"%{target_q}%"),
+                            (owner_id_str, f"%{target_q}%", f"%{target_q}%"),
                         )
                         rows = cur.fetchall()
                         if not rows:
@@ -124,7 +125,7 @@ class NoteManageTool(BaseTool):
                             ORDER BY updated_at DESC
                             LIMIT 5
                             """,
-                            (str(DEV_OWNER_ID),),
+                            (owner_id_str,),
                         )
                         rows = cur.fetchall()
                         if not rows:

@@ -9,6 +9,7 @@ import psycopg
 from pydantic import BaseModel, Field
 
 from app.api.dependencies import DEV_OWNER_ID
+from app.core.context import get_current_owner_id
 from app.config import settings
 
 
@@ -62,16 +63,18 @@ class EmailTool(BaseTool):
         **kwargs: object,
     ) -> str:
         """Execute email operations using synchronous psycopg connection."""
+        owner_id = get_current_owner_id()
+        owner_id_str = str(owner_id)
         db_url = settings.DATABASE_URL.replace("postgresql+asyncpg://", "postgresql://")
 
         try:
             with psycopg.connect(db_url) as conn:
                 with conn.cursor() as cur:
                     if action == "list_threads":
-                        # Check count and seed default if empty
-                        cur.execute("SELECT COUNT(*) FROM email_messages WHERE owner_id = %s", (str(DEV_OWNER_ID),))
+                        # Check count and seed default only for DEV_OWNER stub
+                        cur.execute("SELECT COUNT(*) FROM email_messages WHERE owner_id = %s", (owner_id_str,))
                         count = cur.fetchone()[0]
-                        if count == 0:
+                        if count == 0 and owner_id == DEV_OWNER_ID:
                             # Seed default threads
                             now_str = datetime.now(timezone.utc).isoformat()
                             cur.execute(
@@ -81,12 +84,12 @@ class EmailTool(BaseTool):
                                 (%s, %s, 'th_alex_q4_sync', 'alex.carter@techcorp.io', 'owner@personal.ai', 'Q4 Roadmap & Team Sync', 'Hey Avinash, can we schedule a 30-min sync this Thursday at 2 PM UTC?', 'Can we schedule a 30-min sync this Thursday...', false, false, %s, NOW(), NOW()),
                                 (%s, %s, 'th_cloud_budget', 'alerts@cloudinfra.com', 'owner@personal.ai', 'Monthly Spend: ₹0.00', 'Your monthly infrastructure spend across local Dockerized services is ₹0.00.', 'Your monthly infrastructure spend is ₹0.00...', true, false, %s, NOW(), NOW())
                                 """,
-                                (str(uuid.uuid4()), str(DEV_OWNER_ID), now_str, str(uuid.uuid4()), str(DEV_OWNER_ID), now_str),
+                                (str(uuid.uuid4()), owner_id_str, now_str, str(uuid.uuid4()), owner_id_str, now_str),
                             )
                             conn.commit()
 
                         q_filter = ""
-                        params = [str(DEV_OWNER_ID)]
+                        params = [owner_id_str]
                         if query and query.strip():
                             q_filter = " AND (subject ILIKE %s OR body ILIKE %s OR sender ILIKE %s)"
                             clean_q = f"%{query.strip()}%"
@@ -123,7 +126,7 @@ class EmailTool(BaseTool):
                             WHERE owner_id = %s AND thread_id = %s
                             ORDER BY created_at ASC
                             """,
-                            (str(DEV_OWNER_ID), thread_id.strip()),
+                            (owner_id_str, thread_id.strip()),
                         )
                         rows = cur.fetchall()
                         if not rows:
@@ -132,7 +135,7 @@ class EmailTool(BaseTool):
                         # Mark as read
                         cur.execute(
                             "UPDATE email_messages SET is_read = true WHERE owner_id = %s AND thread_id = %s",
-                            (str(DEV_OWNER_ID), thread_id.strip()),
+                            (owner_id_str, thread_id.strip()),
                         )
                         conn.commit()
 
@@ -159,7 +162,7 @@ class EmailTool(BaseTool):
                             INSERT INTO email_messages (id, owner_id, thread_id, sender, recipient, subject, body, snippet, is_read, is_draft, created_at, updated_at)
                             VALUES (%s, %s, %s, 'owner@personal.ai', %s, %s, %s, %s, true, true, NOW(), NOW())
                             """,
-                            (str(draft_id), str(DEV_OWNER_ID), tid, recipient.strip(), subject.strip(), body.strip(), snippet),
+                            (str(draft_id), owner_id_str, tid, recipient.strip(), subject.strip(), body.strip(), snippet),
                         )
                         conn.commit()
                         return (
@@ -193,7 +196,7 @@ class EmailTool(BaseTool):
                             INSERT INTO pending_actions (id, owner_id, action_type, description, payload, status, created_at, updated_at)
                             VALUES (%s, %s, 'send_email', %s, %s, 'pending', NOW(), NOW())
                             """,
-                            (str(action_id), str(DEV_OWNER_ID), desc, json.dumps(payload)),
+                            (str(action_id), owner_id_str, desc, json.dumps(payload)),
                         )
                         conn.commit()
                         return (
@@ -207,7 +210,7 @@ class EmailTool(BaseTool):
 
                     elif action == "summarize_emails":
                         # Check if Google OAuth connection is active
-                        cur.execute("SELECT account_email FROM oauth_tokens WHERE owner_id = %s AND provider = 'google'", (str(DEV_OWNER_ID),))
+                        cur.execute("SELECT account_email FROM oauth_tokens WHERE owner_id = %s AND provider = 'google'", (owner_id_str,))
                         oauth_row = cur.fetchone()
                         account_header = f"Connected Gmail: {oauth_row[0]}" if oauth_row and oauth_row[0] else "Local Workspace Mailbox"
 
@@ -219,7 +222,7 @@ class EmailTool(BaseTool):
                             ORDER BY created_at DESC
                             LIMIT 8
                             """,
-                            (str(DEV_OWNER_ID),),
+                            (owner_id_str,),
                         )
                         rows = cur.fetchall()
                         if not rows:

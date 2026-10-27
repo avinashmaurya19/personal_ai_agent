@@ -1,10 +1,12 @@
 """FastAPI router for Google OAuth2 connection, token callbacks, and Gmail integration."""
 
 from typing import Any, Dict, List, Optional
+import uuid
 from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, Query, status
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, Field
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.dependencies import get_current_owner, get_db_session
@@ -68,9 +70,21 @@ async def google_oauth_callback(
     # Fetch Google account email
     email = await GoogleAuthService.get_user_email(access_token)
 
+    # Determine accurate target owner ID using OAuth state parameter or user email
+    target_owner_id = owner.id
+    if state and state.startswith("owner_"):
+        try:
+            target_owner_id = uuid.UUID(state.replace("owner_", ""))
+        except ValueError:
+            pass
+    elif email:
+        matched_user = (await session.execute(select(User).where(User.email == email))).scalar_one_or_none()
+        if matched_user:
+            target_owner_id = matched_user.id
+
     token_mgr = OAuthTokenManager(session)
     await token_mgr.save_or_update_token(
-        owner_id=owner.id,
+        owner_id=target_owner_id,
         provider="google",
         access_token=access_token,
         refresh_token=refresh_token,
@@ -82,7 +96,7 @@ async def google_oauth_callback(
     # Automatically sync initial batch of messages if possible
     try:
         gmail = GmailService(access_token=access_token)
-        await gmail.sync_recent_to_db(session=session, owner_id=owner.id, max_results=5)
+        await gmail.sync_recent_to_db(session=session, owner_id=target_owner_id, max_results=5)
     except Exception:
         pass
 

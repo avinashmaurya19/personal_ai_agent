@@ -6,6 +6,7 @@ import uuid
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.dependencies import DEV_OWNER_ID
 from app.core.exceptions import NotFoundError, PermissionDeniedError
 from app.core.logging import logger
 from app.db.models.calendar import CalendarEvent
@@ -24,7 +25,10 @@ class CalendarService:
         self.session = session
 
     async def ensure_seeded_calendar(self, owner_id: uuid.UUID) -> None:
-        """Seed initial sample calendar events for testing if schedule is empty."""
+        """Seed sample calendar events only for development dev owner stub if schedule is empty."""
+        if owner_id != DEV_OWNER_ID:
+            return
+
         stmt = select(func.count(CalendarEvent.id)).where(CalendarEvent.owner_id == owner_id)
         count = (await self.session.execute(stmt)).scalar() or 0
         if count > 0:

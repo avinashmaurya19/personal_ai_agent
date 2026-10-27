@@ -8,7 +8,7 @@ from crewai.tools import BaseTool
 import psycopg
 from pydantic import BaseModel
 
-from app.api.dependencies import DEV_OWNER_ID
+from app.core.context import get_current_owner_id
 from app.config import settings
 from app.modules.research.service import SearchService, WebScraperService
 from app.modules.tools.schemas import DeepResearchInput, WebSearchInput
@@ -113,7 +113,7 @@ class DeepResearchTool(BaseTool):
                         """,
                         (
                             report_id,
-                            str(DEV_OWNER_ID),
+                            str(get_current_owner_id()),
                             report_title,
                             topic,
                             report_summary,

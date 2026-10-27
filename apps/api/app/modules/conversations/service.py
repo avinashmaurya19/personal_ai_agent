@@ -174,6 +174,7 @@ class ConversationService:
                 model_name=conversation.active_model_name,
                 session=self.session,
                 memory_context=memory_context,
+                owner_id=owner_id,
             )
             token_count = len(assistant_content.split())
             logger.info(

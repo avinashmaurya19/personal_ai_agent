@@ -9,6 +9,7 @@ import psycopg
 from pydantic import BaseModel, Field
 
 from app.api.dependencies import DEV_OWNER_ID
+from app.core.context import get_current_owner_id
 from app.config import settings
 
 
@@ -75,16 +76,18 @@ class CalendarTool(BaseTool):
         **kwargs: object,
     ) -> str:
         """Execute calendar operations using synchronous psycopg connection."""
+        owner_id = get_current_owner_id()
+        owner_id_str = str(owner_id)
         db_url = settings.DATABASE_URL.replace("postgresql+asyncpg://", "postgresql://")
 
         try:
             with psycopg.connect(db_url) as conn:
                 with conn.cursor() as cur:
                     if action == "list_events":
-                        # Check count and seed default if empty
-                        cur.execute("SELECT COUNT(*) FROM calendar_events WHERE owner_id = %s", (str(DEV_OWNER_ID),))
+                        # Check count and seed default only for DEV_OWNER stub
+                        cur.execute("SELECT COUNT(*) FROM calendar_events WHERE owner_id = %s", (owner_id_str,))
                         count = cur.fetchone()[0]
-                        if count == 0:
+                        if count == 0 and owner_id == DEV_OWNER_ID:
                             now = datetime.now(timezone.utc)
                             tomorrow = now + timedelta(days=1)
                             st = datetime(tomorrow.year, tomorrow.month, tomorrow.day, 10, 0, tzinfo=timezone.utc).isoformat()
@@ -94,7 +97,7 @@ class CalendarTool(BaseTool):
                                 INSERT INTO calendar_events (id, owner_id, title, description, start_time, end_time, location, attendees, status, created_at, updated_at)
                                 VALUES (%s, %s, 'Weekly Engineering Architecture Sync', 'Review pgvector RAG indexing & tool safety', %s, %s, 'Google Meet', '["alex.carter@techcorp.io"]', 'confirmed', NOW(), NOW())
                                 """,
-                                (str(uuid.uuid4()), str(DEV_OWNER_ID), st, et),
+                                (str(uuid.uuid4()), owner_id_str, st, et),
                             )
                             conn.commit()
 
@@ -106,7 +109,7 @@ class CalendarTool(BaseTool):
                             ORDER BY start_time ASC
                             LIMIT 10
                             """,
-                            (str(DEV_OWNER_ID),),
+                            (owner_id_str,),
                         )
                         rows = cur.fetchall()
                         if not rows:
@@ -139,7 +142,7 @@ class CalendarTool(BaseTool):
                             WHERE owner_id = %s AND end_time >= %s AND start_time <= %s
                             ORDER BY start_time ASC
                             """,
-                            (str(DEV_OWNER_ID), day_start, day_end),
+                            (owner_id_str, day_start, day_end),
                         )
                         busy = cur.fetchall()
                         date_str = target_dt.strftime("%Y-%m-%d")
@@ -182,7 +185,7 @@ class CalendarTool(BaseTool):
                             INSERT INTO pending_actions (id, owner_id, action_type, description, payload, status, created_at, updated_at)
                             VALUES (%s, %s, 'create_calendar_event', %s, %s, 'pending', NOW(), NOW())
                             """,
-                            (str(action_id), str(DEV_OWNER_ID), desc, json.dumps(payload)),
+                            (str(action_id), owner_id_str, desc, json.dumps(payload)),
                         )
                         conn.commit()
                         return (

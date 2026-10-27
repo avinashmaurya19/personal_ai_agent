@@ -284,7 +284,7 @@ export function EmailView({ emailThreads, onRefresh }: EmailViewProps) {
         onSuccess={() => {
           setNotification({
             type: "success",
-            text: "Message draft created successfully!",
+            text: "Email sent successfully via Gmail!",
           });
           onRefresh();
         }}

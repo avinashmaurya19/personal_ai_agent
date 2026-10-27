@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #070B18;
-  --foreground: #F1F5F9;
+  --background: #080B14;
+  --foreground: #F8FAFC;
 }
 
 body {
@@ -15,7 +15,7 @@ body {
   user-select: text;
 }
 
-/* Material Symbols Outlined font-settings */
+/* Material Symbols Outlined */
 .material-symbols-outlined {
   font-family: 'Material Symbols Outlined';
   font-weight: normal;
@@ -31,7 +31,27 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Custom sleek scrollbars matching dark Stitch design */
+/* Sleek dark glass card styling */
+.glass-panel {
+  background: rgba(13, 20, 36, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card {
+  background: rgba(14, 22, 40, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.glass-card:hover {
+  border-color: rgba(99, 102, 241, 0.3);
+  background: rgba(18, 28, 50, 0.8);
+}
+
+/* Custom sleek scrollbars */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -42,10 +62,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #202A40;
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #323F5D;
+  background: rgba(99, 102, 241, 0.4);
 }

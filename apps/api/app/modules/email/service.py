@@ -6,6 +6,7 @@ import uuid
 from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.dependencies import DEV_OWNER_ID
 from app.core.exceptions import NotFoundError, PermissionDeniedError
 from app.core.logging import logger
 from app.db.models.email import EmailMessage
@@ -19,7 +20,10 @@ class EmailService:
         self.session = session
 
     async def ensure_seeded_mailbox(self, owner_id: uuid.UUID) -> None:
-        """Seed realistic sample emails for owner if mailbox is currently empty."""
+        """Seed sample emails only for development dev owner stub if mailbox is empty."""
+        if owner_id != DEV_OWNER_ID:
+            return
+
         stmt = select(func.count(EmailMessage.id)).where(EmailMessage.owner_id == owner_id)
         count = (await self.session.execute(stmt)).scalar() or 0
         if count > 0:

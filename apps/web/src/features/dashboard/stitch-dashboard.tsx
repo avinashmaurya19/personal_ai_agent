@@ -3,93 +3,83 @@
 import React from "react";
 import {
   TaskItem,
-  EmailThreadItem,
-  CalendarEventItem,
-  PendingActionItem,
   DocumentItem,
-  MemoryItem,
   ConversationItem,
 } from "@/lib/api-client";
-import { DashboardBanner } from "./components/dashboard-banner";
-import { DashboardStatCards } from "./components/dashboard-stat-cards";
-import { DashboardPriorities } from "./components/dashboard-priorities";
-import { DashboardAgenda } from "./components/dashboard-agenda";
-import { DashboardActivity } from "./components/dashboard-activity";
+import { MountainBackdrop } from "./components/mountain-backdrop";
+import { HeroGreeting } from "./components/hero-greeting";
+import { AiPromptCenter } from "./components/ai-prompt-center";
+import { TodayWidget } from "./components/today-widget";
+import { RecentDocumentsWidget } from "./components/recent-documents-widget";
 
 interface StitchDashboardProps {
   tasks: TaskItem[];
-  emailThreads: EmailThreadItem[];
-  calendarEvents: CalendarEventItem[];
-  pendingActions: PendingActionItem[];
   documents: DocumentItem[];
-  memories: MemoryItem[];
   conversations: ConversationItem[];
   onNewConversation: () => void;
   onOpenTasks: () => void;
   onOpenCalendar: () => void;
   onOpenDocs: () => void;
-  onOpenMemory: () => void;
+  onOpenEmails: () => void;
+  onOpenResearch: () => void;
   onToggleTask: (task: TaskItem) => Promise<void>;
-  onQuickAddTask: (title: string, priority: "low" | "medium" | "high" | "urgent") => Promise<void>;
-  onDecideAction: (actionId: string, approved: boolean) => Promise<void>;
+  onSendPrompt: (prompt: string, sources?: string[]) => void;
 }
 
 export function StitchDashboard({
   tasks,
-  calendarEvents,
   documents,
-  memories,
-  conversations,
-  onNewConversation,
   onOpenTasks,
   onOpenCalendar,
   onOpenDocs,
-  onOpenMemory,
+  onOpenEmails,
+  onOpenResearch,
   onToggleTask,
-  onQuickAddTask,
+  onSendPrompt,
 }: StitchDashboardProps) {
   return (
-    <div className="flex flex-col w-full pb-20 select-none">
-      {/* 1. Command Desk / Welcome Banner & Quick Action Launchpad */}
-      <DashboardBanner
-        onNewConversation={onNewConversation}
-        onOpenTasks={onOpenTasks}
-        onOpenDocs={onOpenDocs}
-        onOpenMemory={onOpenMemory}
-        memoryCount={memories.length}
-      />
+    <div className="relative w-full min-h-[calc(100vh-3.5rem)] select-none pb-12">
+      {/* Mountain Twilight Panorama Backdrop */}
+      <MountainBackdrop />
 
-      {/* 2. Overview Statistics Cards */}
-      <DashboardStatCards
-        tasks={tasks}
-        calendarEvents={calendarEvents}
-        documents={documents}
-        memories={memories}
-        onOpenTasks={onOpenTasks}
-        onOpenCalendar={onOpenCalendar}
-        onOpenDocs={onOpenDocs}
-        onOpenMemory={onOpenMemory}
-      />
+      {/* Main Content Grid matching screenshot */}
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2">
+        {/* Left Column (Main Hero & AI Command Area: 8 Cols) */}
+        <div className="lg:col-span-8 flex flex-col gap-6">
+          {/* Greeting & 5 Action Cards */}
+          <HeroGreeting
+            onCheckEmails={onOpenEmails}
+            onAddTask={onOpenTasks}
+            onSummarizeDoc={onOpenDocs}
+            onPlanTrip={() =>
+              onSendPrompt("Plan a 4-day weekend trip with travel itinerary, hotels, and schedule.")
+            }
+            onGenerateReport={onOpenResearch}
+          />
 
-      {/* 3. Main Grid: Two Balanced Columns */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
-        <DashboardPriorities
-          tasks={tasks}
-          onOpenTasks={onOpenTasks}
-          onToggleTask={onToggleTask}
-          onQuickAddTask={onQuickAddTask}
-        />
-        <DashboardAgenda
-          calendarEvents={calendarEvents}
-          onOpenCalendar={onOpenCalendar}
-        />
+          {/* AI Prompt Input Center with Source Chips & Suggestions */}
+          <AiPromptCenter onSendPrompt={onSendPrompt} />
+        </div>
+
+        {/* Right Column (Widgets: 4 Cols) */}
+        <div className="lg:col-span-4 flex flex-col gap-4">
+          {/* Today's Agenda & Daily Briefing */}
+          <TodayWidget
+            tasks={tasks}
+            onToggleTask={onToggleTask}
+            onOpenTasks={onOpenTasks}
+            onOpenDailyBriefing={() =>
+              onSendPrompt("Generate a comprehensive daily briefing covering today's priorities and schedule.")
+            }
+          />
+
+          {/* Recent Documents Widget */}
+          <RecentDocumentsWidget
+            documents={documents}
+            onViewAll={onOpenDocs}
+          />
+        </div>
       </div>
-
-      {/* 4. Bottom Section: Recent Multi-stream Activity Log */}
-      <DashboardActivity
-        conversations={conversations}
-        documents={documents}
-      />
     </div>
   );
 }

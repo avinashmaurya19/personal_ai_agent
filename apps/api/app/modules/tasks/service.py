@@ -38,8 +38,8 @@ class TaskService:
             .limit(limit)
             .offset(offset)
         )
-        if status:
-            stmt = stmt.where(Task.status == status)
+        if status and status.lower() not in ("all", "*", "any"):
+            stmt = stmt.where(Task.status == status.lower())
         if priority:
             stmt = stmt.where(Task.priority == priority)
 
